@@ -39,19 +39,12 @@
           - net-name: internal
         auto_floating_ip: false
       with_items: testenv_instance_names
+      register: testenv_instances
 
-    - name: associate a floating IP to instances
-      os_floating_ip:
-        server: "{{ item }}"
-        network: external
-        reuse: true
-      with_items: testenv_instance_names
-      register: testenv_floating_ips
-
-    - name: wait for instances to boot
+    - name: wait for ssh to become available
       wait_for:
         port: 22
         delay: 5
         timeout: 600
-        host: "{{ item.floating_ip.floating_ip_address }}"
-      with_items: testenv_floating_ips.results
+        host: "{{ item.openstack.private_v4 }}"
+      with_items: testenv_instances.results
