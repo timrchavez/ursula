@@ -40,19 +40,16 @@
         auto_floating_ip: false
       with_items: "{{ testenv_instance_names }}"
 
-    - name: associate a floating IP to instances
-      os_floating_ip:
-        server: "{{ item }}"
-        network: external
-        reuse: true
-        wait: true
-      with_items: "{{ testenv_instance_names }}"
-      register: testenv_floating_ips
+    #- name: associate a floating IP with jumphost
+    #  os_floating_ip:
+    #    server: "{{ testenv_instance_prefix  }}-controller-0"
+    #    network: external
+    #    reuse: true
+    #  register: jumphost
 
-    - name: wait for instances to boot
-      wait_for:
-        port: 22
-        delay: 5
-        timeout: 600
-        host: "{{ item.floating_ip.floating_ip_address }}"
-      with_items: "{{ testenv_floating_ips.results }}"
+    #- name: wait for jumphost to be reachable via ssh
+    #  wait_for:
+    #    port: 22
+    #    delay: 5
+    #    timeout: 600
+    #    host: "{{ jumphost.floating_ip.floating_ip_address }}"
