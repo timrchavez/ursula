@@ -31,6 +31,8 @@ undercloud_floating_ip: "{{ hostvars[groups['controller'][0]][primary_interface]
 etc_hosts:
   - name: "{{ fqdn }}"
     ip: "{{ floating_ip }}"
+  - name: logs.ci.blueboxgrid.com
+    ip: 10.230.7.138
 
 state_path_base: /var/lib
 
@@ -599,6 +601,9 @@ logging:
       cluster_name: "example-dev"
   download:
     url: https://file-mirror.openstack.blueboxgrid.com/logstash/logstash-forwarder_0.3.1_amd64.deb
+  forward:
+    host: logs.ci.blueboxgrid.com
+    port: 4560
 
 keystonev3:
   enabled: True

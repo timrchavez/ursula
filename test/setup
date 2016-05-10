@@ -74,11 +74,15 @@ cat >> ${ROOT}/envs/test/defaults-2.0.yml <<eof
 logging:
   follow:
     global_fields:
-      cluster_name: "ci-test"
-  forward:
-    host: kibana.sea03.blueboxgrid.com
+      customer_id: ursula_test_prs
+      cluster_name: "${JOB_NAME}-${BUILD_NUMBER}"
+  foward:
+    host: logs.ci.blueboxgrid.com
     port: 4560
-undercloud_cidr: 
+    tls:
+      enabled: false
+
+undercloud_cidr:
   - cidr: ${UNDERCLOUD_CIDR}
 eof
 popd
