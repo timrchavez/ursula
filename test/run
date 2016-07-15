@@ -24,6 +24,7 @@ if [ "${ACTION}" == "all" -o "${ACTION}" == "deploy" ]; then
 fi
 
 if [ "${ACTION}" == "all" -o "${ACTION}" == "test" ]; then
+  time ursula ${extra_args} "envs/test" ${ROOT}/playbooks/tests/tasks/pre-test.yml -u ${LOGIN_USER} $@
   time ursula ${extra_args} "envs/test" ${ROOT}/playbooks/tests/tasks/main.yml -u ${LOGIN_USER} $@
   ring_bell
 fi

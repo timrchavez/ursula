@@ -1,0 +1,9 @@
+
+- name: Pre-test setup
+  hosts: all
+  tasks:
+    - name: add log forwarding node to /etc/hosts
+      lineinfile: dest=/etc/hosts regexp={{ ansible_env.LOGSTASH_HOST }}
+                  insertafter=EOF
+                  line="{{ ansible_env.LOGSTASH_PRIVATE_IP }} {{ ansible_env.LOGSTASH_HOST }}"
+      when: ansible_env.LOGSTASH_HOST  != "" and ansible_env.LOGSTASH_PRIVATE_IP != ""
