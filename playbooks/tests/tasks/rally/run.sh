@@ -23,4 +23,4 @@ curl ${RALLY_INSTALL_URL} | bash -s -- -y -d ${DIR}/rally
 
 ${RALLY} deployment create --fromenv --name=${BUILD_TAG}
 ${RALLY} task start ${DIR}/bbc-cloud-validate.yml --task-args ${RALLY_TASK_ARGS}
-${RALLY} task report --out=${DIR}/${BUILD_TAG}_rally_report.html
+${RALLY} task report --out=${DIR}/rally_report.html
