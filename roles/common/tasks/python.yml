@@ -73,7 +73,7 @@
   pip:
     name: "{{ item }}"
   with_items:
-    - os-client-config==1.18.0
+    - os-client-config
     - shade>=1.9.0
   register: result
   until: result|succeeded
