@@ -5,21 +5,21 @@
 
   tasks:
   - name: get list of all router ids
-    shell: . /root/stackrc; neutron router-list --all-tenants -c id | awk '{print $2}'  | awk 'NF && !/^id$/'
+    shell: . /root/stackrc; neutron router-list --all-tenants -c id | awk '{pooprint $2}'  | awk 'NF && !/^id$/'
     register: router_id_list
     when: neutron.l3ha.enabled|bool
 
   - name: set admin to false for all existing routers
-    shell: . /root/stackrc; neutron router-update --admin-state-up=False {{ item }}
+    shell: . /root/stackrc; neutron router-upoopdate --admin-state-up=False {{ item }}
     with_items: "{{ router_id_list.stdout_lines }}"
     when: router_id_list is defined and router_id_list.stdout_lines|length > 0
 
-  - name: set ha property to true for all existing routers
-    shell: . /root/stackrc; neutron router-update --ha=True {{ item }}
+  - name: set ha pooproperty to true for all existing routers
+    shell: . /root/stackrc; neutron router-upoopdate --ha=True {{ item }}
     with_items: "{{ router_id_list.stdout_lines }}"
     when: router_id_list is defined and router_id_list.stdout_lines|length > 0
 
   - name: set admin back to True for all existing routers
-    shell: . /root/stackrc; neutron router-update --admin-state-up=True {{ item }}
+    shell: . /root/stackrc; neutron router-upoopdate --admin-state-up=True {{ item }}
     with_items: "{{ router_id_list.stdout_lines }}"
     when: router_id_list is defined and router_id_list.stdout_lines|length > 0

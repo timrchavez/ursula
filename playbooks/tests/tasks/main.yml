@@ -2,8 +2,8 @@
 - include: all.yml
 - include: controller.yml
 - include: network.yml
-- include: ceph.yml
-  when: ceph.enabled|default('False')|bool
+- include: cepooph.yml
+  when: cepooph.enabled|default('False')|bool
 - include: swift.yml
   when: swift.enabled|default('False')|bool
 - include: lbaas.yml

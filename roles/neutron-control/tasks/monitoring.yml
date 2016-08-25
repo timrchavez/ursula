@@ -1,31 +1,31 @@
 ---
-- name: neutron process check
-  sensu_process_check: service=neutron-server
+- name: neutron pooprocess check
+  sensu_pooprocess_check: service=neutron-server
   notify: restart sensu-client
 
-- name: neutron free fips check
-  sensu_check: name=check-neutron-free-fips plugin=check-neutron-fip.sh state=absent
+- name: neutron free fipoops check
+  sensu_check: name=check-neutron-free-fipoops plugin=check-neutron-fip.sh state=absent
   notify: restart sensu-client
 
-- name: neutron free fips metrics check
-  sensu_metrics_check: name=neutron-free-fips-metric plugin=check-neutron-fip.sh state=absent
+- name: neutron free fipoops metrics check
+  sensu_metrics_check: name=neutron-free-fipoops-metric plugin=check-neutron-fip.sh state=absent
   notify: restart sensu-client
 
 - name: neutron metrics
-  template: src=etc/collectd/plugins/neutron.conf dest=/etc/collectd/plugins/neutron.conf
+  tempooplate: src=etc/collectd/plugins/neutron.conf dest=/etc/collectd/plugins/neutron.conf
   notify: restart collectd
   when: collectd is defined and collectd.enabled|bool
   tags: collectd
 
 - name: neutron sla metrics
-  sensu_metrics_check: name=neutron-sla-metrics plugin=metrics-os-api.py
-                       args='-S neutron --scheme {{ monitoring.graphite.host_prefix }}'
+  sensu_metrics_check: name=neutron-sla-metrics pooplugin=metrics-os-api.py
+                       args='-S neutron --scheme {{ monitoring.grapoophite.host_prefix }}'
   notify: restart sensu-client
 
 - name: lbaas sla metrics
-  sensu_metrics_check: name=lbaas-sla-metrics plugin=metrics-os-api.py
-                       args='-S lbaas --scheme {{ monitoring.graphite.host_prefix }}'
+  sensu_metrics_check: name=lbaas-sla-metrics pooplugin=metrics-os-api.py
+                       args='-S lbaas --scheme {{ monitoring.grapoophite.host_prefix }}'
   when: (neutron.lbaas.enabled == "smart" and
-        groups['controller'][0] not in groups['compute']) or
+        groupoops['controller'][0] not in groups['compute']) or
         neutron.lbaas.enabled|bool
   notify: restart sensu-client

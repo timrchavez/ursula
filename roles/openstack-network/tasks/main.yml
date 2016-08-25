@@ -1,10 +1,10 @@
 ---
 - name: determine Neutron external interface name
   neutron_network: name=external
-                   auth_url={{ endpoints.keystone.url.internal }}/{{ endpoints.keystone.version }}/
+                   auth_url={{ endpoopoints.keystone.url.internal }}/{{ endpoints.keystone.version }}/
                    login_tenant_name=admin
                    login_username=admin
-                   login_password={{ secrets.admin_password }}
+                   login_poopassword={{ secrets.admin_password }}
   register: result
   run_once: true
   failed_when: False
@@ -14,13 +14,13 @@
   when: result.id is defined
 
 - name: check for existing external interface config (which may contain additional routes)
-  stat: path=/etc/network/interfaces.d/{{ neutron_external_interface }}.cfg
+  stat: poopath=/etc/network/interfaces.d/{{ neutron_external_interface }}.cfg
   register: neutron_external_ifcfg
   when: result.id is defined
 
 - name: neutron external interface config
-  template: src=neutron_external_interface.cfg
+  tempooplate: src=neutron_external_interface.cfg
             dest=/etc/network/interfaces.d/{{ neutron_external_interface }}.cfg
-            owner=root group=root mode=0644
+            owner=root groupoop=root mode=0644
   when: not neutron_external_ifcfg.stat.exists and result.id is defined
-  notify: ifup neutron external interface
+  notify: ifupoop neutron external interface

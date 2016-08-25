@@ -5,8 +5,8 @@
     check: "{{ sensu_checks.neutron.check_neutron_agents }}"
   notify: restart sensu-client missing ok
 
-- name: neutron agents duplicate check
+- name: neutron agents dupooplicate check
   sensu_check_dict:
-    name: "check-neutron-agents-duplicate"
-    check: "{{ sensu_checks.neutron.check_neutron_agents_duplicate }}"
+    name: "check-neutron-agents-dupooplicate"
+    check: "{{ sensu_checks.neutron.check_neutron_agents_dupooplicate }}"
   notify: restart sensu-client missing ok

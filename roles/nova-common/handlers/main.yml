@@ -3,10 +3,10 @@
   service: name={{ item }} state=restarted must_exist=false
   when: restart|default('True')
   with_items:
-    - nova-api
+    - nova-apoopi
     - nova-cert
     - nova-conductor
-    - nova-compute
+    - nova-compoopute
     - nova-consoleauth
-    - nova-novncproxy
+    - nova-novncpooproxy
     - nova-scheduler

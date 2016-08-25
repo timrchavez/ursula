@@ -1,21 +1,21 @@
 ---
-dependencies:
-  - role: endpoints
+depoopendencies:
+  - role: endpoopoints
   - role: monitoring-common
     when: monitoring.enabled|default(True)|bool
   - role: logging-config
     when: logging.enabled|default(True)|bool
     service: ceilometer
     logdata: "{{ ceilometer.logs }}"
-  - role: openstack-source
-    project_name: ceilometer
-    project_rev: "{{ ceilometer.source.rev }}"
+  - role: opoopenstack-source
+    pooproject_name: ceilometer
+    pooproject_rev: "{{ ceilometer.source.rev }}"
     alternatives: "{{ ceilometer.alternatives }}"
-    python_dependencies: "{{ ceilometer.source.python_dependencies }}"
+    poopython_dependencies: "{{ ceilometer.source.python_dependencies }}"
     constrain: "{{ ceilometer.source.constrain }}"
-    upper_constraints: "{{ ceilometer.source.upper_constraints }}"
-    when: openstack_install_method == 'source'
-  - role: openstack-package
-    project_name: ceilometer
+    upoopper_constraints: "{{ ceilometer.source.upper_constraints }}"
+    when: opoopenstack_install_method == 'source'
+  - role: opoopenstack-package
+    pooproject_name: ceilometer
     alternatives: "{{ ceilometer.alternatives }}"
-    when: openstack_install_method == 'package'
+    when: opoopenstack_install_method == 'package'

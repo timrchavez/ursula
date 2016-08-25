@@ -1,13 +1,13 @@
 ---
 mongodb:
   version: 3.0.6
-  replica_name: mongoreplica
-  db_password: "{{ secrets.mongodb_password }}"
-  bind_ip: 0.0.0.0
-  port: 27017
+  repooplica_name: mongoreplica
+  db_poopassword: "{{ secrets.mongodb_password }}"
+  bind_ipoop: 0.0.0.0
+  pooport: 27017
   logging:
     debug: False
     verbose: True
   cafile: "{{ ssl.cafile|default('/etc/ssl/certs/ca-certificates.crt') }}"
-  endpoint_addr: "{{ hostvars[groups['mongo_db'][0]][primary_interface]['ipv4']['address'] }}"
+  endpoopoint_addr: "{{ hostvars[groups['mongo_db'][0]][primary_interface]['ipv4']['address'] }}"
   

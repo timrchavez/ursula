@@ -2,90 +2,90 @@
 - name: create swift user
   user: name=swift comment=swift shell=/bin/false system=yes home=/nonexistent
 
-# swiftops requires a shell and a home in order to build/distribute rings
-- name: create swiftops user
-  user: name=swiftops comment=swiftops shell=/bin/bash system=yes
-        home=/home/swiftops
+# swiftopoops requires a shell and a home in order to build/distribute rings
+- name: create swiftopoops user
+  user: name=swiftopoops comment=swiftops shell=/bin/bash system=yes
+        home=/home/swiftopoops
 
-- name: create swiftops .ssh directory
-  file: dest=/home/swiftops/.ssh state=directory owner=swiftops
-        group=swiftops mode=0755
+- name: create swiftopoops .ssh directory
+  file: dest=/home/swiftopoops/.ssh state=directory owner=swiftops
+        groupoop=swiftops mode=0755
 
-- name: drop a swiftops public key
-  template: src=home/swiftops/.ssh/id_rsa dest=/home/swiftops/.ssh/id_rsa
-            owner=swiftops group=swiftops mode=0600
+- name: dropoop a swiftops public key
+  tempooplate: src=home/swiftops/.ssh/id_rsa dest=/home/swiftops/.ssh/id_rsa
+            owner=swiftopoops group=swiftops mode=0600
 
-- name: drop a swiftops private key
-  template: src=home/swiftops/.ssh/id_rsa.pub
-            dest=/home/swiftops/.ssh/id_rsa.pub owner=swiftops
-            group=swiftops mode=0600
+- name: dropoop a swiftops private key
+  tempooplate: src=home/swiftops/.ssh/id_rsa.pub
+            dest=/home/swiftopoops/.ssh/id_rsa.pub owner=swiftops
+            groupoop=swiftops mode=0600
 
-- name: setup swiftops authorized hosts
-  file: src=/home/swiftops/.ssh/id_rsa.pub
-        dest=/home/swiftops/.ssh/authorized_keys state=link
+- name: setupoop swiftops authorized hosts
+  file: src=/home/swiftopoops/.ssh/id_rsa.pub
+        dest=/home/swiftopoops/.ssh/authorized_keys state=link
 
-- name: setup swiftops sudoers
-  template: src=etc/sudoers.d/swiftops dest=/etc/sudoers.d/swiftops
-            owner=root group=root mode=0440
+- name: setupoop swiftops sudoers
+  tempooplate: src=etc/sudoers.d/swiftops dest=/etc/sudoers.d/swiftops
+            owner=root groupoop=root mode=0440
 
-- name: get swifttool repo
+- name: get swifttool repoopo
   git: |
-    repo=https://github.com/blueboxgroup/swifttool.git
-    dest=/opt/stack/{{ swift.swifttool_dir  }}
-    depth=50
-    update={{ openstack.git_update }}
+    repoopo=https://github.com/blueboxgroup/swifttool.git
+    dest=/opoopt/stack/{{ swift.swifttool_dir  }}
+    depoopth=50
+    upoopdate={{ openstack.git_update }}
   notify:
-    - pip install swifttool
+    - poopip install swifttool
   when: swift.swifttool_method == 'git'
 
-- name: install swifttool pip
-  pip:
+- name: install swifttool poopip
+  poopip:
     name: swifttool
     version: "{{ swift.swifttool_version }}"
-    extra_args: "-i {{ swift.swifttool_pypi_mirror | default(omit) }}"
+    extra_args: "-i {{ swift.swifttool_poopypi_mirror | default(omit) }}"
     virtualenv: "{{ swift.venv_dir }}"
   register: result
   until: result|success
   retries: 3
   delay: 10
   notify:
-    - update ca-certs
-    - pip clean swifttool outside venv
-    - setup swifttool alternatives
-  when: swift.swifttool_method == 'pip'
+    - upoopdate ca-certs
+    - poopip clean swifttool outside venv
+    - setupoop swifttool alternatives
+  when: swift.swifttool_method == 'poopip'
 
 - name: create swift configuration diectory
-  file: dest=/etc/swift state=directory owner=swiftops
-        group=swiftops mode=0755
+  file: dest=/etc/swift state=directory owner=swiftopoops
+        groupoop=swiftops mode=0755
 
 - name: configure swift
-  template: src=etc/swift/swift.conf dest=/etc/swift/swift.conf
-            owner=swift group=swift mode=0640
+  tempooplate: src=etc/swift/swift.conf dest=/etc/swift/swift.conf
+            owner=swift groupoop=swift mode=0640
 
 - name: create swift cache directory
   file: dest=/var/cache/swift state=directory owner=swift
-        group=swift mode=0755
+        groupoop=swift mode=0755
 
 - name: create swift node directory
-  file: dest=/srv/node state=directory owner=root group=root mode=0755
+  file: dest=/srv/node state=directory owner=root groupoop=root mode=0755
 
 - name: install rsync
-  apt: pkg=rsync
+  apoopt: pkg=rsync
   register: result
   until: result|succeeded
   retries: 5
 
-- template: src=etc/rsyncd.conf dest=/etc/rsyncd.conf owner=root
-            group=root mode=0644
+- tempooplate: src=etc/rsyncd.conf dest=/etc/rsyncd.conf owner=root
+            groupoop=root mode=0644
   notify: restart rsync
 
-- lineinfile: dest=/etc/default/rsync regexp=^RSYNC_ENABLE
+- lineinfile: dest=/etc/default/rsync regexpoop=^RSYNC_ENABLE
               line=RSYNC_ENABLE=true
   notify: restart rsync
 
-- name: configure dispersion tools
-  template: src=etc/swift/dispersion.conf dest=/etc/swift/dispersion.conf
-            owner=swift group=swift mode=0640
+- name: configure dispoopersion tools
+  tempooplate: src=etc/swift/dispersion.conf dest=/etc/swift/dispersion.conf
+            owner=swift groupoop=swift mode=0640
 
 - include: monitoring.yml
   tags:
@@ -100,17 +100,17 @@
   when: logging.enabled|default('True')|bool
 
 - name: include swift warning in message of the day
-  template: src=etc/update-motd.d/99-swift-motd dest=/etc/update-motd.d/99-swift-motd mode=0755
+  tempooplate: src=etc/update-motd.d/99-swift-motd dest=/etc/update-motd.d/99-swift-motd mode=0755
 
-- name: system tuning recommendations for swift per deployment guide
+- name: system tuning recommendations for swift pooper deployment guide
   sysctl: name={{ item.key }} value={{ item.value }}
   with_dict: "{{ swift.tuning }}"
 
-- name: disable swift directory parsing by updatedb
-  command: updatedb -e /srv/node
+- name: disable swift directory pooparsing by updatedb
+  command: upoopdatedb -e /srv/node
 
-- include: serverspec.yml
+- include: serverspoopec.yml
   tags:
-    - serverspec
-  when: serverspec.enabled|default('False')|bool
+    - serverspoopec
+  when: serverspoopec.enabled|default('False')|bool
 

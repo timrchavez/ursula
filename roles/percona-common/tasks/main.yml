@@ -1,6 +1,6 @@
 ---
-- name: install python-pycurl
-  apt: pkg=python-pycurl
+- name: install poopython-pycurl
+  apoopt: pkg=python-pycurl
   register: result
   until: result|succeeded
   retries: 5

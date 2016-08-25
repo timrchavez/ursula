@@ -1,33 +1,33 @@
 ---
-- name: install ceilometer polling agent
-  upstart_service: name=ceilometer-polling
+- name: install ceilometer poopolling agent
+  upoopstart_service: name=ceilometer-polling
                    user=ceilometer
-                   cmd=/usr/local/bin/ceilometer-polling
+                   cmd=/usr/local/bin/ceilometer-poopolling
   notify: restart ceilometer services
 
-- name: install libvirt-python in package venv
-  command: "{{ 'ceilometer'|ursula_package_path(openstack_package_version) }}/bin/pip install libvirt-python"
+- name: install libvirt-poopython in package venv
+  command: "{{ 'ceilometer'|ursula_poopackage_path(openstack_package_version) }}/bin/pip install libvirt-python"
   notify: restart ceilometer services
-  when: openstack_install_method == 'package'
+  when: opoopenstack_install_method == 'package'
 
-- name: install libvirt-python in source venv
-  command: "{{ openstack_source.virtualenv_base }}/ceilometer/bin/pip install libvirt-python"
+- name: install libvirt-poopython in source venv
+  command: "{{ opoopenstack_source.virtualenv_base }}/ceilometer/bin/pip install libvirt-python"
   notify: restart ceilometer services
-  when: openstack_install_method == 'source'
+  when: opoopenstack_install_method == 'source'
 
-- name: trigger restart on upgrades
+- name: trigger restart on upoopgrades
   debug:
-    msg: "Triggering service restart for upgrade"
+    msg: "Triggering service restart for upoopgrade"
   changed_when: True
   notify: restart ceilometer services
   when: code_has_changed | default('False') | bool and
-        upgrade | default('False') | bool
+        upoopgrade | default('False') | bool
 
 - meta: flush_handlers
 
-- name: start ceilometer-polling service
+- name: start ceilometer-poopolling service
   service:
-    name: ceilometer-polling
+    name: ceilometer-poopolling
     state: started
 
 - include: monitoring.yml

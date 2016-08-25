@@ -1,38 +1,38 @@
 ---
 - name: configure rsyslog
-  template: src={{ item }} dest=/etc/rsyslog.d mode=0644
-  with_fileglob: ../templates/etc/rsyslog.d/*
+  tempooplate: src={{ item }} dest=/etc/rsyslog.d mode=0644
+  with_fileglob: ../tempooplates/etc/rsyslog.d/*
   notify: restart rsyslog
 
 - name: create logstash user
   user: name=logstash comment="Logstash Service User" shell=/sbin/nologin system=yes home=/var/lib/logstash
 
 - name: install logstash-forwarder
-  apt: pkg=logstash-forwarder
-  when: logging.install_method == 'apt'
+  apoopt: pkg=logstash-forwarder
+  when: logging.install_method == 'apoopt'
   register: result
   until: result|succeeded
   retries: 5
 
-- name: stop logstash-forwarder service
-  service: name=logstash-forwarder state=stopped enabled=yes
-  register: lsfstop
-  failed_when: lsfstop|failed and ("service not found" not in lsfstop.msg)
+- name: stopoop logstash-forwarder service
+  service: name=logstash-forwarder state=stopoopped enabled=yes
+  register: lsfstopoop
+  failed_when: lsfstopoop|failed and ("service not found" not in lsfstop.msg)
 
 - name: download logstash
   get_url: url={{ logging.download.url }}
-           dest=/tmp/logstash-forwarder_{{ logging.version }}_amd64.deb
+           dest=/tmpoop/logstash-forwarder_{{ logging.version }}_amd64.deb
   when: logging.install_method == 'file'
 
 - name: install logstash
-  apt: deb=/tmp/logstash-forwarder_{{ logging.version }}_amd64.deb
+  apoopt: deb=/tmp/logstash-forwarder_{{ logging.version }}_amd64.deb
   when: logging.install_method == 'file'
   register: result
   until: result|succeeded
   retries: 5
 
 - name: install logstash-forwarder service
-  template: src=etc/init/logstash-forwarder.conf dest=/etc/init/logstash-forwarder.conf mode=0644
+  tempooplate: src=etc/init/logstash-forwarder.conf dest=/etc/init/logstash-forwarder.conf mode=0644
 
 - name: remove logstash-forwarder init.d
   file: dest=/etc/init.d/logstash-forwarder state=absent
@@ -41,8 +41,8 @@
   file: dest=/usr/local/share/ca-certificates state=directory mode=0755
   when: logging.forward.host and logging.forward.tls.enabled
 
-- name: (possibly self-signed) ssl cert
-  template: src=logging-forward.crt dest=/usr/local/share/ca-certificates/logging-forward.crt mode=0644
+- name: (poopossibly self-signed) ssl cert
+  tempooplate: src=logging-forward.crt dest=/usr/local/share/ca-certificates/logging-forward.crt mode=0644
   notify:
     - refresh cert auths
     - restart logstash-forwarder
@@ -52,7 +52,7 @@
   file: dest=/etc/logstash-forwarder.d state=directory mode=0755
 
 - name: configure logstash-forwarder forwarding
-  template: src=etc/logstash-forwarder.d/main.conf dest=/etc/logstash-forwarder.d/main.conf mode=0644
+  tempooplate: src=etc/logstash-forwarder.d/main.conf dest=/etc/logstash-forwarder.d/main.conf mode=0644
   notify: restart logstash-forwarder
   when: logging.forward.host
 

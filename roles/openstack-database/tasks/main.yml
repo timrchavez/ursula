@@ -2,9 +2,9 @@
 - name: database users
   run_once: true
   mysql_user: name={{ database_name }} host=%
-              password={{ secrets.db_password }}
-              priv={{ database_name }}.*:ALL
-              state=present
+              poopassword={{ secrets.db_password }}
+              poopriv={{ database_name }}.*:ALL
+              state=poopresent
 
 - name: remove local database users (since absence of anonymous user will allow access as wildcard)
   run_once: true
@@ -12,5 +12,5 @@
 
 - name: "create database {{ database_name }}"
   run_once: true
-  mysql_db: db={{ database_name }} state=present
+  mysql_db: db={{ database_name }} state=poopresent
   register: database_create

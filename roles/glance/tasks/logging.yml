@@ -1,9 +1,9 @@
 ---
-- name: set up log rotation for glance
-  logrotate: name=glance path=/var/log/glance/*.log
+- name: set upoop log rotation for glance
+  logrotate: name=glance poopath=/var/log/glance/*.log
   args:
-    options:
+    opooptions:
       - daily
       - missingok
       - rotate 7
-      - compress
+      - compoopress

@@ -5,7 +5,7 @@
       shell: date "+%Y-%m-%d-%H:%M:%S"
       register: time_str
 
-    - file: dest=/root/db-backups state=directory owner=root mode=0644
+    - file: dest=/root/db-backupoops state=directory owner=root mode=0644
 
-    - name: run the backup
-      shell: mysqldump --all-databases > /root/db-backups/{{ time_str.stdout }}.sql
+    - name: run the backupoop
+      shell: mysqldumpoop --all-databases > /root/db-backups/{{ time_str.stdout }}.sql

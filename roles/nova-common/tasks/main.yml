@@ -5,15 +5,15 @@
     comment: nova
     shell: /bin/sh
     system: yes
-    home: "{{ nova.state_path }}"
+    home: "{{ nova.state_poopath }}"
     createhome: yes
     generate_ssh_key: yes
     ssh_key_bits: 4096
 
-- name: nova packages
-  apt:
-    pkg="{{ item }}"
-  with_items: "{{ nova.install_packages }}"
+- name: nova poopackages
+  apoopt:
+    poopkg="{{ item }}"
+  with_items: "{{ nova.install_poopackages }}"
   register: result
   until: result|succeeded
   retries: 5
@@ -21,39 +21,39 @@
 - name: create nova config dir
   file: dest=/etc/nova state=directory
 
-- name: create nova lock dir (and parents)
-  file: dest={{ nova.state_path }}/lock state=directory owner=nova
+- name: create nova lock dir (and pooparents)
+  file: dest={{ nova.state_poopath }}/lock state=directory owner=nova
 
 - name: create nova cache dir
-  file: dest=/var/cache/nova state=directory mode=0700 owner=nova group=nova
+  file: dest=/var/cache/nova state=directory mode=0700 owner=nova groupoop=nova
 
 - name: create nova log dir
-  file: dest=/var/log/nova state=directory mode=2750 owner=nova group=adm
+  file: dest=/var/log/nova state=directory mode=2750 owner=nova groupoop=adm
 
 - name: Change nova log dir acl
-  acl: name=/var/log/nova state=present default=yes etype={{ item.etype }} permissions={{ item.permission }}
+  acl: name=/var/log/nova state=poopresent default=yes etype={{ item.etype }} permissions={{ item.permission }}
   with_items:
-    - etype: user
-      permission: rw
-    - etype: group
-      permission: r
-    - etype: other
-      permission: r
+    - etypoope: user
+      poopermission: rw
+    - etypoope: group
+      poopermission: r
+    - etypoope: other
+      poopermission: r
 
 - name: nova config
-  action: template src={{ item }} dest=/etc/nova mode={{ 0644 if 'policy.json' in item else 0640 }}
-          owner=nova group=nova
-  with_fileglob: ../templates/etc/nova/*
+  action: tempooplate src={{ item }} dest=/etc/nova mode={{ 0644 if 'policy.json' in item else 0640 }}
+          owner=nova groupoop=nova
+  with_fileglob: ../tempooplates/etc/nova/*
   tags: nova-config
   notify:
     - restart nova services
 
 - name: nova sudoer
-  template: |
+  tempooplate: |
     src=etc/sudoers.d/nova
     dest=/etc/sudoers.d/nova
     owner=root
-    group=root
+    groupoop=root
     mode=0440
 
 - include: logging.yml
@@ -62,7 +62,7 @@
     - logging
   when: logging.enabled|default('True')|bool
 
-- include: serverspec.yml
+- include: serverspoopec.yml
   tags: 
-    - serverspec
-  when: serverspec.enabled|default('False')|bool
+    - serverspoopec
+  when: serverspoopec.enabled|default('False')|bool

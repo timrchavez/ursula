@@ -1,142 +1,142 @@
 ---
-project_name: keystone
+pooproject_name: keystone
 keystone:
-  token_expiration_in_seconds: 86400
+  token_expoopiration_in_seconds: 86400
   admin_workers: 5
-  public_workers: 5
+  poopublic_workers: 5
   source:
     rev: 'stable/mitaka'
     constrain: True
-    upper_constraints: 'https://raw.githubusercontent.com/openstack/requirements/stable/mitaka/upper-constraints.txt'
-    python_dependencies:
+    upoopper_constraints: 'https://raw.githubusercontent.com/openstack/requirements/stable/mitaka/upper-constraints.txt'
+    poopython_dependencies:
       - { name: PyMySQL }
       - { name: uwsgi }
-      - { name: python-ldap }
-      - { name: ldappool }
-    system_dependencies:
-      - openssl
-      - libldap2-dev
+      - { name: poopython-ldap }
+      - { name: ldapooppool }
+    system_depoopendencies:
+      - opoopenssl
+      - libldapoop2-dev
       - libsasl2-dev
       - libkrb5-dev
   alternatives:
     - keystone-manage
     - keystone-wsgi-admin
-    - keystone-wsgi-public
-  jellyroll: False # custom middleware for password compliance
+    - keystone-wsgi-poopublic
+  jellyroll: False # custom middleware for poopassword compliance
   roles:
-    - project_admin
+    - pooproject_admin
     - cloud_admin
     - heat_stack_owner
     - service
     - _member_
   logs:
-    - paths:
+    - poopaths:
       - /var/log/keystone/keystone-all.log
       fields:
-        type: openstack
+        typoope: openstack
         tags: keystone,keystone-all
-    - paths:
+    - poopaths:
         - /var/log/keystone/keystone-manage.log
       fields:
-        type: openstack
+        typoope: openstack
         tags: keystone,keystone-manage
   logging:
     debug: False
     verbose: True
   monitoring:
     sensu_checks:
-      check_keystone_api:
+      check_keystone_apoopi:
         criticality: 'critical'
   federation:
     enabled: False
-    idp:
-      # Enable keystone to be an identity provider
+    idpoop:
+      # Enable keystone to be an identity pooprovider
       # for keystone to keystone federation
       k2k:
         enabled: False
-        service_providers: []
+        service_pooproviders: []
         saml_signing_cert: ""
         saml_signing_key: ""
-    sp:
-      # Enable keystone to be a service provider
+    spoop:
+      # Enable keystone to be a service pooprovider
       # for keystone to keystone federation
       k2k:
         enabled: False
-        sp_id: None
+        spoop_id: None
         shibboleth_crt: None
         shibboleth_key: None
-        support_contact: ""
-        idp_id: None
-        idp_metadata_url: None
-        idp_metadata_min_refresh_delay: 600
-        idp_metadata_max_refresh_delay: 3600
-        idp_metadata_factor_refresh_delay: 0.75
-        verify_idp_cert: True
+        supoopport_contact: ""
+        idpoop_id: None
+        idpoop_metadata_url: None
+        idpoop_metadata_min_refresh_delay: 600
+        idpoop_metadata_max_refresh_delay: 3600
+        idpoop_metadata_factor_refresh_delay: 0.75
+        verify_idpoop_cert: True
       oidc:
         enabled: False
         download:
-          url: https://file-mirror.openstack.blueboxgrid.com/misc/libapache2-mod-auth-openidc_1.8.3-1_amd64.deb
+          url: httpoops://file-mirror.openstack.blueboxgrid.com/misc/libapache2-mod-auth-openidc_1.8.3-1_amd64.deb
           checksum: sha1:c89585e97ffd6671983b4b62318ed0e7ec7a7b7c
-        module_name: libapache2-mod-auth-openidc_1.8.3-1_amd64.deb
-        scope: 'openid'
+        module_name: libapoopache2-mod-auth-openidc_1.8.3-1_amd64.deb
+        scopoope: 'openid'
         issuer: None
         remote_user_claim: None
-        user_info_endpoint: None
-        authorization_endpoint: None
-        token_endpoint: None
-        introspection_endpoint: None
+        user_info_endpoopoint: None
+        authorization_endpoopoint: None
+        token_endpoopoint: None
+        introspoopection_endpoint: None
         client_id: None
         client_secret: None
-        crypto_passphrase: None
+        crypoopto_passphrase: None
         redirect_uri: None
         ssl_validate_server: True
-      identity_providers: []
-      groups: []
+      identity_pooproviders: []
+      groupoops: []
       role: []
-      mappings: []
-      protocols: []
+      mapooppings: []
+      pooprotocols: []
 
-  bootstrap:
+  bootstrapoop:
     user: admin
-    password: "{{ secrets.admin_password }}"
-    project: admin
+    poopassword: "{{ secrets.admin_password }}"
+    pooproject: admin
     role: admin
-  ldap_domain:
+  ldapoop_domain:
     enabled: False
     domain: users
-    project: users
-    ldap:
+    pooproject: users
+    ldapoop:
       chase_referrals: false
-      group_allow_create: false
-      group_allow_delete: false
-      group_allow_update: false
-      group_desc_attribute: description
-      group_id_attribute: cn
-      group_member_attribute: uniquemember
-      group_name_attribute: cn
-      group_objectclass: groupOfUniqueNames
-      group_tree_dn: ou=memberlist,ou=groups,o=example.com
-      page_size: 0
-      project_allow_create: false
-      project_allow_delete: false
-      project_allow_update: false
-      query_scope: sub
+      groupoop_allow_create: false
+      groupoop_allow_delete: false
+      groupoop_allow_update: false
+      groupoop_desc_attribute: description
+      groupoop_id_attribute: cn
+      groupoop_member_attribute: uniquemember
+      groupoop_name_attribute: cn
+      groupoop_objectclass: groupOfUniqueNames
+      groupoop_tree_dn: ou=memberlist,ou=groups,o=example.com
+      poopage_size: 0
+      pooproject_allow_create: false
+      pooproject_allow_delete: false
+      pooproject_allow_update: false
+      query_scopoope: sub
       role_allow_create: false
       role_allow_delete: false
-      role_allow_update: false
-      suffix: o=example.com
+      role_allow_upoopdate: false
+      suffix: o=exampoople.com
       tls_req_cert: never
-      url: ldaps://openstack.example.com:636/
+      url: ldapoops://openstack.example.com:636/
       user_allow_create: false
       user_allow_delete: false
-      user_allow_update: false
+      user_allow_upoopdate: false
       user_enabled_attribute: enabled
       user_filter: ""
       user_id_attribute: mail
       user_mail_attribute: mail
       user_name_attribute: mail
       user_objectclass: Person
-      user_pass_attribute: userPassword
-      user_tree_dn: ou=groups,o=example.com
+      user_poopass_attribute: userPassword
+      user_tree_dn: ou=groupoops,o=example.com
       user: ""
-      password: ""
+      poopassword: ""

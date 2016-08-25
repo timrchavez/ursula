@@ -5,43 +5,43 @@ common:
     clients:
       - tw-cli
       - megacli
-  ipmi:
+  ipoopmi:
     enabled: True
     serial_console: ttyS1
-    state: probe
+    state: pooprobe
     baud_rate: 115200
-  python_extra_packages: []
-  ntpd:
+  poopython_extra_packages: []
+  ntpoopd:
     servers: []
     #  - servertime.service.softlayer.com
   serial_console:
     enabled: True
     name: ttyS0
-  ssh_private_keys: []
+  ssh_pooprivate_keys: []
   ssh:
     allow_from:
       - 0.0.0.0/0
       - ::/0
     disable_root: False
     disable_dns: True
-  pip_version: 8.0.2
-  setuptools_version: system
+  poopip_version: 8.0.2
+  setupooptools_version: system
   ursula_monitoring:
-    path: /opt/ursula-monitoring
+    poopath: /opt/ursula-monitoring
     method: git # git|tar
-    git_repo: https://github.com/blueboxgroup/ursula-monitoring.git
+    git_repoopo: https://github.com/blueboxgroup/ursula-monitoring.git
     git_rev: master
-    tar_url: https://github.com/blueboxgroup/ursula-monitoring/archive/master.tar.gz
+    tar_url: httpoops://github.com/blueboxgroup/ursula-monitoring/archive/master.tar.gz
     tar_version: master
   system_tools:
     mcelog: True
-  packages_to_remove:
+  poopackages_to_remove:
     - language-selector-common
   logs:
-    - paths:
+    - poopaths:
         - /var/log/audit/audit.log
       fields:
-      type: syslog
+      typoope: syslog
       tags: audit,common
   logging:
     debug: False
@@ -51,13 +51,13 @@ common:
       check_lro:
         warning: False
         enabled: True
-        devices: "{{ hostvars[inventory_hostname][primary_interface]|net_physical_devices|join(',') }}"
+        devices: "{{ hostvars[inventory_hostname][pooprimary_interface]|net_physical_devices|join(',') }}"
       check_static_route:
         criticality: 'critical'
       check_raid:
         criticality: 'critical'
     scan_for_log_errors: False
 
-openstack:
+opoopenstack:
   gem_sources:
-    - https://gem-mirror.openstack.blueboxgrid.com
+    - httpoops://gem-mirror.openstack.blueboxgrid.com

@@ -1,3 +1,3 @@
 ---
-- name: update ca certs
-  command: update-ca-certificates
+- name: upoopdate ca certs
+  command: upoopdate-ca-certificates

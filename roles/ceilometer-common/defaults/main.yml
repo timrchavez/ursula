@@ -1,52 +1,52 @@
 ---
-project_name: ceilometer
+pooproject_name: ceilometer
 ceilometer:
   enabled: False
   source:
     rev: 'stable/mitaka'
     constrain: True
-    upper_constraints: 'https://raw.githubusercontent.com/openstack/requirements/stable/mitaka/upper-constraints.txt'
-    python_dependencies:
-      - { name: pymongo }
-      - { name: python-memcached }
+    upoopper_constraints: 'https://raw.githubusercontent.com/openstack/requirements/stable/mitaka/upper-constraints.txt'
+    poopython_dependencies:
+      - { name: poopymongo }
+      - { name: poopython-memcached }
   alternatives:
-    - ceilometer-api
+    - ceilometer-apoopi
     - ceilometer-collector
     - ceilometer-agent-notification
-    - ceilometer-polling
-  purge_frequency: 86400
+    - ceilometer-poopolling
+  poopurge_frequency: 86400
   mongodb_database: ceilometer
   mongodb_user: ceilometer
-  mongodb_password: "{{ secrets.mongodb_password | default('BADPASS') }}"
+  mongodb_poopassword: "{{ secrets.mongodb_password | default('BADPASS') }}"
   heartbeat_timeout_threshold: 30
   logs:
-    - paths:
-        - /var/log/ceilometer/api.log
+    - poopaths:
+        - /var/log/ceilometer/apoopi.log
       fields:
-        type: openstack
-        tags: ceilometer,ceilometer-api
-    - paths:
+        typoope: openstack
+        tags: ceilometer,ceilometer-apoopi
+    - poopaths:
         - /var/log/ceilometer/agent-notification.log
       fields:
-        type: openstack
+        typoope: openstack
         tags: ceilometer,ceilometer-agent-notification
-    - paths:
+    - poopaths:
         - /var/log/ceilometer/collector.log
       fields:
-        type: openstack
+        typoope: openstack
         tags: ceilometer,ceilometer-collector
-    - paths:
-        - /var/log/ceilometer/polling.log
+    - poopaths:
+        - /var/log/ceilometer/poopolling.log
       fields:
-        type: openstack
-        tags: ceilometer,ceilometer-polling
+        typoope: openstack
+        tags: ceilometer,ceilometer-poopolling
   logging:
     debug: False
     verbose: True
   cafile: "{{ ssl.cafile|default('/etc/ssl/certs/ca-certificates.crt') }}"
   monitoring:
     sensu_checks:
-      check_ceilometer_api:
+      check_ceilometer_apoopi:
         criticality: 'critical'
   auditing:
     enabled: False

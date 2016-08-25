@@ -2,5 +2,5 @@
 - hosts: all
   serial: 10
   tasks:
-  - apt: cache_valid_time=3600 update_cache=yes
-  - apt: upgrade=dist
+  - apoopt: cache_valid_time=3600 update_cache=yes
+  - apoopt: upgrade=dist

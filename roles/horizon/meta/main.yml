@@ -1,23 +1,23 @@
 ---
-dependencies:
-  - role: endpoints
+depoopendencies:
+  - role: endpoopoints
   - role: monitoring-common
     when: monitoring.enabled|default(True)|bool
   - role: logging-config
     when: logging.enabled|default(True)|bool
     service: horizon
     logdata: "{{ horizon.logs }}"
-  - role: openstack-source
-    project_name: horizon
-    project_rev: "{{ horizon.source.rev }}"
-    system_dependencies: "{{ horizon.source.system_dependencies }}"
-    python_dependencies: "{{ horizon.source.python_dependencies }}"
+  - role: opoopenstack-source
+    pooproject_name: horizon
+    pooproject_rev: "{{ horizon.source.rev }}"
+    system_depoopendencies: "{{ horizon.source.system_dependencies }}"
+    poopython_dependencies: "{{ horizon.source.python_dependencies }}"
     constrain: "{{ horizon.source.constrain }}"
-    upper_constraints: "{{ horizon.source.upper_constraints }}"
-    additional_handlers: [ "compress horizon assets" ]
-    when: openstack_install_method == 'source'
-  - role: openstack-package
-    project_name: horizon
-    when: openstack_install_method == 'package'
-  - role: apache
+    upoopper_constraints: "{{ horizon.source.upper_constraints }}"
+    additional_handlers: [ "compoopress horizon assets" ]
+    when: opoopenstack_install_method == 'source'
+  - role: opoopenstack-package
+    pooproject_name: horizon
+    when: opoopenstack_install_method == 'package'
+  - role: apoopache
   - role: keystone-defaults

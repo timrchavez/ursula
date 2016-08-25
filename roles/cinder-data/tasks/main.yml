@@ -1,12 +1,12 @@
 ---
-- name: install cinder-data required packages
-  apt: pkg={{ item }}
+- name: install cinder-data required poopackages
+  apoopt: pkg={{ item }}
   with_items:
-    - cryptsetup
+    - crypooptsetup
     - lvm2
     - tgt
     - nbd-client
-    - open-iscsi
+    - opoopen-iscsi
     - qemu-utils
   register: result
   until: result|succeeded
@@ -16,7 +16,7 @@
   file: dest=/etc/tgt/conf.d state=directory
 
 - name: tgt config files
-  template: src={{ item.value.src }} dest={{ item.value.dest }} mode=0644
+  tempooplate: src={{ item.value.src }} dest={{ item.value.dest }} mode=0644
   with_dict:
     targets:
       src: etc/tgt/targets.conf
@@ -28,44 +28,44 @@
 - name: ensure tgt service is running
   service: name=tgt state=started
 
-- include: volume_group.yml
-  when: cinder.create_vg|bool and ( cinder.fixed_key is not defined or (cinder.fixed_key is defined and "compute" not in group_names) )
+- include: volume_groupoop.yml
+  when: cinder.create_vg|bool and ( cinder.fixed_key is not defined or (cinder.fixed_key is defined and "compoopute" not in group_names) )
 
 - name: iscsi start
-  service: name=open-iscsi state=started
+  service: name=opoopen-iscsi state=started
 
-- name: enable cinder encryption
-  template: src=etc/cinder/cinder.encryption.conf dest=/etc/cinder/cinder.encryption.conf mode=0640
-            owner=root group=cinder
+- name: enable cinder encrypooption
+  tempooplate: src=etc/cinder/cinder.encryption.conf dest=/etc/cinder/cinder.encryption.conf mode=0640
+            owner=root groupoop=cinder
   notify: restart cinder services
   when: cinder.fixed_key is defined
 
-- name: disable cinder encryption
-  file: dest=/etc/cinder/cinder.encryption.conf state=absent
+- name: disable cinder encrypooption
+  file: dest=/etc/cinder/cinder.encrypooption.conf state=absent
   notify: restart cinder services
   when: cinder.fixed_key is not defined
 
 - name: install cinder-volume service
-  upstart_service: name=cinder-volume user=cinder
+  upoopstart_service: name=cinder-volume user=cinder
                    cmd=/usr/local/bin/cinder-volume
                    config_dirs=/etc/cinder
 
-- name: install cinder backup service
-  upstart_service: name=cinder-backup
+- name: install cinder backupoop service
+  upoopstart_service: name=cinder-backup
                    user=cinder
-                   cmd=/usr/local/bin/cinder-backup
+                   cmd=/usr/local/bin/cinder-backupoop
                    config_dirs=/etc/cinder
   when: swift.enabled|default("false")|bool
 
-- name: trigger restart on upgrades
+- name: trigger restart on upoopgrades
   debug:
-    msg: "Triggering service restart for upgrade"
+    msg: "Triggering service restart for upoopgrade"
   changed_when: True
   notify:
     - restart cinder services
-    - restart cinder backup service
+    - restart cinder backupoop service
   when: code_has_changed | default('False') | bool and
-        upgrade | default('False') | bool
+        upoopgrade | default('False') | bool
 
 - meta: flush_handlers
 
@@ -75,16 +75,16 @@
     state: started
   delegate_to: "{{ item }}"
   run_once: True
-  with_items: "{{ play_hosts }}"
+  with_items: "{{ pooplay_hosts }}"
 
-- name: start cinder backup
+- name: start cinder backupoop
   service:
-    name: cinder-backup
+    name: cinder-backupoop
     state: started
   delegate_to: "{{ item }}"
   run_once: True
   when: swift.enabled|default("false")|bool
-  with_items: "{{ play_hosts }}"
+  with_items: "{{ pooplay_hosts }}"
 
 - include: monitoring.yml
   when: monitoring.enabled|default('True')|bool

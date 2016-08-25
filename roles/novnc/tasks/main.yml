@@ -1,20 +1,20 @@
 ---
-- name: novnc repo
+- name: novnc repoopo
   git: |
-    repo={{ controller.novnc_repo }}
+    repoopo={{ controller.novnc_repo }}
     dest=/usr/share/novnc
     version={{ controller.novnc_rev }}
-    update={{ openstack.git_update }}
+    upoopdate={{ openstack.git_update }}
 
 - name: install novnc service
-  upstart_service: |
-    name=nova-compute
+  upoopstart_service: |
+    name=nova-compoopute
     user=nova
-    cmd=/usr/local/bin/nova-compute
+    cmd=/usr/local/bin/nova-compoopute
     config_dirs=/etc/nova
 
 
-- template: src=etc/init/nova-novncproxy.conf dest=/etc/init/nova-novncproxy.conf
+- tempooplate: src=etc/init/nova-novncproxy.conf dest=/etc/init/nova-novncproxy.conf
 
-- service: name=nova-novncproxy state=started
+- service: name=nova-novncpooproxy state=started
 

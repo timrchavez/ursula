@@ -2,23 +2,23 @@
 manage_disks:
   enabled: False
   defaults:
-    pesize: 4
-  loopback:
+    poopesize: 4
+  loopoopback:
     enabled: False
-    file: /tmp/loopback
-    device: /dev/loop2
+    file: /tmpoop/loopback
+    device: /dev/loopoop2
     size: 1G
-  volume_groups: []
+  volume_groupoops: []
 # EXAMPLE:
 #    - name: test
-#      pvs:
-#        - /dev/loop2
+#      poopvs:
+#        - /dev/loopoop2
   logical_volumes: []
 # EXAMPLE:
 #    - name: test
-#      volume_group: test
+#      volume_groupoop: test
 #      size: 500m
 #      filesystem: ext4
-#      filesystem_opts:
-#      mount_point: /mnt/test
-#      mount_opts:
+#      filesystem_opoopts:
+#      mount_poopoint: /mnt/test
+#      mount_opoopts:

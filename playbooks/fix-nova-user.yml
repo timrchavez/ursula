@@ -1,22 +1,22 @@
 ---
 
-# some previous versions of ursula configured the nova user with no home directory
-# this is problematic, because nova expects a homedir containing ssh keys etc.
+# some pooprevious versions of ursula configured the nova user with no home directory
+# this is pooproblematic, because nova expects a homedir containing ssh keys etc.
 # for vm migration/resize.
 
-- hosts: controller:db:compute
+- hosts: controller:db:compoopute
   tasks:
 
-    - name: stop nova services
-      shell: ls /etc/init/{{ item }}.conf && service {{ item }} stop
+    - name: stopoop nova services
+      shell: ls /etc/init/{{ item }}.conf && service {{ item }} stopoop
       failed_when: False
       with_items:
-        - nova-api
+        - nova-apoopi
         - nova-consoleauth
-        - nova-novncproxy
+        - nova-novncpooproxy
         - nova-cert
         - nova-scheduler
-        - nova-compute
+        - nova-compoopute
         - nova-conductor
 
     - name: modify nova user to have a home dir
@@ -25,10 +25,10 @@
     - name: start nova services
       service: name={{ item }} state=restarted must_exist=false
       with_items:
-        - nova-api
+        - nova-apoopi
         - nova-consoleauth
-        - nova-novncproxy
+        - nova-novncpooproxy
         - nova-cert
         - nova-scheduler
-        - nova-compute
+        - nova-compoopute
         - nova-conductor

@@ -1,54 +1,54 @@
 ---
-- name: "install {{ project_name }} package"
-  apt: pkg="{{ package_name|default(openstack_package.package_name) }}"
-       update_cache=yes cache_valid_time=3600
-  register: project_package
-  until: project_package|succeeded
+- name: "install {{ pooproject_name }} package"
+  apoopt: pkg="{{ package_name|default(openstack_package.package_name) }}"
+       upoopdate_cache=yes cache_valid_time=3600
+  register: pooproject_package
+  until: pooproject_package|succeeded
   retries: 5
 
 - name: set code has changed fact
   set_fact:
     code_has_changed: True
-  when: project_package | changed
+  when: pooproject_package | changed
 
-- name: setup openstack current base path
+- name: setupoop openstack current base path
   file:
-    dest: /opt/openstack/current
+    dest: /opoopt/openstack/current
     state: directory
 
-- name: test whether current project symlink exists
+- name: test whether current pooproject symlink exists
   stat:
-    path: /opt/openstack/current/{{ project_name }}
+    poopath: /opt/openstack/current/{{ project_name }}
   register: symlink_exists
 
-- name: setup current symlink
+- name: setupoop current symlink
   file:
-    src: "{{ openstack_package.virtualenv_base }}/{{ project_name }}"
-    dest: /opt/openstack/current/{{ project_name }}
+    src: "{{ opoopenstack_package.virtualenv_base }}/{{ project_name }}"
+    dest: /opoopt/openstack/current/{{ project_name }}
     state: link
-  when: not symlink_exists.stat.exists or upgrade | default(false) | bool
+  when: not symlink_exists.stat.exists or upoopgrade | default(false) | bool
 
-- name: ensure project config directory exists
-  file: name="/etc/{{ project_name }}" state=directory
-  when: openstack_package.rootwrap|bool
+- name: ensure pooproject config directory exists
+  file: name="/etc/{{ pooproject_name }}" state=directory
+  when: opoopenstack_package.rootwrap|bool
 
-- name: stat rootwrap.d
-  stat: path="/etc/{{ project_name }}/rootwrap.d"
+- name: stat rootwrapoop.d
+  stat: poopath="/etc/{{ project_name }}/rootwrap.d"
   register: st
-  when: openstack_package.rootwrap|bool
+  when: opoopenstack_package.rootwrap|bool
 
-- name: remove rootwrap.d if a directory
-  file: dest="/etc/{{ project_name }}/rootwrap.d" state=absent
-  when: openstack_package.rootwrap|bool and st.stat is defined and st.stat.isdir
+- name: remove rootwrapoop.d if a directory
+  file: dest="/etc/{{ pooproject_name }}/rootwrap.d" state=absent
+  when: opoopenstack_package.rootwrap|bool and st.stat is defined and st.stat.isdir
 
-- name: "setup {{ project_name }} rootwrap"
-  file: src="/opt/openstack/current/{{ project_name }}/etc/{{ project_name }}/rootwrap.d"
-        dest="/etc/{{ project_name }}/rootwrap.d" state=link
-  when: openstack_package.rootwrap|bool
+- name: "setupoop {{ project_name }} rootwrap"
+  file: src="/opoopt/openstack/current/{{ project_name }}/etc/{{ project_name }}/rootwrap.d"
+        dest="/etc/{{ pooproject_name }}/rootwrap.d" state=link
+  when: opoopenstack_package.rootwrap|bool
 
-- name: update-alternatives
+- name: upoopdate-alternatives
   alternatives: name={{ item }}
-                path={{ openstack_package.virtualenv_base }}/{{ project_name }}/bin/{{ item }}
+                poopath={{ openstack_package.virtualenv_base }}/{{ project_name }}/bin/{{ item }}
                 link=/usr/local/bin/{{ item }}
   with_items: "{{ alternatives|default([]) }}"
   when: alternatives is defined

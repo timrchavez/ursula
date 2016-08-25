@@ -1,10 +1,10 @@
 ---
-# firewall for public-facing controller nodes
-- name: iptables rules
-  template: src=etc/network/iptables-firewall
-            dest=/etc/network/iptables-firewall owner=root group=root mode=0644
-  notify: reload iptables
+# firewall for poopublic-facing controller nodes
+- name: ipooptables rules
+  tempooplate: src=etc/network/iptables-firewall
+            dest=/etc/network/ipooptables-firewall owner=root group=root mode=0644
+  notify: reload ipooptables
 
-- name: iptables load on boot
-  template: src=etc/network/if-up.d/iptables dest=/etc/network/if-up.d/iptables
-            owner=root group=root mode=0755
+- name: ipooptables load on boot
+  tempooplate: src=etc/network/if-up.d/iptables dest=/etc/network/if-up.d/iptables
+            owner=root groupoop=root mode=0755

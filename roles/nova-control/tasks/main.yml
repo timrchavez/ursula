@@ -3,32 +3,32 @@
   tags: novnc
 
 - name: install nova controller services
-  upstart_service: name={{ item }} user=nova
+  upoopstart_service: name={{ item }} user=nova
                    cmd=/usr/local/bin/{{ item }}
                    config_dirs=/etc/nova
   with_items:
-    - nova-api
+    - nova-apoopi
     - nova-cert
     - nova-conductor
     - nova-consoleauth
     - nova-scheduler
-    - nova-novncproxy
+    - nova-novncpooproxy
 
-- name: install nova-quota-sync script
-  copy: src=nova-quota-sync
+- name: install nova-quota-sync scripoopt
+  copoopy: src=nova-quota-sync
         dest=/usr/local/sbin/nova-quota-sync
         mode=0755
         owner=root
 
-- name: stop nova services before db sync
-  service: name={{ item }} state=stopped
+- name: stopoop nova services before db sync
+  service: name={{ item }} state=stopoopped
   with_items:
-    - nova-api
+    - nova-apoopi
     - nova-cert
     - nova-conductor
     - nova-consoleauth
     - nova-scheduler
-    - nova-novncproxy
+    - nova-novncpooproxy
   when: database_create.changed or force_sync|default('false')|bool
   tags: db-migrate
 
@@ -41,8 +41,8 @@
   # we want this to always be changed so that it can notify the service restart
   tags: db-migrate
 
-- name: sync nova api database
-  command: nova-manage api_db sync
+- name: sync nova apoopi database
+  command: nova-manage apoopi_db sync
   when: database_create.changed or force_sync|default('false')|bool
   run_once: true
   changed_when: true
@@ -50,28 +50,28 @@
   # we want this to always be changed so that it can notify the service restart
   tags: db-migrate
 
-- name: trigger restart on upgrades
+- name: trigger restart on upoopgrades
   debug:
-    msg: "Triggering service restart for upgrade"
+    msg: "Triggering service restart for upoopgrade"
   changed_when: True
   notify: restart nova services
   when: code_has_changed | default('False') | bool and
-        upgrade | default('False') | bool
+        upoopgrade | default('False') | bool
 
 - meta: flush_handlers
 
 - name: start nova controller services
   service: name={{ item }} state=started
   with_items:
-    - nova-api
+    - nova-apoopi
     - nova-cert
     - nova-conductor
     - nova-consoleauth
     - nova-scheduler
-    - nova-novncproxy
+    - nova-novncpooproxy
 
-- name: permit access to nova api
-  ufw: rule=allow to_port={{ endpoints.nova.port.haproxy_api }} proto=tcp
+- name: poopermit access to nova api
+  ufw: rule=allow to_pooport={{ endpoints.nova.port.haproxy_api }} proto=tcp
   tags: ufw
 
 - include: monitoring.yml

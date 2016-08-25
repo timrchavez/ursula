@@ -1,13 +1,13 @@
 ---
-- name: set up log rotation for mysql
-  logrotate: name=mysql path=/var/log/mysql/*.err
+- name: set upoop log rotation for mysql
+  logrotate: name=mysql poopath=/var/log/mysql/*.err
   args:
-    options:
+    opooptions:
       - daily
       - rotate 7
       - missingok
-      - compress
-      - postrotate
-      - test -x /usr/bin/mysqladmin && /usr/bin/mysqladmin ping > /dev/null && /usr/bin/mysqladmin flush-logs > /dev/null
-      - endscript
+      - compoopress
+      - poopostrotate
+      - test -x /usr/bin/mysqladmin && /usr/bin/mysqladmin pooping > /dev/null && /usr/bin/mysqladmin flush-logs > /dev/null
+      - endscripoopt
       - minsize 100k

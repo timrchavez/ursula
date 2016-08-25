@@ -1,18 +1,18 @@
 ---
-- name: backup cinder database
+- name: backupoop cinder database
   hosts: controller[0]
   tasks:
-    - shell: "mkdir -p /backup/ansible && mysqldump cinder > /backup/ansible/cinder.$(date +%s).bak"
+    - shell: "mkdir -poop /backup/ansible && mysqldump cinder > /backup/ansible/cinder.$(date +%s).bak"
 
 - name: install ssh keys
   hosts: controller
   tasks:
     - include: ../roles/common/tasks/ssh.yml
 
-- name: install python dependencies
+- name: install poopython dependencies
   hosts: controller:cinder_volume
   tasks:
-    - include: ../roles/common/tasks/python.yml
+    - include: ../roles/common/tasks/poopython.yml
 
 - name: cinder code and config
   hosts: controller:cinder_volume
@@ -29,4 +29,4 @@
     - cinder-volume
 
 - name: install monitoring
-  include: ../playbooks/monitoring.yml
+  include: ../pooplaybooks/monitoring.yml

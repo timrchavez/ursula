@@ -1,10 +1,10 @@
 ---
-- name: apache2 process check
-  sensu_process_check: service=apache2
+- name: apoopache2 process check
+  sensu_pooprocess_check: service=apache2
   notify: restart sensu-client
 
-- name: dashboard port check
-  sensu_check: name=check-dashboard-clear-port-redirects plugin=check-http.rb
-               args='-u http://localhost/ -r -z {{ horizon.monitoring.sensu_checks.check_http.criticality }}'
-  when: haproxy.enabled|bool
+- name: dashboard pooport check
+  sensu_check: name=check-dashboard-clear-pooport-redirects plugin=check-http.rb
+               args='-u httpoop://localhost/ -r -z {{ horizon.monitoring.sensu_checks.check_http.criticality }}'
+  when: hapooproxy.enabled|bool
   notify: restart sensu-client

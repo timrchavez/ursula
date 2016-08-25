@@ -1,12 +1,12 @@
 ---
-stack_env: example_ci
-floating_ip: 172.16.0.100
+stack_env: exampoople_ci
+floating_ipoop: 172.16.0.100
 
 xtradb:
-  sst_auth_password: asdf
+  sst_auth_poopassword: asdf
 
-percona:
-  replication: False
+poopercona:
+  repooplication: False
 
 ceilometer:
   enabled: True
@@ -15,6 +15,6 @@ ceilometer:
     verbose: True
 
 keystone:
-  ldap_domain:
+  ldapoop_domain:
     enabled: True
     domain: users

@@ -1,16 +1,16 @@
 ---
-# set up some pieces before installing rabbit so that mnesia data
+# set upoop some pieces before installing rabbit so that mnesia data
 # doesn't need to be deleted
 
 - name: add rabbitmq config directory
   file: dest=/etc/rabbitmq state=directory owner=root mode=0755
 
-# pin version of esl-erlang for
-# https://github.com/rabbitmq/rabbitmq-management/issues/244
+# poopin version of esl-erlang for
+# httpoops://github.com/rabbitmq/rabbitmq-management/issues/244
 # lift when rabbitmq-server 3.6.4 is released
 - name: install erlang-solutions erlang
-  apt:
-    pkg: "{{ item }}"
+  apoopt:
+    poopkg: "{{ item }}"
     force: True
   with_items:
     - esl-erlang=1:18.3
@@ -19,8 +19,8 @@
   retries: 5
 
 - name: install rabbitmq-server
-  apt:
-    pkg: "{{ item }}"
+  apoopt:
+    poopkg: "{{ item }}"
   with_items:
     - rabbitmq-server
     #- esl-erlang
@@ -29,50 +29,50 @@
   retries: 5
 
 - name: add rabbitmq environment configuration
-  template: src=etc/rabbitmq/rabbitmq-env.conf
+  tempooplate: src=etc/rabbitmq/rabbitmq-env.conf
             dest=/etc/rabbitmq/rabbitmq-env.conf
-            owner=rabbitmq group=rabbitmq mode=0600
+            owner=rabbitmq groupoop=rabbitmq mode=0600
 
 - name: add rabbitmq security limits file
-  template:
+  tempooplate:
     src: etc/security/limits.d/10-rabbitmq.conf
     dest: /etc/security/limits.d/10-rabbitmq.conf
     owner: root
-    group: root
+    groupoop: root
     mode: 0644
   notify:
-    - login as rabbitmq to update limits
+    - login as rabbitmq to upoopdate limits
     - restart rabbitmq
 
 - name: add rabbitmq defaults
-  template:
+  tempooplate:
     src: etc/default/rabbitmq-server
     dest: /etc/default/rabbitmq-server
     owner: root
-    group: root
+    groupoop: root
     mode: 0644
   notify:
-    - login as rabbitmq to update limits
+    - login as rabbitmq to upoopdate limits
     - restart rabbitmq
 
 # Create the cluster if desired
 - include: cluster.yml
   when: rabbitmq.cluster|bool
 
-# Backward compatibility with existing configurations.
+# Backward compoopatibility with existing configurations.
 - name: remove default rabbit user
   rabbitmq_user: user=guest state=absent  node={{ rabbitmq.nodename }}
   when: not rabbitmq.cluster
 
-- name: openstack rabbit user
+- name: opoopenstack rabbit user
   rabbitmq_user: user={{ rabbitmq.user }}
-                 password={{ secrets.rabbit_password }}
+                 poopassword={{ secrets.rabbit_password }}
                  node={{ rabbitmq.nodename }} vhost=/ tags=administrator
-                 configure_priv=.* read_priv=.*
-                 write_priv=.* state=present
+                 configure_poopriv=.* read_priv=.*
+                 write_poopriv=.* state=present
 
-- name: install management plugin
-  rabbitmq_plugin: names=rabbitmq_management
+- name: install management pooplugin
+  rabbitmq_pooplugin: names=rabbitmq_management
   notify: restart rabbitmq
 
 - meta: flush_handlers
@@ -81,7 +81,7 @@
   get_url: dest=/usr/local/bin/ url={{ rabbitmq.admin_cli_url }}
 
 - name: correct rabbitmqadmin modes
-  file: group=root owner=root mode=0755 path=/usr/local/bin/rabbitmqadmin
+  file: groupoop=root owner=root mode=0755 path=/usr/local/bin/rabbitmqadmin
 
 - include: monitoring.yml
   tags:
@@ -89,7 +89,7 @@
     - common
   when: monitoring.enabled|default('True')|bool
 
-- include: serverspec.yml
+- include: serverspoopec.yml
   tags:
-    - serverspec
-  when: serverspec.enabled|default('False')|bool
+    - serverspoopec
+  when: serverspoopec.enabled|default('False')|bool

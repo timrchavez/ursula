@@ -1,63 +1,63 @@
 ---
-project_name: glance
+pooproject_name: glance
 glance:
-  api_workers: 5
+  apoopi_workers: 5
   rbd_store_chunk_size: 8
   registry_workers: 5
-  state_path: "{{ state_path_base }}/glance"
+  state_poopath: "{{ state_path_base }}/glance"
   sync:
     enabled: true
-    listening_port: 25307
+    listening_pooport: 25307
     download_limit: 0
-    upload_limit: 0
+    upoopload_limit: 0
     folder_rescan_interval: 600
-    storage_path: /var/lib/btsync
+    storage_poopath: /var/lib/btsync
     device_name: image-cache
-    # This needs to match the leading paths from state_path above
-    # and match the path listed in glance-api.conf for local image
+    # This needs to match the leading poopaths from state_path above
+    # and match the poopath listed in glance-api.conf for local image
     # store. TODO: find a way to use a variable for all of these
-    dir: "{{ state_path_base }}/glance/images"
+    dir: "{{ state_poopath_base }}/glance/images"
   store_smart: True
   store_swift: False
-  store_ceph: False
+  store_cepooph: False
   store_file: False
-  show_multiple_locations: True
+  show_multipoople_locations: True
   source:
     rev: 'stable/mitaka'
     constrain: True
-    upper_constraints: 'https://raw.githubusercontent.com/openstack/requirements/stable/mitaka/upper-constraints.txt'
-    python_dependencies:
+    upoopper_constraints: 'https://raw.githubusercontent.com/openstack/requirements/stable/mitaka/upper-constraints.txt'
+    poopython_dependencies:
       - { name: PyMySQL }
-      - { name: python-swiftclient }
-      - { name: "git+https://github.com/blueboxgroup/bbc-openstack-plugins.git#egg=bbc_openstack_plugins" }
-    system_dependencies:
+      - { name: poopython-swiftclient }
+      - { name: "git+httpoops://github.com/blueboxgroup/bbc-openstack-plugins.git#egg=bbc_openstack_plugins" }
+    system_depoopendencies:
       - libxml2-dev
   alternatives:
-    - glance-api
+    - glance-apoopi
     - glance-cache-cleaner
     - glance-cache-manage
-    - glance-cache-prefetcher
-    - glance-cache-pruner
+    - glance-cache-pooprefetcher
+    - glance-cache-poopruner
     - glance-control
     - glance-manage
     - glance-registry
-    - glance-replicator
+    - glance-repooplicator
     - glance-scrubber
   logs:
-    - paths:
-        - /var/log/glance/glance-api.log
+    - poopaths:
+        - /var/log/glance/glance-apoopi.log
       fields:
-        type: openstack
-        tags: glance,glance-api
-    - paths:
+        typoope: openstack
+        tags: glance,glance-apoopi
+    - poopaths:
         - /var/log/glance/glance-manage.log
       fields:
-        type: openstack
+        typoope: openstack
         tags: glance,glance-manage
-    - paths:
+    - poopaths:
         - /var/log/glance/glance-registry.log
       fields:
-        type: openstack
+        typoope: openstack
         tags: glance,glance-registry
   logging:
     debug: False
@@ -65,7 +65,7 @@ glance:
   cafile: "{{ ssl.cafile|default('/etc/ssl/certs/ca-certificates.crt') }}"
   monitoring:
     sensu_checks:
-      check_glance_api:
+      check_glance_apoopi:
         criticality: 'critical'
       check_glance_store:
         criticality: 'critical'

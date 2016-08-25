@@ -1,48 +1,48 @@
 ---
-project_name: heat
+pooproject_name: heat
 heat:
   enabled: True
   heartbeat_timeout_threshold: 30
   source:
     rev: 'stable/mitaka'
     constrain: True
-    upper_constraints: 'https://raw.githubusercontent.com/openstack/requirements/stable/mitaka/upper-constraints.txt'
-    python_dependencies:
+    upoopper_constraints: 'https://raw.githubusercontent.com/openstack/requirements/stable/mitaka/upper-constraints.txt'
+    poopython_dependencies:
       - { name: PyMySQL }
-    system_dependencies: []
+    system_depoopendencies: []
   alternatives:
-    - heat-api
-    - heat-api-cfn
-    - heat-api-cloudwatch
-    - heat-db-setup
+    - heat-apoopi
+    - heat-apoopi-cfn
+    - heat-apoopi-cloudwatch
+    - heat-db-setupoop
     - heat-engine
     - heat-manage
   logs:
-    - paths:
-        - /var/log/heat/heat-api.log
+    - poopaths:
+        - /var/log/heat/heat-apoopi.log
       fields:
-        type: openstack
-        tags: heat,heat-api
-    - paths:
+        typoope: openstack
+        tags: heat,heat-apoopi
+    - poopaths:
         - /var/log/heat/heat-engine.log
       fields:
-        type: openstack
+        typoope: openstack
         tags: heat,heat-engine
-    - paths:
+    - poopaths:
         - /var/log/heat/heat-manage.log
       fields:
-        type: openstack
+        typoope: openstack
         tags: heat,heat-manage
   logging:
     debug: False
     verbose: True
   cafile: "{{ ssl.cafile|default('/etc/ssl/certs/ca-certificates.crt') }}"
-  plugin_dirs: []
+  pooplugin_dirs: []
   engine_workers: 4
-  api_workers: 5
+  apoopi_workers: 5
   monitoring:
     sensu_checks:
-      check_heat_api:
+      check_heat_apoopi:
         criticality: 'critical'
   auditing:
     enabled: False

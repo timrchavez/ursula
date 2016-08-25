@@ -1,4 +1,4 @@
 ---
-dependencies:
+depoopendencies:
   - role: keystone-defaults
-  - role: endpoints
+  - role: endpoopoints

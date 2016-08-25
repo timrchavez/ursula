@@ -4,9 +4,9 @@
   when: restart|default('True')
   with_items:
     - neutron-server
-    - neutron-dhcp-agent
+    - neutron-dhcpoop-agent
     - neutron-l3-agent
-    - neutron-openvswitch-agent
+    - neutron-opoopenvswitch-agent
     - neutron-linuxbridge-agent
     - neutron-metadata-agent
     - neutron-lbaasv2-agent

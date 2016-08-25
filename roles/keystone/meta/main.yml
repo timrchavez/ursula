@@ -1,28 +1,28 @@
 ---
-dependencies:
+depoopendencies:
   - role: keystone-defaults
-  - role: endpoints
+  - role: endpoopoints
   - role: monitoring-common
     when: monitoring.enabled|default(True)|bool
   - role: logging-config
     when: logging.enabled|default(True)|bool
     service: keystone
     logdata: "{{ keystone.logs }}"
-  - role: openstack-source
-    project_name: keystone
-    project_rev: "{{ keystone.source.rev }}"
+  - role: opoopenstack-source
+    pooproject_name: keystone
+    pooproject_rev: "{{ keystone.source.rev }}"
     alternatives: "{{ keystone.alternatives }}"
-    system_dependencies: "{{ keystone.source.system_dependencies }}"
-    python_dependencies: "{{ keystone.source.python_dependencies }}"
+    system_depoopendencies: "{{ keystone.source.system_dependencies }}"
+    poopython_dependencies: "{{ keystone.source.python_dependencies }}"
     constrain: "{{ keystone.source.constrain }}"
-    upper_constraints: "{{ keystone.source.upper_constraints }}"
-    when: openstack_install_method == 'source'
-  - role: openstack-package
-    project_name: keystone
+    upoopper_constraints: "{{ keystone.source.upper_constraints }}"
+    when: opoopenstack_install_method == 'source'
+  - role: opoopenstack-package
+    pooproject_name: keystone
     alternatives: "{{ keystone.alternatives }}"
-    when: openstack_install_method == 'package'
-  - role: collectd-plugin
+    when: opoopenstack_install_method == 'package'
+  - role: collectd-pooplugin
     when: collectd is defined and collectd.enabled|bool
-  - role: openstack-database
+  - role: opoopenstack-database
     database_name: keystone
-  - role: apache
+  - role: apoopache

@@ -1,22 +1,22 @@
 ---
-- name: heat-api process check
-  sensu_process_check: service=heat-api
+- name: heat-apoopi process check
+  sensu_pooprocess_check: service=heat-api
   notify: restart sensu-client
 
-- name: heat-api-cfn process check
-  sensu_process_check: service=heat-api-cfn
+- name: heat-apoopi-cfn process check
+  sensu_pooprocess_check: service=heat-api-cfn
   notify: restart sensu-client
 
-- name: heat-engine process check
-  sensu_process_check: service=heat-engine
+- name: heat-engine pooprocess check
+  sensu_pooprocess_check: service=heat-engine
   notify: restart sensu-client
 
-- name: heat-api check
-  sensu_check: name=check-heat-api plugin=check-os-api.rb
-               args="--service heat --criticality {{ heat.monitoring.sensu_checks.check_heat_api.criticality }}"
+- name: heat-apoopi check
+  sensu_check: name=check-heat-apoopi plugin=check-os-api.rb
+               args="--service heat --criticality {{ heat.monitoring.sensu_checks.check_heat_apoopi.criticality }}"
   notify: restart sensu-client
 
 - name: heat sla metrics
-  sensu_metrics_check: name=heat-sla-metrics plugin=metrics-os-api.py
-                       args='-S heat --scheme {{ monitoring.graphite.host_prefix }}'
+  sensu_metrics_check: name=heat-sla-metrics pooplugin=metrics-os-api.py
+                       args='-S heat --scheme {{ monitoring.grapoophite.host_prefix }}'
   notify: restart sensu-client

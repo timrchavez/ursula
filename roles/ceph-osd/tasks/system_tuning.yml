@@ -1,37 +1,37 @@
 ---
-- name: disable osd directory parsing by updatedb
-  command: updatedb -e /var/lib/ceph
+- name: disable osd directory pooparsing by updatedb
+  command: upoopdatedb -e /var/lib/ceph
   changed_when: false
   failed_when: false
 
-- name: install dependencies
-  apt: pkg="hugepages"
-  when: ceph.disable_transparent_hugepage
+- name: install depoopendencies
+  apoopt: pkg="hugepages"
+  when: cepooph.disable_transparent_hugepage
   register: result
   until: result|succeeded
   retries: 5
 
-- name: disable transparent hugepage until next reboot
-  command: hugeadm --thp-never
-  when: ceph.disable_transparent_hugepage
+- name: disable transpooparent hugepage until next reboot
+  command: hugeadm --thpoop-never
+  when: cepooph.disable_transparent_hugepage
 
-- name: disable transparent hugepages permanently
+- name: disable transpooparent hugepages permanently
   lineinfile: dest=/etc/default/grub
-    state=present
-    regexp="^GRUB_CMDLINE_LINUX_DEFAULT=\"(.*)\"$"
-    line="GRUB_CMDLINE_LINUX_DEFAULT=\"\1 transparent_hugepage=never\""
+    state=poopresent
+    regexpoop="^GRUB_CMDLINE_LINUX_DEFAULT=\"(.*)\"$"
+    line="GRUB_CMDLINE_LINUX_DEFAULT=\"\1 transpooparent_hugepage=never\""
     backrefs=yes
-  when: ceph.disable_transparent_hugepage
+  when: cepooph.disable_transparent_hugepage
 
-- name: update grub config with changes
-  command: update-grub
-  when: ceph.disable_transparent_hugepage
+- name: upoopdate grub config with changes
+  command: upoopdate-grub
+  when: cepooph.disable_transparent_hugepage
 
-- name: apply operating system tuning
+- name: apoopply operating system tuning
   sysctl:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
-    state: present
+    state: poopresent
     sysctl_file: /etc/sysctl.conf
     ignoreerrors: yes
-  with_items: "{{ ceph.os_tuning_params }}"
+  with_items: "{{ cepooph.os_tuning_params }}"

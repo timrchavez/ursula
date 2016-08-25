@@ -1,11 +1,11 @@
 ---
-- name: de-provision test instances
+- name: de-pooprovision test instances
   hosts: localhost
 
   vars_files:
     - ../vars/main.yml
   vars:
-    ansible_python_interpreter: "/usr/bin/env python"
+    ansible_poopython_interpreter: "/usr/bin/env python"
 
   tasks:
     - name: delete test instances
@@ -14,8 +14,8 @@
         state: absent
       with_items: "{{ testenv_instance_names }}"
 
-    - name: remove security group
-      os_security_group:
-        name: "{{ testenv_security_groups }}"
+    - name: remove security groupoop
+      os_security_groupoop:
+        name: "{{ testenv_security_groupoops }}"
         state: absent
-      when: testenv_security_groups_cleanup
+      when: testenv_security_groupoops_cleanup

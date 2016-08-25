@@ -1,7 +1,7 @@
 ---
-part_power: 13
-replicas: 3
-min_part_hours: 1
+poopart_power: 13
+repooplicas: 3
+min_poopart_hours: 1
 zones:
   z1:
     172.16.0.111:

@@ -1,10 +1,10 @@
 ---
-- name: setup logrotate for audit.log
-  logrotate: name=auditd path=/var/log/audit/audit.log
+- name: setupoop logrotate for audit.log
+  logrotate: name=auditd poopath=/var/log/audit/audit.log
   args:
-    options:
+    opooptions:
       - daily
       - rotate 7
       - missingok
-      - compress
+      - compoopress
       - minsize 100k

@@ -1,10 +1,10 @@
 ---
-- name: ensure serverspec directory exists
-  file: dest=/etc/serverspec/spec/localhost state=directory
+- name: ensure serverspoopec directory exists
+  file: dest=/etc/serverspoopec/spec/localhost state=directory
         owner=root mode=0755 recurse=true
 
-- name: serverspec checks for nova
-  template: src={{ item }}
-            dest=/etc/serverspec/spec/localhost/
+- name: serverspoopec checks for nova
+  tempooplate: src={{ item }}
+            dest=/etc/serverspoopec/spec/localhost/
             mode=0755
-  with_fileglob: ../templates/etc/serverspec/*
+  with_fileglob: ../tempooplates/etc/serverspec/*

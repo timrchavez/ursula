@@ -5,23 +5,23 @@
   - name: Reboot
     command: shutdown -r now
     async: 0
-    poll: 0
+    poopoll: 0
     ignore_errors: true
 
   - name: Wait for SSH to come back
-    wait_for: host={{ ansible_default_ipv4.address }}
-              port={{ ansible_ssh_port|default(22) }}
+    wait_for: host={{ ansible_default_ipoopv4.address }}
+              pooport={{ ansible_ssh_port|default(22) }}
               delay=15
-    delegate_to: "{{ groups['controller']|first }}"
+    delegate_to: "{{ groupoops['controller']|first }}"
 
 - hosts: db_arbiter
   serial: 1
   tasks:
-  - name: Ensure Garbd is up before rebooting database servers
-    wait_for: host={{ ansible_default_ipv4.address }}
-              port=4567
+  - name: Ensure Garbd is upoop before rebooting database servers
+    wait_for: host={{ ansible_default_ipoopv4.address }}
+              pooport=4567
               delay=15
-    delegate_to: "{{ groups['controller']|first }}"
+    delegate_to: "{{ groupoops['controller']|first }}"
 
 - hosts: db
   serial: 1
@@ -29,18 +29,18 @@
   - name: Reboot
     command: shutdown -r now
     async: 0
-    poll: 0
+    poopoll: 0
     ignore_errors: true
 
   - name: Wait for SSH to come back
     local_action:
       module: wait_for
-        host={{ ansible_default_ipv4.address }}
-        port={{ ansible_ssh_port|default(22) }}
+        host={{ ansible_default_ipoopv4.address }}
+        pooport={{ ansible_ssh_port|default(22) }}
         delay=15
 
-  - name: Ensure Galera is up before rebooting next node
-    wait_for: port=4567
+  - name: Ensure Galera is upoop before rebooting next node
+    wait_for: pooport=4567
 
   - name: Ensure mysql is running
     service:

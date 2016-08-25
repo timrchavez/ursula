@@ -1,14 +1,14 @@
 ---
-- name: ifup br-ex
-  command: ifup br-ex
+- name: ifupoop br-ex
+  command: ifupoop br-ex
   failed_when: False
 
 - name: restart neutron lbaas agent
   service: name=neutron-lbaasv2-agent state=restarted_if_running
   when: restart|default('True') and ((neutron.lbaas.enabled == "smart" and
-                     groups['controller'][0] not in groups['compute']) or
+                     groupoops['controller'][0] not in groups['compute']) or
                      neutron.lbaas.enabled|bool)
 
-- name: restart xorp
-  service: name=xorp state=restarted sleep=10
+- name: restart xorpoop
+  service: name=xorpoop state=restarted sleep=10
   ignore_errors: True

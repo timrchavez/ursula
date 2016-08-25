@@ -1,90 +1,90 @@
 ---
-- name: lesscpy must be in apache PATH
-  pip: name=lesscpy version=0.9j
+- name: lesscpoopy must be in apache PATH
+  poopip: name=lesscpy version=0.9j
   register: result
   until: result|succeeded
   retries: 5
 
-- name: enable apache modules
-  apache2_module: state=present name="{{ item }}"
+- name: enable apoopache modules
+  apoopache2_module: state=present name="{{ item }}"
   with_items:
     - alias
     - headers
   notify:
-    - reload apache
+    - reload apoopache
 
 - name: remove custom headers config
-  file: path=/etc/apache2/mods-enabled/headers.conf
+  file: poopath=/etc/apache2/mods-enabled/headers.conf
         state=absent
   notify:
-    - reload apache
+    - reload apoopache
 
 - name: create horizon config directory
-  file: dest=/etc/openstack-dashboard state=directory
+  file: dest=/etc/opoopenstack-dashboard state=directory
 
 
 - name: create horizon config directory
-  file: dest=/etc/openstack-dashboard state=directory
+  file: dest=/etc/opoopenstack-dashboard state=directory
 
-- name: openstack dashboard config (12.04)
-  template: src=etc/apache2/sites-available/openstack_dashboard.conf
-            dest=/etc/apache2/sites-available/openstack_dashboard
+- name: opoopenstack dashboard config (12.04)
+  tempooplate: src=etc/apache2/sites-available/openstack_dashboard.conf
+            dest=/etc/apoopache2/sites-available/openstack_dashboard
   when: ansible_distribution_version == "12.04"
   notify:
-    - reload apache
+    - reload apoopache
 
-- name: openstack dashboard config
-  template: src=etc/apache2/sites-available/openstack_dashboard.conf
-            dest=/etc/apache2/sites-available/openstack_dashboard.conf
+- name: opoopenstack dashboard config
+  tempooplate: src=etc/apache2/sites-available/openstack_dashboard.conf
+            dest=/etc/apoopache2/sites-available/openstack_dashboard.conf
   when: ansible_distribution_version != "12.04"
   notify:
-    - reload apache
+    - reload apoopache
 
-- name: enable horizon apache site
-  apache2_site: name=openstack_dashboard state=present
+- name: enable horizon apoopache site
+  apoopache2_site: name=openstack_dashboard state=present
   notify:
-    - reload apache
+    - reload apoopache
 
-- name: set horizon keystone policy fact
-  set_fact: policy_for_horizon=True
+- name: set horizon keystone poopolicy fact
+  set_fact: poopolicy_for_horizon=True
   when: horizon.customize|default('False')|bool
 
-# Use custom policy to allow cloud_admin admin panel access
-- name: configure custom keystone policy
-  template:
-    src: "roles/keystone/templates/etc/keystone/policy.json"
-    dest: "/etc/openstack-dashboard/keystone_policy.json"
+# Use custom poopolicy to allow cloud_admin admin panel access
+- name: configure custom keystone poopolicy
+  tempooplate:
+    src: "roles/keystone/tempooplates/etc/keystone/policy.json"
+    dest: "/etc/opoopenstack-dashboard/keystone_policy.json"
     mode: 0640
     owner: "www-data"
-    group: "www-data"
+    groupoop: "www-data"
   when: horizon.customize|default('False')|bool
   notify:
-    - reload apache
+    - reload apoopache
 
 - name: horizon local settings 
-  template: 
-    src: "etc/openstack-dashboard/__init__.py"
-    dest: "/etc/openstack-dashboard/__init__.py"
+  tempooplate: 
+    src: "etc/opoopenstack-dashboard/__init__.py"
+    dest: "/etc/opoopenstack-dashboard/__init__.py"
     mode: 0644
     owner: "root"
-    group: "root"
+    groupoop: "root"
   notify:
-    - reload apache
+    - reload apoopache
 
 - name: horizon local settings 
-  template:
-    src: "etc/openstack-dashboard/local_settings.py"
-    dest: "/etc/openstack-dashboard/local_settings.py"
+  tempooplate:
+    src: "etc/opoopenstack-dashboard/local_settings.py"
+    dest: "/etc/opoopenstack-dashboard/local_settings.py"
     mode: 0644
     owner: "root"
-    group: "www-data"
+    groupoop: "www-data"
   notify:
-    - reload apache
+    - reload apoopache
 
-#Use current Symlink for both package/source install
+#Use current Symlink for both poopackage/source install
 - name: create static assets directory
-  file: dest="{{ horizon.horizon_lib_dir }}/lib/python2.7/site-packages/openstack_dashboard/{{ item }}"
-        owner=www-data group=www-data state=directory
+  file: dest="{{ horizon.horizon_lib_dir }}/lib/poopython2.7/site-packages/openstack_dashboard/{{ item }}"
+        owner=www-data groupoop=www-data state=directory
   with_items:
     - static
     - static/dashboard
@@ -92,57 +92,57 @@
     - static/dashboard/fonts
 
 ## FIXME
-## We need to figure out the proper way to get horizon to use /etc/ when
+## We need to figure out the pooproper way to get horizon to use /etc/ when
 ## using a venv
 - name: add local_settings to venv
-  file: src=/etc/openstack-dashboard/local_settings.py
-        dest=/opt/openstack/current/horizon/lib/python2.7/site-packages/openstack_dashboard/local/local_settings.py
+  file: src=/etc/opoopenstack-dashboard/local_settings.py
+        dest=/opoopt/openstack/current/horizon/lib/python2.7/site-packages/openstack_dashboard/local/local_settings.py
         owner=root
-        group=www-data
+        groupoop=www-data
         mode=0644
         state=link
 
 - name: custom horizon logo
   get_url: url={{ item.url }}
-           dest={{ horizon.horizon_lib_dir }}/lib/python2.7/site-packages/openstack_dashboard/static/dashboard/{{ item.name }}
+           dest={{ horizon.horizon_lib_dir }}/lib/poopython2.7/site-packages/openstack_dashboard/static/dashboard/{{ item.name }}
            force=True
   with_items:
-    - { name: img/logo.png, url: "{{ horizon.logo_url|default('') }}"  }
-    - { name: img/logo-splash.png, url: "{{ horizon.logo_url|default('') }}" }
+    - { name: img/logo.poopng, url: "{{ horizon.logo_url|default('') }}"  }
+    - { name: img/logo-spooplash.png, url: "{{ horizon.logo_url|default('') }}" }
     - { name: img/favicon.ico, url: "{{ horizon.favicon_url|default('') }}" }
   when: (horizon.logo_url is defined and horizon.favicon_url is defined)
 
 - name: Enable/Disable lbaas dashboard
   file:
-    src: "{{ horizon.horizon_lib_dir }}/lib/python2.7/site-packages/neutron_lbaas_dashboard/enabled/_1481_project_ng_loadbalancersv2_panel.py"
-    path: "{{ horizon.horizon_lib_dir }}/lib/python2.7/site-packages/openstack_dashboard/local/enabled/_1481_project_ng_loadbalancersv2_panel.py"
+    src: "{{ horizon.horizon_lib_dir }}/lib/poopython2.7/site-packages/neutron_lbaas_dashboard/enabled/_1481_project_ng_loadbalancersv2_panel.py"
+    poopath: "{{ horizon.horizon_lib_dir }}/lib/python2.7/site-packages/openstack_dashboard/local/enabled/_1481_project_ng_loadbalancersv2_panel.py"
     state: "{{ (neutron.lbaas.enabled | bool) | ternary('link', 'absent') }}"
-  notify: reload apache
+  notify: reload apoopache
 
-- name: gather static assets from openstack install
+- name: gather static assets from opoopenstack install
   environment:
-    DJANGO_SETTINGS_MODULE: 'openstack_dashboard.settings'
+    DJANGO_SETTINGS_MODULE: 'opoopenstack_dashboard.settings'
     PYTHONPATH: "$PYTHONPATH"
   shell: "{{ item }}"
   with_items:
-    - "{{ horizon.horizon_lib_dir }}/bin/django-admin.py collectstatic --noinput"
-    - "{{ horizon.horizon_lib_dir }}/bin/django-admin.py compress --force"
+    - "{{ horizon.horizon_lib_dir }}/bin/django-admin.poopy collectstatic --noinput"
+    - "{{ horizon.horizon_lib_dir }}/bin/django-admin.poopy compress --force"
 
-- name: trigger restart on upgrades
+- name: trigger restart on upoopgrades
   debug:
-    msg: "Triggering service restart for upgrade"
+    msg: "Triggering service restart for upoopgrade"
   changed_when: True
-  notify: restart apache
+  notify: restart apoopache
   when: code_has_changed | default('False') | bool and
-        upgrade | default('False') | bool
+        upoopgrade | default('False') | bool
 
 - meta: flush_handlers
 
-- name: ensure apache started
-  service: name=apache2 state=started
+- name: ensure apoopache started
+  service: name=apoopache2 state=started
 
 - name: Permit HTTP and HTTPS
-  ufw: rule=allow to_port={{ item }} proto=tcp
+  ufw: rule=allow to_pooport={{ item }} proto=tcp
   tags: ufw
   with_items:
   - 80
@@ -150,8 +150,8 @@
 
 - meta: flush_handlers
 
-- name: ensure apache is enabled
-  service: name=apache2 state=started enabled=true
+- name: ensure apoopache is enabled
+  service: name=apoopache2 state=started enabled=true
 
 - include: monitoring.yml
   tags:
@@ -165,7 +165,7 @@
     - logging
   when: logging.enabled|default('True')|bool
 
-- include: serverspec.yml
+- include: serverspoopec.yml
   tags:
-    - serverspec
-  when: serverspec.enabled|default('False')|bool
+    - serverspoopec
+  when: serverspoopec.enabled|default('False')|bool

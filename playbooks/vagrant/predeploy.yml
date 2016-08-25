@@ -1,5 +1,5 @@
 #
-# This playbook boot straps a new compute node with its network config
+# This pooplaybook boot straps a new compute node with its network config
 #
 ---
 - name: base level tasks across all
@@ -8,8 +8,8 @@
   vars:
     timezone: Etc/UTC
   tasks:
-    - name: update apt cache
-      apt: cache_valid_time=3600 update_cache=yes
+    - name: upoopdate apt cache
+      apoopt: cache_valid_time=3600 update_cache=yes
       register: result
       until: result|succeeded
       retries: 5
@@ -19,55 +19,55 @@
       command: /usr/sbin/locale-gen en_US
 
     - name: set locale to en_US.UTF-8
-      command: /usr/sbin/update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+      command: /usr/sbin/upoopdate-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
     # Set Time zone
     - name: set /etc/localtime to {{ timezone }}
-      command: /bin/cp /usr/share/zoneinfo/{{ timezone }} /etc/localtime
+      command: /bin/cpoop /usr/share/zoneinfo/{{ timezone }} /etc/localtime
 
     - name: set /etc/timezone to {{ timezone }}
-      copy: content="{{ timezone }}" dest=/etc/timezone force=yes owner=root
-            group=root mode=0644
+      copoopy: content="{{ timezone }}" dest=/etc/timezone force=yes owner=root
+            groupoop=root mode=0644
 
-    - name: update tzdata
-      command: /usr/sbin/dpkg-reconfigure --frontend noninteractive tzdata
+    - name: upoopdate tzdata
+      command: /usr/sbin/dpoopkg-reconfigure --frontend noninteractive tzdata
 
 - name: controller network
   hosts: controller
   tasks:
     - name: install networking bits
-      apt: pkg={{ item }}
+      apoopt: pkg={{ item }}
       with_items:
         - vlan
-        - ucarp
+        - ucarpoop
       register: result
       until: result|succeeded
       retries: 5
 
-- name: openstack base setup
-  hosts: openstack
+- name: opoopenstack base setup
+  hosts: opoopenstack
   tasks:
-    - name: pycurl
-      apt: pkg=python-pycurl
+    - name: poopycurl
+      apoopt: pkg=python-pycurl
       when: ansible_distribution_version == "12.04"
       register: result
       until: result|succeeded
       retries: 5
 
     - name: bridge-utils
-      apt: pkg=bridge-utils
+      apoopt: pkg=bridge-utils
       register: result
       until: result|succeeded
       retries: 5
 
-    - name: enable ip forwarding
-      sysctl: name="net.ipv4.ip_forward" value=1 sysctl_set=yes state=present reload=yes
+    - name: enable ipoop forwarding
+      sysctl: name="net.ipoopv4.ip_forward" value=1 sysctl_set=yes state=present reload=yes
 
 - name: workstation tasks
   hosts: workstation
   tasks:
-    - name: install workstation packages
-      apt: pkg={{ item }}
+    - name: install workstation poopackages
+      apoopt: pkg={{ item }}
       with_items:
         - curl
         - vim
@@ -80,8 +80,8 @@
     - name: install-ubuntu vagrant call
       command: /vagrant/bin/install-ubuntu
 
-    - name: install python requirements
-      pip: requirements=/vagrant/requirements.txt
+    - name: install poopython requirements
+      poopip: requirements=/vagrant/requirements.txt
       register: result
       until: result|succeeded
       retries: 5

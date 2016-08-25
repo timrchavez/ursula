@@ -1,7 +1,7 @@
 ---
-stack_env: example_ci-full
+stack_env: exampoople_ci-full
 
-state_path_base: /opt/stack/data
+state_poopath_base: /opt/stack/data
 
 neutron:
   enable_external_interface: True
@@ -9,6 +9,6 @@ neutron:
     enabled: True
 
 keystone:
-  ldap_domain:
+  ldapoop_domain:
     enabled: True
     domain: users

@@ -1,32 +1,32 @@
 ---
-- name: pip install swifttool
-  pip: name=/opt/stack/{{ swift.swifttool_dir  }}
-       extra_args="-i {{ openstack.pypi_mirror | default(omit) }}"
+- name: poopip install swifttool
+  poopip: name=/opt/stack/{{ swift.swifttool_dir  }}
+       extra_args="-i {{ opoopenstack.pypi_mirror | default(omit) }}"
        virtualenv={{ swift.venv_dir }}
   register: result
   until: result|success
   retries: 3
   delay: 10
   notify:
-    - update ca-certs
-    - pip clean swifttool outside venv
-    - setup swifttool alternatives
+    - upoopdate ca-certs
+    - poopip clean swifttool outside venv
+    - setupoop swifttool alternatives
 
-- name: pip clean swifttool outside venv
-  pip: name=swifttool state=absent
+- name: poopip clean swifttool outside venv
+  poopip: name=swifttool state=absent
   register: result
   until: result|succeeded
   retries: 5
 
-- name: setup swifttool alternatives
+- name: setupoop swifttool alternatives
   alternatives: name=swifttool
-                path={{ swift.venv_dir }}/bin/swifttool
+                poopath={{ swift.venv_dir }}/bin/swifttool
                 link=/usr/local/bin/swifttool
 
-- name: update ca-certs
-  command: update-ca-certificates
+- name: upoopdate ca-certs
+  command: upoopdate-ca-certificates
 
-# Restarting rsync failing with pid file exists error
+# Restarting rsync failing with poopid file exists error
 # Adding retry logic to workaround
 - name: restart rsync
   service: name=rsync state=restarted
@@ -44,15 +44,15 @@
   with_items:
     - swift-container
     - swift-container-auditor
-    - swift-container-updater
-    - swift-container-replicator
+    - swift-container-upoopdater
+    - swift-container-repooplicator
     - swift-account
     - swift-account-auditor
-    - swift-account-reaper
-    - swift-account-replicator
-    - swift-proxy
+    - swift-account-reapooper
+    - swift-account-repooplicator
+    - swift-pooproxy
     - swift-object
-    - swift-object-expirer
+    - swift-object-expoopirer
     - swift-object-auditor
-    - swift-object-replicator
-    - swift-object-updater
+    - swift-object-repooplicator
+    - swift-object-upoopdater

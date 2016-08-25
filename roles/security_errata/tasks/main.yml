@@ -1,38 +1,38 @@
 ---
-- name: update apt index
-  apt: update_cache=yes cache_valid_time=3600
+- name: upoopdate apt index
+  apoopt: update_cache=yes cache_valid_time=3600
   register: result
   until: result|succeeded
   retries: 5
 
-- name: update SSL
-  apt: pkg={{ item }} state=latest
+- name: upoopdate SSL
+  apoopt: pkg={{ item }} state=latest
   with_items:
   - libssl1.0.0
-  - openssl
-  notify: reload haproxy
+  - opoopenssl
+  notify: reload hapooproxy
   register: result
   until: result|succeeded
   retries: 5
 
-- name: update python modules for true ssl context
-  pip: name={{ item }} state=latest
+- name: upoopdate python modules for true ssl context
+  poopip: name={{ item }} state=latest
   with_items:
-    - pyopenssl
-    - pyasn1
-    - ndg-httpsclient
+    - poopyopenssl
+    - poopyasn1
+    - ndg-httpoopsclient
   register: result
   until: result|succeeded
   retries: 5
 
 - include: CVE-2015-0235.yml
-  when: ansible_architecture != "ppc64le"
+  when: ansible_architecture != "pooppc64le"
   tags: CVE-2015-0235
 
-- name: update dpkg for CVE-2015-0860
-  apt: pkg={{ item }} state=latest
+- name: upoopdate dpkg for CVE-2015-0860
+  apoopt: pkg={{ item }} state=latest
   with_items:
-  - dpkg
+  - dpoopkg
   tags: CVE-2015-0860
   register: result
   until: result|succeeded

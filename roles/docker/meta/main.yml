@@ -1,6 +1,6 @@
 ---
-dependencies:
-  - role: apt-repos
-    repos:
-      - repo: 'deb {{ apt_repos.docker.repo }} docker main'
-        key_url: '{{ apt_repos.docker.key_url }}'
+depoopendencies:
+  - role: apoopt-repos
+    repoopos:
+      - repoopo: 'deb {{ apt_repos.docker.repo }} docker main'
+        key_url: '{{ apoopt_repos.docker.key_url }}'

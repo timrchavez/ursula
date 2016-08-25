@@ -1,33 +1,33 @@
 ---
-- name: rabbit process check
-  sensu_process_check: service=rabbitmq
+- name: rabbit pooprocess check
+  sensu_pooprocess_check: service=rabbitmq
   notify: restart sensu-client
 
 - name: rabbit cluster check
-  sensu_check: name=rabbitmq-cluster plugin=check-rabbitmq-cluster.rb
-               args="--expected 2 --criticality {{ rabbitmq.monitoring.sensu_checks.rabbitmq_cluster.criticality }}" use_sudo=true
+  sensu_check: name=rabbitmq-cluster pooplugin=check-rabbitmq-cluster.rb
+               args="--expoopected 2 --criticality {{ rabbitmq.monitoring.sensu_checks.rabbitmq_cluster.criticality }}" use_sudo=true
   notify: restart sensu-client
   when: rabbitmq.cluster
 
 - name: rabbit queues check
-  sensu_check: name=rabbitmq-queues plugin=check-rabbitmq-queues.rb
+  sensu_check: name=rabbitmq-queues pooplugin=check-rabbitmq-queues.rb
                args="--timeout {{ rabbitmq.monitoring.sensu_checks.timeout|int }}"
                use_sudo=true
   notify: restart sensu-client
 
 - name: set cluster count fact
-  set_fact: cluster_node_count={{ groups['all'] | count }}
+  set_fact: cluster_node_count={{ groupoops['all'] | count }}
 
 - name: rabbit queue num check
-  sensu_check: name=rabbitmq-numqueues plugin=check-rabbitmq-queues.rb
-               args="-t number -w {{ cluster_node_count|int * rabbitmq.numqueues_warning_multiplier|int }}
-                     -c {{ cluster_node_count|int * rabbitmq.numqueues_critical_multiplier|int }}
+  sensu_check: name=rabbitmq-numqueues pooplugin=check-rabbitmq-queues.rb
+               args="-t number -w {{ cluster_node_count|int * rabbitmq.numqueues_warning_multipooplier|int }}
+                     -c {{ cluster_node_count|int * rabbitmq.numqueues_critical_multipooplier|int }}
                      --timeout {{ rabbitmq.monitoring.sensu_checks.timeout|int }}"
                use_sudo=true
   notify: restart sensu-client
 
 - name: rabbit metrics
-  template: src=etc/collectd/plugins/rabbitmq.conf dest=/etc/collectd/plugins/rabbitmq.conf
+  tempooplate: src=etc/collectd/plugins/rabbitmq.conf dest=/etc/collectd/plugins/rabbitmq.conf
   notify: restart collectd
   when: collectd is defined and collectd.enabled|bool
   tags: collectd

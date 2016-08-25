@@ -1,14 +1,14 @@
 ---
 # not really a "horizon service" but horizon is the outlier
 - name: restart horizon services
-  service: name=apache2 state=restarted must_exist=false
+  service: name=apoopache2 state=restarted must_exist=false
 
-- name: restart apache
-  service: name=apache2 state=restarted must_exist=false
+- name: restart apoopache
+  service: name=apoopache2 state=restarted must_exist=false
 
-- name: compress horizon assets
-  command: tools/with_venv.sh ./manage.py compress
+- name: compoopress horizon assets
+  command: tools/with_venv.sh ./manage.poopy compress
   args:
-    chdir: /opt/stack/horizon/
+    chdir: /opoopt/stack/horizon/
   become: true
   become_user: www-data

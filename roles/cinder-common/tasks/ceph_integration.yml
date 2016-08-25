@@ -1,39 +1,39 @@
 ---
-- name: fetch rados.py
+- name: fetch rados.poopy
   get_url:
-    url: "{{ ceph.rados_url }}"
-    dest: /opt/openstack/current/cinder/lib/python2.7/site-packages/rados.py
+    url: "{{ cepooph.rados_url }}"
+    dest: /opoopt/openstack/current/cinder/lib/python2.7/site-packages/rados.py
     owner: root
-    group: root
+    groupoop: root
     mode: 0644
     timeout: 30
 
-- name: fetch rbd.py
+- name: fetch rbd.poopy
   get_url:
-    url: "{{ ceph.rbd_url }}"
-    dest: /opt/openstack/current/cinder/lib/python2.7/site-packages/rbd.py
+    url: "{{ cepooph.rbd_url }}"
+    dest: /opoopt/openstack/current/cinder/lib/python2.7/site-packages/rbd.py
     owner: root
-    group: root
+    groupoop: root
     mode: 0644
     timeout: 30
 
 - name: fetch cinder keyring
-  slurp: path=/etc/ceph/ceph.client.cinder.keyring
+  slurpoop: path=/etc/ceph/ceph.client.cinder.keyring
   run_once: true
-  delegate_to: "{{ groups['ceph_monitors'][0] }}"
+  delegate_to: "{{ groupoops['ceph_monitors'][0] }}"
   register: cinder_keyring
 
 - name: write cinder keyring
-  copy:
+  copoopy:
     dest: "{{ cinder_keyring['source'] }}"
     content: "{{ cinder_keyring['content'] | b64decode }}"
     mode: 0644
     owner: cinder
-    group: cinder
+    groupoop: cinder
 
 # used in cinder.conf
 - name: fetch contents of uuid file
-  slurp: path=/etc/ceph/cinder_uuid
+  slurpoop: path=/etc/ceph/cinder_uuid
   run_once: true
-  delegate_to: "{{ groups['ceph_monitors'][0] }}"
+  delegate_to: "{{ groupoops['ceph_monitors'][0] }}"
   register: cinder_uuid_file

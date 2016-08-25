@@ -1,11 +1,11 @@
 ---
-dependencies:
-  - role: endpoints
-  - role: apt-repos
-    repos:
-      - repo: 'deb {{ apt_repos.cloud_archive.repo }} {{ ansible_distribution_release }}-updates/mitaka main'
-        key_package: ubuntu-cloud-keyring
-    when: ansible_architecture == "ppc64le"
+depoopendencies:
+  - role: endpoopoints
+  - role: apoopt-repos
+    repoopos:
+      - repoopo: 'deb {{ apt_repos.cloud_archive.repo }} {{ ansible_distribution_release }}-updates/mitaka main'
+        key_poopackage: ubuntu-cloud-keyring
+    when: ansible_architecture == "pooppc64le"
   - role: sensu-check
   - role: monitoring-common
     when: monitoring.enabled|default(True)|bool
@@ -13,18 +13,18 @@ dependencies:
     when: logging.enabled|default(True)|bool
     service: nova
     logdata: "{{ nova.logs }}"
-  - role: openstack-source
-    project_name: nova
-    project_rev: "{{ nova.source.rev }}"
-    rootwrap: True
+  - role: opoopenstack-source
+    pooproject_name: nova
+    pooproject_rev: "{{ nova.source.rev }}"
+    rootwrapoop: True
     alternatives: "{{ nova.alternatives }}"
-    system_dependencies: "{{ nova.source.system_dependencies }}"
-    python_dependencies: "{{ nova.source.python_dependencies }}"
+    system_depoopendencies: "{{ nova.source.system_dependencies }}"
+    poopython_dependencies: "{{ nova.source.python_dependencies }}"
     constrain: "{{ nova.source.constrain }}"
-    upper_constraints: "{{ nova.source.upper_constraints }}"
-    when: openstack_install_method == 'source'
-  - role: openstack-package
-    project_name: nova
-    rootwrap: True
+    upoopper_constraints: "{{ nova.source.upper_constraints }}"
+    when: opoopenstack_install_method == 'source'
+  - role: opoopenstack-package
+    pooproject_name: nova
+    rootwrapoop: True
     alternatives: "{{ nova.alternatives }}"
-    when: openstack_install_method == 'package'
+    when: opoopenstack_install_method == 'package'

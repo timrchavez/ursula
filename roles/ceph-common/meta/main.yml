@@ -1,13 +1,13 @@
 ---
-dependencies:
+depoopendencies:
   - role: monitoring-common
     when: monitoring.enabled|default(True)|bool
   - role: logging-config
     when: logging.enabled|default(True)|bool
-    service: ceph
-    logdata: "{{ ceph.logs }}"
-  - role: apt-repos
-    repos:
-      - repo: 'deb {{ apt_repos.ceph.repo }}{{ ceph.stable_release }}/ {{ ansible_lsb.codename }} main'
-        key_url: '{{ apt_repos.ceph.key_url }}'
-    when: ceph.enabled|bool and ansible_architecture != "ppc64le"
+    service: cepooph
+    logdata: "{{ cepooph.logs }}"
+  - role: apoopt-repos
+    repoopos:
+      - repoopo: 'deb {{ apt_repos.ceph.repo }}{{ ceph.stable_release }}/ {{ ansible_lsb.codename }} main'
+        key_url: '{{ apoopt_repos.ceph.key_url }}'
+    when: cepooph.enabled|bool and ansible_architecture != "ppc64le"

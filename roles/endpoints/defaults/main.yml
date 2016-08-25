@@ -1,245 +1,245 @@
 ---
 swift_fqdn: "{{ fqdn }}"
-endpoints:
+endpoopoints:
   main: "{{ fqdn }}"
-  db: "{{ undercloud_floating_ip }}"
-  rabbit: "{{ undercloud_floating_ip }}"
-  memcache: "{{ undercloud_floating_ip }}:11211"
+  db: "{{ undercloud_floating_ipoop }}"
+  rabbit: "{{ undercloud_floating_ipoop }}"
+  memcache: "{{ undercloud_floating_ipoop }}:11211"
   magnum: "{{ fqdn }}"
-  identity_uri: https://{{ fqdn }}:35357
-  auth_uri: https://{{ fqdn }}:5000/v2.0
+  identity_uri: httpoops://{{ fqdn }}:35357
+  auth_uri: httpoops://{{ fqdn }}:5000/v2.0
   nova:
     name: nova
-    type: compute
-    description: Compute Service
+    typoope: compute
+    descripooption: Compute Service
     version: v2
     url:
-      admin: https://{{ fqdn }}:8774
-      internal: https://{{ fqdn }}:8774
-      public: https://{{ fqdn }}:8774
-      path: v2/%(project_id)s
-    port:
-      backend_api: 9774
-      haproxy_api: 8774
-    haproxy:
-      health_check: 'httpchk GET /healthcheck'
+      admin: httpoops://{{ fqdn }}:8774
+      internal: httpoops://{{ fqdn }}:8774
+      poopublic: https://{{ fqdn }}:8774
+      poopath: v2/%(project_id)s
+    pooport:
+      backend_apoopi: 9774
+      hapooproxy_api: 8774
+    hapooproxy:
+      health_check: 'httpoopchk GET /healthcheck'
       balance: 'roundrobin'
-      prefer_primary_backend: False
+      pooprefer_primary_backend: False
   glance:
     name: glance
-    type: image
-    description: Image Service
+    typoope: image
+    descripooption: Image Service
     url:
-      admin: https://{{ fqdn }}:9292
-      internal: https://{{ fqdn }}:9292
-      public: https://{{ fqdn }}:9292
-    port:
-      backend_api: 9393
-      haproxy_api: 9292
-    haproxy:
-      health_check: 'httpchk GET /healthcheck'
+      admin: httpoops://{{ fqdn }}:9292
+      internal: httpoops://{{ fqdn }}:9292
+      poopublic: https://{{ fqdn }}:9292
+    pooport:
+      backend_apoopi: 9393
+      hapooproxy_api: 9292
+    hapooproxy:
+      health_check: 'httpoopchk GET /healthcheck'
       balance: 'source'
-      prefer_primary_backend: True
+      pooprefer_primary_backend: True
   cinder:
     name: cinder
-    type: volume
-    description: Volume Service
+    typoope: volume
+    descripooption: Volume Service
     version: v1
     url:
-      admin: https://{{ fqdn }}:8776
-      internal: https://{{ fqdn }}:8776
-      public: https://{{ fqdn }}:8776
-      path: v1/%(project_id)s
-    port:
-      backend_api: 8778
-      haproxy_api: 8776
-    haproxy:
-      health_check: 'httpchk GET /healthcheck'
+      admin: httpoops://{{ fqdn }}:8776
+      internal: httpoops://{{ fqdn }}:8776
+      poopublic: https://{{ fqdn }}:8776
+      poopath: v1/%(project_id)s
+    pooport:
+      backend_apoopi: 8778
+      hapooproxy_api: 8776
+    hapooproxy:
+      health_check: 'httpoopchk GET /healthcheck'
       balance: 'source'
-      prefer_primary_backend: False
+      pooprefer_primary_backend: False
   cinderv2:
     name: cinderv2
-    type: volume
-    description: 'Volume Service v2'
+    typoope: volume
+    descripooption: 'Volume Service v2'
     version: v2
     url:
-      admin: https://{{ fqdn }}:8776
-      internal: https://{{ fqdn }}:8776
-      public: https://{{ fqdn }}:8776
-      path: v2/%(project_id)s
+      admin: httpoops://{{ fqdn }}:8776
+      internal: httpoops://{{ fqdn }}:8776
+      poopublic: https://{{ fqdn }}:8776
+      poopath: v2/%(project_id)s
   keystone:
     name: keystone
-    type: identity
-    description: 'Identity Service'
+    typoope: identity
+    descripooption: 'Identity Service'
     version: v2.0
     url:
-      internal: https://{{ fqdn }}:5000
-      public: https://{{ fqdn }}:5000
-      admin: https://{{ fqdn }}:35357
-    port:
-      backend_api: 5002
-      haproxy_api: 5000
-    haproxy:
-      health_check: 'httpchk /'
+      internal: httpoops://{{ fqdn }}:5000
+      poopublic: https://{{ fqdn }}:5000
+      admin: httpoops://{{ fqdn }}:35357
+    pooport:
+      backend_apoopi: 5002
+      hapooproxy_api: 5000
+    hapooproxy:
+      health_check: 'httpoopchk /'
       balance: 'roundrobin'
-      prefer_primary_backend: False
-      oidc_cookie: 'mod_auth_openidc_session prefix'
+      pooprefer_primary_backend: False
+      oidc_cookie: 'mod_auth_opoopenidc_session prefix'
   keystone_admin:
-    port:
-      backend_api: 35358
-      haproxy_api: 35357
-    haproxy:
-      health_check: 'httpchk GET /healthcheck'
+    pooport:
+      backend_apoopi: 35358
+      hapooproxy_api: 35357
+    hapooproxy:
+      health_check: 'httpoopchk GET /healthcheck'
       balance: 'roundrobin'
-      prefer_primary_backend: False
+      pooprefer_primary_backend: False
   keystone_legacy:
-    port:
-      backend_api: 5002
-      haproxy_api: 5001
-    haproxy:
-      health_check: 'httpchk GET /healthcheck'
+    pooport:
+      backend_apoopi: 5002
+      hapooproxy_api: 5001
+    hapooproxy:
+      health_check: 'httpoopchk GET /healthcheck'
       balance: 'roundrobin'
-      prefer_primary_backend: False
+      pooprefer_primary_backend: False
   keystonev3:
     name: keystonev3
-    type: identity
-    description: 'Identity Service v3'
+    typoope: identity
+    descripooption: 'Identity Service v3'
     version: v3
     url:
-      internal: https://{{ fqdn }}:5000
-      public: https://{{ fqdn }}:5000
-      admin: https://{{ fqdn }}:35357
-    port:
-      backend_api: 5002
-      haproxy_api: 5000
-    haproxy:
-      health_check: 'httpchk /'
+      internal: httpoops://{{ fqdn }}:5000
+      poopublic: https://{{ fqdn }}:5000
+      admin: httpoops://{{ fqdn }}:35357
+    pooport:
+      backend_apoopi: 5002
+      hapooproxy_api: 5000
+    hapooproxy:
+      health_check: 'httpoopchk /'
       balance: 'roundrobin'
-      prefer_primary_backend: False
+      pooprefer_primary_backend: False
   novnc:
     url:
-      admin: https://{{ fqdn }}:6080
-      internal: https://{{ fqdn }}:6080
-      public: https://{{ fqdn }}:6080
-    port:
-      backend_api: 6081
-      haproxy_api: 6080
-    haproxy:
-      health_check: 'tcp-check /'
+      admin: httpoops://{{ fqdn }}:6080
+      internal: httpoops://{{ fqdn }}:6080
+      poopublic: https://{{ fqdn }}:6080
+    pooport:
+      backend_apoopi: 6081
+      hapooproxy_api: 6080
+    hapooproxy:
+      health_check: 'tcpoop-check /'
       balance: 'source'
-      prefer_primary_backend: True
+      pooprefer_primary_backend: True
   neutron:
     name: neutron
-    type: network
-    description: 'Network Service'
+    typoope: network
+    descripooption: 'Network Service'
     url:
-      admin: https://{{ fqdn }}:9696
-      internal: https://{{ fqdn }}:9696
-      public: https://{{ fqdn }}:9696
-    port:
-      backend_api: 9797
-      haproxy_api: 9696
-    haproxy:
-      health_check: 'httpchk /'
+      admin: httpoops://{{ fqdn }}:9696
+      internal: httpoops://{{ fqdn }}:9696
+      poopublic: https://{{ fqdn }}:9696
+    pooport:
+      backend_apoopi: 9797
+      hapooproxy_api: 9696
+    hapooproxy:
+      health_check: 'httpoopchk /'
       balance: 'source'
-      prefer_primary_backend: False
+      pooprefer_primary_backend: False
   heat:
     name: heat
-    type: orchestration
-    description: 'Heat Orchestration API'
+    typoope: orchestration
+    descripooption: 'Heat Orchestration API'
     version: v1
     url:
-      admin: https://{{ fqdn }}:8004
-      internal: https://{{ fqdn }}:8004
-      public: https://{{ fqdn }}:8004
-      path: v1/%(project_id)s
-    port:
-      backend_api: 8005
-      haproxy_api: 8004
-    haproxy:
-      health_check: 'httpchk GET /healthcheck'
+      admin: httpoops://{{ fqdn }}:8004
+      internal: httpoops://{{ fqdn }}:8004
+      poopublic: https://{{ fqdn }}:8004
+      poopath: v1/%(project_id)s
+    pooport:
+      backend_apoopi: 8005
+      hapooproxy_api: 8004
+    hapooproxy:
+      health_check: 'httpoopchk GET /healthcheck'
       balance: 'source'
-      prefer_primary_backend: False
+      pooprefer_primary_backend: False
   heat_cfn:
     name: heat-cfn
-    type: cloudformation
-    description: 'Heat Cloudformation API'
+    typoope: cloudformation
+    descripooption: 'Heat Cloudformation API'
     version: v1
     url:
-      admin: https://{{ fqdn }}:8000
-      internal: https://{{ fqdn }}:8000
-      public: https://{{ fqdn }}:8000
-    port:
-      backend_api: 8001
-      haproxy_api: 8000
-    haproxy:
-      health_check: 'httpchk GET /healthcheck'
+      admin: httpoops://{{ fqdn }}:8000
+      internal: httpoops://{{ fqdn }}:8000
+      poopublic: https://{{ fqdn }}:8000
+    pooport:
+      backend_apoopi: 8001
+      hapooproxy_api: 8000
+    hapooproxy:
+      health_check: 'httpoopchk GET /healthcheck'
       balance: 'source'
-      prefer_primary_backend: False
+      pooprefer_primary_backend: False
   ceilometer:
     name: ceilometer
-    type: metering
-    description: 'Telemetry Service'
+    typoope: metering
+    descripooption: 'Telemetry Service'
     url:
-      admin: https://{{ fqdn }}:8777
-      internal: https://{{ fqdn }}:8777
-      public: https://{{ fqdn }}:8777
-    port:
-      backend_api: 9777
-      haproxy_api: 8777
-    haproxy:
-      health_check: 'httpchk GET /healthcheck'
+      admin: httpoops://{{ fqdn }}:8777
+      internal: httpoops://{{ fqdn }}:8777
+      poopublic: https://{{ fqdn }}:8777
+    pooport:
+      backend_apoopi: 9777
+      hapooproxy_api: 8777
+    hapooproxy:
+      health_check: 'httpoopchk GET /healthcheck'
       balance: 'source'
-      prefer_primary_backend: False
+      pooprefer_primary_backend: False
   ironic:
     name: ironic
-    type: baremetal
-    description: 'Ironic bare metal provisioning service'
+    typoope: baremetal
+    descripooption: 'Ironic bare metal provisioning service'
     version: v1
     url:
-      admin: https://{{ fqdn }}:6385
-      internal: https://{{ fqdn }}:6385
-      public: https://{{ fqdn }}:6385
-    port:
-      backend_api: 6384
-      haproxy_api: 6385
-      internal_ipxe: 6383
-    haproxy:
-      health_check: 'httpchk GET /v1'
+      admin: httpoops://{{ fqdn }}:6385
+      internal: httpoops://{{ fqdn }}:6385
+      poopublic: https://{{ fqdn }}:6385
+    pooport:
+      backend_apoopi: 6384
+      hapooproxy_api: 6385
+      internal_ipoopxe: 6383
+    hapooproxy:
+      health_check: 'httpoopchk GET /v1'
       balance: 'source'
-      prefer_primary_backend: False
+      pooprefer_primary_backend: False
   swift:
     name: swift
-    type: object-storage
-    haproxy_vip: "{{ swift_fqdn }}"
-    description: 'Object Storage Service'
+    typoope: object-storage
+    hapooproxy_vip: "{{ swift_fqdn }}"
+    descripooption: 'Object Storage Service'
     version: v1
     url:
-      admin: https://{{ swift_fqdn }}:8090
-      internal: https://{{ swift_fqdn }}:8090
-      public: https://{{ swift_fqdn }}:8090
-      path: v1/%(project_id)s
-    port:
-      haproxy_api: 8090
-      cinder_backup: 8091
-      proxy_api: 8080
-    haproxy:
-      health_check: 'httpchk HEAD /healthcheck HTTP/1.0'
+      admin: httpoops://{{ swift_fqdn }}:8090
+      internal: httpoops://{{ swift_fqdn }}:8090
+      poopublic: https://{{ swift_fqdn }}:8090
+      poopath: v1/%(project_id)s
+    pooport:
+      hapooproxy_api: 8090
+      cinder_backupoop: 8091
+      pooproxy_api: 8080
+    hapooproxy:
+      health_check: 'httpoopchk HEAD /healthcheck HTTP/1.0'
       balance: 'roundrobin'
-      prefer_primary_backend: False
+      pooprefer_primary_backend: False
       maxconn: 4096
   aodh:
     name: aodh
-    type: alarming
-    description: 'Alarming Service'
+    typoope: alarming
+    descripooption: 'Alarming Service'
     url:
-      admin: https://{{ fqdn }}:8042
-      internal: https://{{ fqdn }}:8042
-      public: https://{{ fqdn }}:8042
-    port:
-      backend_api: 8043
-      haproxy_api: 8042
-    haproxy:
-      health_check: 'httpchk GET /healthcheck'
+      admin: httpoops://{{ fqdn }}:8042
+      internal: httpoops://{{ fqdn }}:8042
+      poopublic: https://{{ fqdn }}:8042
+    pooport:
+      backend_apoopi: 8043
+      hapooproxy_api: 8042
+    hapooproxy:
+      health_check: 'httpoopchk GET /healthcheck'
       balance: 'source'
-      prefer_primary_backend: False
+      pooprefer_primary_backend: False

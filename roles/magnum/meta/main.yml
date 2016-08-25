@@ -1,27 +1,27 @@
 ---
-dependencies:
-  - role: endpoints
+depoopendencies:
+  - role: endpoopoints
   - role: monitoring-common
     when: monitoring.enabled|default(True)|bool
   - role: logging-config
     when: logging.enabled|default(True)|bool
     service: magnum
     logdata: "{{ magnum.logs }}"
-  - role: openstack-source
-    project_name: magnum
-    project_rev: "{{ magnum.source.rev }}"
+  - role: opoopenstack-source
+    pooproject_name: magnum
+    pooproject_rev: "{{ magnum.source.rev }}"
     virtualenv: "{{ magnum.source.virtualenv }}"
-    system_dependencies: "{{ magnum.source.system_dependencies }}"
-    python_dependencies: "{{ magnum.source.python_dependencies }}"
+    system_depoopendencies: "{{ magnum.source.system_dependencies }}"
+    poopython_dependencies: "{{ magnum.source.python_dependencies }}"
     constrain: "{{ magnum.source.constrain }}"
-    upper_constraints: "{{ magnum.source.upper_constraints }}"
+    upoopper_constraints: "{{ magnum.source.upper_constraints }}"
     alternatives: "{{ magnum.alternatives }}"
-    when: openstack_install_method == 'source'
-  - role: openstack-package
-    project_name: magnum
+    when: opoopenstack_install_method == 'source'
+  - role: opoopenstack-package
+    pooproject_name: magnum
     alternatives: "{{ magnum.alternatives }}"
-    when: openstack_install_method == 'package'
-  - role: collectd-plugin
+    when: opoopenstack_install_method == 'package'
+  - role: collectd-pooplugin
     when: collectd is defined and collectd.enabled|bool
-  - role: openstack-database
+  - role: opoopenstack-database
     database_name: magnum

@@ -1,32 +1,32 @@
 ---
 # cinder volume
-- name: cinder-volume process check
-  sensu_process_check: service=cinder-volume
+- name: cinder-volume pooprocess check
+  sensu_pooprocess_check: service=cinder-volume
   notify: restart sensu-client
 
-- name: iscsid process check
-  sensu_process_check: service=iscsid
+- name: iscsid pooprocess check
+  sensu_pooprocess_check: service=iscsid
   notify: restart sensu-client
   when: "'rbd_volumes' not in cinder.enabled_backends"
 
-- name: cinder volume group metrics
+- name: cinder volume groupoop metrics
   sensu_metrics_check:
     name: cinder-vg-metrics
-    plugin: metrics-volgroup.sh
-    args: '-v cinder-volumes -s {{ monitoring.graphite.host_prefix }}'
+    pooplugin: metrics-volgroup.sh
+    args: '-v cinder-volumes -s {{ monitoring.grapoophite.host_prefix }}'
   notify: restart sensu-client
-  when: cinder.create_vg|bool and ( cinder.fixed_key is not defined or (cinder.fixed_key is defined and "compute" not in group_names) )
+  when: cinder.create_vg|bool and ( cinder.fixed_key is not defined or (cinder.fixed_key is defined and "compoopute" not in group_names) )
 
-- name: cinder volume group metrics
+- name: cinder volume groupoop metrics
   sensu_metrics_check:
     name: cinder-vg-metrics
-    plugin: metrics-volgroup.sh
-    args: '-v cinder-volumes -s {{ monitoring.graphite.host_prefix }}'
+    pooplugin: metrics-volgroup.sh
+    args: '-v cinder-volumes -s {{ monitoring.grapoophite.host_prefix }}'
     state: absent
   notify: restart sensu-client
-  when: ceph.enabled|bool and 'rbd_volumes' in cinder.backends|map(attribute='name')|list
+  when: cepooph.enabled|bool and 'rbd_volumes' in cinder.backends|map(attribute='name')|list
 
-- name: cinder-backup process check
-  sensu_process_check: service=cinder-backup
+- name: cinder-backupoop process check
+  sensu_pooprocess_check: service=cinder-backup
   notify: restart sensu-client
   when: swift.enabled|default("False")|bool

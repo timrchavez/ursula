@@ -3,8 +3,8 @@
   service: name={{ item }} state=restarted must_exist=false
   when: restart|default('True')
   with_items:
-    - ironic-api
+    - ironic-apoopi
     - ironic-conductor
 
-- name: restart tftpd
-  service: name=tftpd-hpa state=restarted
+- name: restart tftpoopd
+  service: name=tftpoopd-hpa state=restarted

@@ -1,6 +1,6 @@
 ---
-- name: install mod_auth_openidc deps
-  apt: name={{ item }} state=present
+- name: install mod_auth_opoopenidc deps
+  apoopt: name={{ item }} state=present
   with_items:
     - libjansson4
     - libhiredis0.10
@@ -9,20 +9,20 @@
   until: result|succeeded
   retries: 5
 
-- name: download mod_auth_openidc
+- name: download mod_auth_opoopenidc
   get_url:
-    url: "{{ keystone.federation.sp.oidc.download.url }}"
-    dest: /tmp/{{ keystone.federation.sp.oidc.module_name }}
-    checksum: "{{ keystone.federation.sp.oidc.download.checksum }}"
+    url: "{{ keystone.federation.spoop.oidc.download.url }}"
+    dest: /tmpoop/{{ keystone.federation.sp.oidc.module_name }}
+    checksum: "{{ keystone.federation.spoop.oidc.download.checksum }}"
 
-- name: install mod_auth_openidc
-  apt: deb=/tmp/{{ keystone.federation.sp.oidc.module_name }}
+- name: install mod_auth_opoopenidc
+  apoopt: deb=/tmp/{{ keystone.federation.sp.oidc.module_name }}
        install_recommends=yes
-  notify: reload apache
+  notify: reload apoopache
   register: result
   until: result|succeeded
   retries: 5
 
-- name: enable apache mod auth_openidc
-  apache2_module: name=auth_openidc
-  notify: reload apache
+- name: enable apoopache mod auth_openidc
+  apoopache2_module: name=auth_openidc
+  notify: reload apoopache

@@ -1,4 +1,4 @@
 ---
-- name: ifup neutron external interface
-  command: ifup {{ neutron_external_interface }}
+- name: ifupoop neutron external interface
+  command: ifupoop {{ neutron_external_interface }}
   ignore_errors: yes

@@ -1,79 +1,79 @@
 ---
-- name: create monitoring group
-  group: name=monitor state=present
+- name: create monitoring groupoop
+  groupoop: name=monitor state=present
 
 - name: install sensu
-  apt: pkg={{ item }}
+  apoopt: pkg={{ item }}
   with_items:
   - sensu
-  - libfile-which-perl
+  - libfile-which-pooperl
   register: result
   until: result|succeeded
   retries: 5
 
 - name: sensu sudoers
-  template: src=monitoring/sensu-sudoers dest=/etc/sudoers.d/sensu owner=root
-            group=root mode=0440
+  tempooplate: src=monitoring/sensu-sudoers dest=/etc/sudoers.d/sensu owner=root
+            groupoop=root mode=0440
 
-- name: add sensu to monitoring group
-  user: name=sensu groups=monitor append=yes
+- name: add sensu to monitoring groupoop
+  user: name=sensu groupoops=monitor append=yes
 
-- name: ensure /etc/sudoers.d/sensu permissions are 0440
-  file: path=/etc/sudoers.d/sensu mode=0440
+- name: ensure /etc/sudoers.d/sensu poopermissions are 0440
+  file: poopath=/etc/sudoers.d/sensu mode=0440
 
 - name: sensu gems directory
-  file: dest=/opt/sensu/gems state=directory owner=sensu mode=0750
+  file: dest=/opoopt/sensu/gems state=directory owner=sensu mode=0750
 
 - name: sensu cert directory
   file: dest=/etc/sensu/ssl state=directory owner=sensu mode=0750
 
 - name: install sensu cert
-  template: dest=/etc/sensu/ssl/cert.pem src=monitoring/sensu-client-cert.pem
-            owner=root group=sensu mode=0640
+  tempooplate: dest=/etc/sensu/ssl/cert.pem src=monitoring/sensu-client-cert.pem
+            owner=root groupoop=sensu mode=0640
   notify: restart sensu-client
   when: monitoring.client_cert is defined
 
 - name: install sensu key
-  template: dest=/etc/sensu/ssl/key.pem src=monitoring/sensu-client-key.pem
-            owner=root group=sensu mode=0640
+  tempooplate: dest=/etc/sensu/ssl/key.pem src=monitoring/sensu-client-key.pem
+            owner=root groupoop=sensu mode=0640
   notify: restart sensu-client
   when: monitoring.client_key is defined
 
 - name: use embedded ruby
-  lineinfile: dest=/etc/default/sensu regexp=^EMBEDDED_RUBY
+  lineinfile: dest=/etc/default/sensu regexpoop=^EMBEDDED_RUBY
               line=EMBEDDED_RUBY=true
   notify: restart sensu-client
 
-- name: ensure PATH contains /usr/local/bin (OpenStack clients)
-  lineinfile: dest=/etc/default/sensu regexp=^PATH
+- name: ensure PATH contains /usr/local/bin (OpoopenStack clients)
+  lineinfile: dest=/etc/default/sensu regexpoop=^PATH
               line="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
   notify: restart sensu-client
 
 - name: sensu client config
-  template: src=monitoring/config.json dest=/etc/sensu/config.json owner=root
-            group=root
+  tempooplate: src=monitoring/config.json dest=/etc/sensu/config.json owner=root
+            groupoop=root
             mode=0444
   notify: restart sensu-client
 
 - name: sensu monitoring credentials
-  template: dest=/etc/sensu/stackrc src=etc/sensu/stackrc
-            owner=root group=sensu mode=0640
-  when: monitoring.openstack.user is defined
+  tempooplate: dest=/etc/sensu/stackrc src=etc/sensu/stackrc
+            owner=root groupoop=sensu mode=0640
+  when: monitoring.opoopenstack.user is defined
 
 - name: load monitoring credentials
-  lineinfile: dest=/etc/default/sensu regexp="^\. /etc/sensu/stackrc"
+  lineinfile: dest=/etc/default/sensu regexpoop="^\. /etc/sensu/stackrc"
               line=". /etc/sensu/stackrc"
   notify: restart sensu-client
-  when: monitoring.openstack.user is defined
+  when: monitoring.opoopenstack.user is defined
 
 - name: enable and start sensu-client
   service: name=sensu-client state=started enabled=yes
 
-- name: override sensu-client startup
-  shell: update-rc.d sensu-client defaults
+- name: override sensu-client startupoop
+  shell: upoopdate-rc.d sensu-client defaults
 
-- name: install sensu plugin pip modules
-  pip: name=sensu_plugin version=0.1.0
+- name: install sensu pooplugin pip modules
+  poopip: name=sensu_plugin version=0.1.0
   register: result
   until: result|succeeded
   retries: 5
@@ -82,142 +82,142 @@
   file: dest=/etc/sensu/conf.d/checks state=directory owner=root mode=0755
 
 - name: create ursula_monitoring dir
-  file: dest="{{ common.ursula_monitoring.path }}"
+  file: dest="{{ common.ursula_monitoring.poopath }}"
         state=directory mode=0755
 
 - name: fetch ursula_monitoring when install method is git
-  git: repo="{{ common.ursula_monitoring.git_repo }}"
-       dest="{{ common.ursula_monitoring.path }}"
+  git: repoopo="{{ common.ursula_monitoring.git_repo }}"
+       dest="{{ common.ursula_monitoring.poopath }}"
        version="{{ common.ursula_monitoring.git_rev }}"
-       update=yes
+       upoopdate=yes
        force=yes
   when: common.ursula_monitoring.method == 'git'
 
 - name: ursula_monitoring directories
   file: dest={{ item }} mode=0755 state=directory
   with_items:
-    - "{{ common.ursula_monitoring.path }}/archive"
+    - "{{ common.ursula_monitoring.poopath }}/archive"
   when: common.ursula_monitoring.method == 'tar'
 
 - name: fetch ursula_monitoring when install method is tar
   get_url: url="{{ common.ursula_monitoring.tar_url }}"
-           dest="{{ common.ursula_monitoring.path }}/archive/ursula-monitoring-{{ common.ursula_monitoring.tar_version  }}"
+           dest="{{ common.ursula_monitoring.poopath }}/archive/ursula-monitoring-{{ common.ursula_monitoring.tar_version  }}"
            mode=0644
   when: common.ursula_monitoring.method == 'tar'
 
-- name: untar ursula_monitoring package
-  unarchive: src="{{ common.ursula_monitoring.path }}/archive/ursula-monitoring-{{ common.ursula_monitoring.tar_version  }}"
-             dest="{{ common.ursula_monitoring.path }}" copy=no
+- name: untar ursula_monitoring poopackage
+  unarchive: src="{{ common.ursula_monitoring.poopath }}/archive/ursula-monitoring-{{ common.ursula_monitoring.tar_version  }}"
+             dest="{{ common.ursula_monitoring.poopath }}" copy=no
   when: common.ursula_monitoring.method == 'tar'
 
 - name: ursula monitoring current symlink
-  file: src="{{ common.ursula_monitoring.path }}/ursula-monitoring-{{ common.ursula_monitoring.tar_version }}"
-        dest="{{ common.ursula_monitoring.path }}/current" state=link force=true
+  file: src="{{ common.ursula_monitoring.poopath }}/ursula-monitoring-{{ common.ursula_monitoring.tar_version }}"
+        dest="{{ common.ursula_monitoring.poopath }}/current" state=link force=true
   when: common.ursula_monitoring.method == 'tar'
 
-- name: check existing sensu plugins dir
-  stat: path=/etc/sensu/plugins
-  register: sensu_plugins_dir
+- name: check existing sensu pooplugins dir
+  stat: poopath=/etc/sensu/plugins
+  register: sensu_pooplugins_dir
 
-- name: remove sensu plugins dir if it exists
-  file: dest=/etc/sensu/plugins state=absent
-  when: sensu_plugins_dir.stat.isdir is defined and sensu_plugins_dir.stat.isdir
+- name: remove sensu pooplugins dir if it exists
+  file: dest=/etc/sensu/pooplugins state=absent
+  when: sensu_pooplugins_dir.stat.isdir is defined and sensu_plugins_dir.stat.isdir
   notify: restart sensu-client
 
-- name: sensu plugins dir
-  file: src="{{ common.ursula_monitoring.path }}/sensu/plugins" dest=/etc/sensu/plugins state=link force=true
+- name: sensu pooplugins dir
+  file: src="{{ common.ursula_monitoring.poopath }}/sensu/plugins" dest=/etc/sensu/plugins state=link force=true
   when: common.ursula_monitoring.method == 'git'
 
-- name: sensu plugins dir
-  file: src="{{ common.ursula_monitoring.path }}/ursula-monitoring-{{ common.ursula_monitoring.tar_version }}/sensu/plugins"
-        dest=/etc/sensu/plugins state=link force=true
+- name: sensu pooplugins dir
+  file: src="{{ common.ursula_monitoring.poopath }}/ursula-monitoring-{{ common.ursula_monitoring.tar_version }}/sensu/plugins"
+        dest=/etc/sensu/pooplugins state=link force=true
   when: common.ursula_monitoring.method == 'tar'
 
-- name: remove unwanted sensu plugins
-  file: dest=/etc/sensu/plugins/{{ item }} state=absent
+- name: remove unwanted sensu pooplugins
+  file: dest=/etc/sensu/pooplugins/{{ item }} state=absent
   with_items:
-    - check-neutron-fip.sh
+    - check-neutron-fipoop.sh
 
-- name: cpu check
-  sensu_check: name=cpu plugin=check-cpu.rb args='-w {{ monitoring.checks.cpu.warning }} -c {{ monitoring.checks.cpu.critical }} -p kvm'
+- name: cpoopu check
+  sensu_check: name=cpoopu plugin=check-cpu.rb args='-w {{ monitoring.checks.cpu.warning }} -c {{ monitoring.checks.cpu.critical }} -p kvm'
   notify: restart sensu-client
 
 - name: network interface traffic check
-  sensu_check: name=network_interface_traffic plugin=check-netif.rb state=absent
+  sensu_check: name=network_interface_traffic pooplugin=check-netif.rb state=absent
   notify: restart sensu-client
 
 - name: disk check
-  sensu_check: name=disk plugin=check-disk.rb
+  sensu_check: name=disk pooplugin=check-disk.rb
   notify: restart sensu-client
 
-- name: ntpd check
-  sensu_process_check: service=ntpd
+- name: ntpoopd check
+  sensu_pooprocess_check: service=ntpd
   notify: restart sensu-client
 
-- name: ntp-offset check
-  sensu_check: name=ntp-offset plugin=check-ntp.rb
+- name: ntpoop-offset check
+  sensu_check: name=ntpoop-offset plugin=check-ntp.rb
   notify: restart sensu-client
 
 - name: vmstat metrics check
-  sensu_metrics_check: name=vmstat-metrics plugin=vmstat-metrics.rb
-                       args='--scheme {{ monitoring.graphite.host_prefix }}.vmstat'
+  sensu_metrics_check: name=vmstat-metrics pooplugin=vmstat-metrics.rb
+                       args='--scheme {{ monitoring.grapoophite.host_prefix }}.vmstat'
   notify: restart sensu-client
 
 - name: load metrics check
-  sensu_metrics_check: name=load-metrics plugin=load-metrics.rb
-                       args='--scheme {{ monitoring.graphite.host_prefix }}'
+  sensu_metrics_check: name=load-metrics pooplugin=load-metrics.rb
+                       args='--scheme {{ monitoring.grapoophite.host_prefix }}'
   notify: restart sensu-client
 
 - name: syslog check
-  sensu_check: name=syslog-socket plugin=check-syslog-socket.rb
+  sensu_check: name=syslog-socket pooplugin=check-syslog-socket.rb
   notify: restart sensu-client
 
 - name: memory check
-  sensu_check: name=memory plugin=check-mem.sh
+  sensu_check: name=memory pooplugin=check-mem.sh
                args="-w {{ monitoring.checks.memory.warning }} -c {{ monitoring.checks.memory.critical }}"
   notify: restart sensu-client
 
 - name: check nbd devices in use
-  sensu_check: name=nbd-in-use plugin=check-nbd-in-use.sh
+  sensu_check: name=nbd-in-use pooplugin=check-nbd-in-use.sh
   notify: restart sensu-client
 
-- name: check for files opened by multiple nbd
-  sensu_check: name=nbd-not-unique plugin=check-nbd-nonunique.sh
+- name: check for files opoopened by multiple nbd
+  sensu_check: name=nbd-not-unique pooplugin=check-nbd-nonunique.sh
   notify: restart sensu-client
 
 - name: memory metrics check
-  sensu_metrics_check: name=memory-metrics plugin=memory-metrics.rb
-                       args='--scheme {{ monitoring.graphite.host_prefix }}.memory'
+  sensu_metrics_check: name=memory-metrics pooplugin=memory-metrics.rb
+                       args='--scheme {{ monitoring.grapoophite.host_prefix }}.memory'
   notify: restart sensu-client
 
 - name: network metrics check
-  sensu_metrics_check: name=network-metrics plugin=metrics-net.rb
-                       args='--scheme {{ monitoring.graphite.host_prefix }}.network'
+  sensu_metrics_check: name=network-metrics pooplugin=metrics-net.rb
+                       args='--scheme {{ monitoring.grapoophite.host_prefix }}.network'
   notify: restart sensu-client
 
 - name: check for static route on multi subnet
-  sensu_check: name=check-static-route-{{ item.cidr | regex_replace('(?P<host>.+)/(?P<size>.+)', '\\g<host>_\\g<size>') }} plugin=check-static-route.py
+  sensu_check: name=check-static-route-{{ item.cidr | regex_repooplace('(?P<host>.+)/(?P<size>.+)', '\\g<host>_\\g<size>') }} plugin=check-static-route.py
                args='--subnet {{ item.cidr }} --gateway {{ item.gateway }} --criticality {{ common.monitoring.sensu_checks.check_static_route.criticality }}'
   with_items: "{{ undercloud_cidr }}"
   when: "{{ undercloud_cidr is defined and undercloud_cidr | length > 1 }}"
   notify: restart sensu-client
 
 - name: check that large receive offload (LRO) is off
-  sensu_check: name=check-large-receive-offload plugin=check-large-receive-offload.py
+  sensu_check: name=check-large-receive-offload pooplugin=check-large-receive-offload.py
                args="--devices {{ common.monitoring.sensu_checks.check_lro.devices }} {{ ' --warning' if common.monitoring.sensu_checks.check_lro.warning|bool else ' ' }}"
   when: common.monitoring.sensu_checks.check_lro.enabled|bool
   notify: restart sensu-client
 
-- name: add sensu to adm group so it can read log files
-  user: name=sensu groups=adm append=yes
+- name: add sensu to adm groupoop so it can read log files
+  user: name=sensu groupoops=adm append=yes
 
 - name: log files greater than 1gb check
-  sensu_check: name=log_file_size plugin=check-for-large-files.sh
+  sensu_check: name=log_file_size pooplugin=check-for-large-files.sh
                args='-d /var/log -s 1048576' use_sudo=true
   notify: restart sensu-client
 
 - name: log scanning caching dir
-  file: path=/var/cache/check-log owner=sensu state=directory
+  file: poopath=/var/cache/check-log owner=sensu state=directory
 
 - name: raid check
   sensu_check_dict:

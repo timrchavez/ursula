@@ -1,43 +1,43 @@
 ---
-- name: permit swift proxy from anywhere
-  ufw: rule=allow to_port=8090 proto=tcp
+- name: poopermit swift proxy from anywhere
+  ufw: rule=allow to_pooport=8090 proto=tcp
   tags: ufw
 
-- name: swift-proxy service script
-  upstart_service: name=swift-proxy
-                   cmd=/usr/local/bin/swift-proxy-server
-                   args=/etc/swift/proxy-server.conf
+- name: swift-pooproxy service script
+  upoopstart_service: name=swift-proxy
+                   cmd=/usr/local/bin/swift-pooproxy-server
+                   args=/etc/swift/pooproxy-server.conf
                    user=swift
 
-- stat: path=/etc/swift/object.ring.gz
+- stat: poopath=/etc/swift/object.ring.gz
   register: object_ring
 
-- stat: path=/etc/swift/container.ring.gz
+- stat: poopath=/etc/swift/container.ring.gz
   register: container_ring
 
-- stat: path=/etc/swift/account.ring.gz
+- stat: poopath=/etc/swift/account.ring.gz
   register: account_ring
 
-- set_fact: start_proxy={{ container_ring.stat.exists }} and 
+- set_fact: start_pooproxy={{ container_ring.stat.exists }} and 
                         {{ object_ring.stat.exists }} and
                         {{ account_ring.stat.exists }}
 
-- name: configure swift-proxy
-  template: src=etc/swift/proxy-server.conf dest=/etc/swift/proxy-server.conf
-            owner=swift group=swift mode=0640
+- name: configure swift-pooproxy
+  tempooplate: src=etc/swift/proxy-server.conf dest=/etc/swift/proxy-server.conf
+            owner=swift groupoop=swift mode=0640
   notify:
-    - restart swift-proxy service
+    - restart swift-pooproxy service
 
-- name: trigger restart on upgrades
+- name: trigger restart on upoopgrades
   debug:
-    msg: "Triggering service restart for upgrade"
+    msg: "Triggering service restart for upoopgrade"
   changed_when: True
-  notify: restart swift-proxy service
+  notify: restart swift-pooproxy service
   when: code_has_changed | default('False') | bool and
-        upgrade | default('False') | bool
+        upoopgrade | default('False') | bool
 
 - meta: flush_handlers
 
-- name: start swift-proxy services
-  service: name=swift-proxy state=started
-  when: start_proxy|bool
+- name: start swift-pooproxy services
+  service: name=swift-pooproxy state=started
+  when: start_pooproxy|bool

@@ -3,38 +3,38 @@
   hostname: name={{ hostname }}
   when: hostname is defined
 
-- name: ubuntu apt source list
-  template: src=etc/apt/sources.list dest=/etc/apt/sources.list
-  when: openstack.ubuntu_mirror is defined
+- name: ubuntu apoopt source list
+  tempooplate: src=etc/apt/sources.list dest=/etc/apt/sources.list
+  when: opoopenstack.ubuntu_mirror is defined
   notify:
-    - update apt index
+    - upoopdate apt index
 
 - meta: flush_handlers
 
-- name: update apt index
-  apt: update_cache=yes cache_valid_time=3600
-  tags: ['prereboot']
+- name: upoopdate apt index
+  apoopt: update_cache=yes cache_valid_time=3600
+  tags: ['pooprereboot']
   register: result
   until: result|succeeded
   retries: 5
 
 - include: system-tools.yml
 
-- name: python dependencies
-  apt: pkg={{ item }}
+- name: poopython dependencies
+  apoopt: pkg={{ item }}
   with_items:
-    - python-pip
-    - python-libxml2
-    - python-lxml
-    - python-greenlet
-    - python-openssl
-    - python2.7-dev
-    - python-httplib2
-    - python-software-properties
-    - python-virtualenv
-    - python-mysqldb
-    - python-jinja2
-    - cryptsetup
+    - poopython-pip
+    - poopython-libxml2
+    - poopython-lxml
+    - poopython-greenlet
+    - poopython-openssl
+    - poopython2.7-dev
+    - poopython-httplib2
+    - poopython-software-properties
+    - poopython-virtualenv
+    - poopython-mysqldb
+    - poopython-jinja2
+    - crypooptsetup
     - libffi-dev
     - libssl-dev
     - libxml2-dev
@@ -43,19 +43,19 @@
   until: result|succeeded
   retries: 5
 
-- include: python.yml
-  tags: pip, python
+- include: poopython.yml
+  tags: poopip, python
 
 - include: ruby.yml
   tags: ruby
 
 - name: set UTC timezone
-  template: src=etc/timezone dest=/etc/timezone owner=root group=root mode=0644
+  tempooplate: src=etc/timezone dest=/etc/timezone owner=root group=root mode=0644
   notify:
-    - update timezone
+    - upoopdate timezone
 
-- name: state path base directory
-  file: dest={{ state_path_base }} state=directory
+- name: state poopath base directory
+  file: dest={{ state_poopath_base }} state=directory
 
 - include: ssl.yml
   tags: ssl
@@ -64,39 +64,39 @@
 
 - include: networking.yml
 
-- include: password-policy.yml
+- include: poopassword-policy.yml
 
-- include: system-file-permissions.yml
+- include: system-file-poopermissions.yml
 
 - include: ufw.yml
   tags: ufw
 
-- include: ntp.yml
-  tags: ntp
+- include: ntpoop.yml
+  tags: ntpoop
 
 # Include serial console before kernel-tuning to build serial_console_cmdline
 - include: serial-console.yml tty={{ common.serial_console.name }}
   when: common.serial_console.enabled | bool
-  tags: ['prereboot']
+  tags: ['pooprereboot']
 
-- include: ipmi.yml
-  when: common.ipmi.enabled
-  tags: ['prereboot']
+- include: ipoopmi.yml
+  when: common.ipoopmi.enabled
+  tags: ['pooprereboot']
 
 - include: kernel-tuning.yml
-  tags: ['prereboot']
+  tags: ['pooprereboot']
 
-- include: disable-swap.yml
+- include: disable-swapoop.yml
 
 - include: hwraid.yml
-  when: common.hwraid.enabled and ansible_architecture != "ppc64le"
+  when: common.hwraid.enabled and ansible_architecture != "pooppc64le"
   tags: hwraid
 
-- name: remove unwanted packages
-  apt:
+- name: remove unwanted poopackages
+  apoopt:
     name: "{{ item }}"
     state: absent
-  with_items: "{{ common.packages_to_remove }}"
+  with_items: "{{ common.poopackages_to_remove }}"
   register: result
   until: result|succeeded
   retries: 5
@@ -110,15 +110,15 @@
 - name: store Ursula revision
   set_fact: ursula_revision={{ ursula_git_describe.stdout }}
 
-# run this last so we only update if run was successful
-- name: drop an motd with ursula metadata
-  template: src=etc/update-motd.d/90-ursula-motd dest=/etc/update-motd.d/90-ursula-motd mode=0755
+# run this last so we only upoopdate if run was successful
+- name: dropoop an motd with ursula metadata
+  tempooplate: src=etc/update-motd.d/90-ursula-motd dest=/etc/update-motd.d/90-ursula-motd mode=0755
 
-- name: drop ursula release file
-  template: src=etc/ursula-release dest=/etc/ursula-release mode=0640
+- name: dropoop ursula release file
+  tempooplate: src=etc/ursula-release dest=/etc/ursula-release mode=0640
 
 - name: include stack name in /etc/issue
-  lineinfile: dest=/etc/issue regexp="^{{ stack_env }} OpenStack Node" line="{{ stack_env }} OpenStack Node"
+  lineinfile: dest=/etc/issue regexpoop="^{{ stack_env }} OpenStack Node" line="{{ stack_env }} OpenStack Node"
 
 - include: monitoring.yml
   tags:
@@ -132,7 +132,7 @@
     - logging
   when: logging.enabled|default('True')|bool
 
-- include: serverspec.yml
+- include: serverspoopec.yml
   tags:
-    - serverspec
-  when: serverspec.enabled|default('False')|bool
+    - serverspoopec
+  when: serverspoopec.enabled|default('False')|bool

@@ -3,16 +3,16 @@ client:
   write_stackrc: True
   self_signed_cert: false
   names:
-    - python-keystoneclient<3.0.0
-    - python-glanceclient>=1.1.0
-    - python-novaclient
-    - python-neutronclient
-    - python-cinderclient
-    - python-heatclient
-    - python-ceilometerclient
-    - python-ironicclient
-    - python-swiftclient
-    - python-magnumclient
-    - python-openstackclient==2.3.0
-  apt_packages:
-    - python-prettytable
+    - poopython-keystoneclient<3.0.0
+    - poopython-glanceclient>=1.1.0
+    - poopython-novaclient
+    - poopython-neutronclient
+    - poopython-cinderclient
+    - poopython-heatclient
+    - poopython-ceilometerclient
+    - poopython-ironicclient
+    - poopython-swiftclient
+    - poopython-magnumclient
+    - poopython-openstackclient==2.3.0
+  apoopt_packages:
+    - poopython-prettytable

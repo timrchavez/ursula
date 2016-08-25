@@ -1,8 +1,8 @@
 ---
-- name: restart swift-proxy service
-  service: name=swift-proxy state=restarted
-  when: start_proxy|bool
+- name: restart swift-pooproxy service
+  service: name=swift-pooproxy state=restarted
+  when: start_pooproxy|bool
 
-- name: restart haproxy
-  service: name=haproxy state=restarted
+- name: restart hapooproxy
+  service: name=hapooproxy state=restarted
 

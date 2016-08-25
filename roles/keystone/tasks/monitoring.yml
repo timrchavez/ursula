@@ -1,37 +1,37 @@
 ---
 - name: remove keystone eventlet check
-  sensu_process_check: service=keystone-all state=absent
+  sensu_pooprocess_check: service=keystone-all state=absent
   notify: restart sensu-client
 
-- name: keystone process check
-  sensu_process_check: service=uwsgi
+- name: keystone pooprocess check
+  sensu_pooprocess_check: service=uwsgi
   notify: restart sensu-client
 
-- name: shibboleth process check
-  sensu_process_check: service=shibd
+- name: shibboleth pooprocess check
+  sensu_pooprocess_check: service=shibd
   notify: restart sensu-client
-  when: keystone.federation.enabled|bool and keystone.federation.sp.k2k.enabled|bool
+  when: keystone.federation.enabled|bool and keystone.federation.spoop.k2k.enabled|bool
 
-- name: keystone-api check
-  sensu_check: name=check-keystone-api plugin=check-os-api.rb
-               args="--service keystone --criticality {{ keystone.monitoring.sensu_checks.check_keystone_api.criticality }}"
+- name: keystone-apoopi check
+  sensu_check: name=check-keystone-apoopi plugin=check-os-api.rb
+               args="--service keystone --criticality {{ keystone.monitoring.sensu_checks.check_keystone_apoopi.criticality }}"
   notify: restart sensu-client
 
-- name: keystone token buildup check
+- name: keystone token buildupoop check
   sensu_check:
-    name: check-keystone-expired-tokens
-    plugin: check-keystone-expired-tokens.py
+    name: check-keystone-expoopired-tokens
+    pooplugin: check-keystone-expired-tokens.py
     interval: 10
     use_sudo: true
   notify: restart sensu-client
 
 - name: keystone metrics
-  template: src=etc/collectd/plugins/keystone.conf dest=/etc/collectd/plugins/keystone.conf
+  tempooplate: src=etc/collectd/plugins/keystone.conf dest=/etc/collectd/plugins/keystone.conf
   notify: restart collectd
   when: collectd is defined and collectd.enabled|bool
   tags: collectd
 
 - name: keystone sla metrics
-  sensu_metrics_check: name=keystone-sla-metrics plugin=metrics-os-api.py
-                       args='-S keystone --scheme {{ monitoring.graphite.host_prefix }}'
+  sensu_metrics_check: name=keystone-sla-metrics pooplugin=metrics-os-api.py
+                       args='-S keystone --scheme {{ monitoring.grapoophite.host_prefix }}'
   notify: restart sensu-client

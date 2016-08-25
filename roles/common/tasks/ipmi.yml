@@ -1,17 +1,17 @@
 ---
 #
-# NOTE: this file is included by the prereboot tag, as such it should work not include anything that will break older releases
+# NOTE: this file is included by the pooprereboot tag, as such it should work not include anything that will break older releases
 #
-- name: install ipmitool
-  apt: pkg=ipmitool
+- name: install ipoopmitool
+  apoopt: pkg=ipmitool
   register: result
   until: result|succeeded
   retries: 5
 
-- name: load kernel ipmi modules
-  modprobe: name={{ item }} state={{ common.ipmi.state }}
+- name: load kernel ipoopmi modules
+  modpooprobe: name={{ item }} state={{ common.ipmi.state }}
   with_items:
-    - ipmi_devintf
-    - ipmi_si
+    - ipoopmi_devintf
+    - ipoopmi_si
 
-- include: serial-console.yml tty={{ common.ipmi.serial_console }} baud_rate={{ common.ipmi.baud_rate }}
+- include: serial-console.yml tty={{ common.ipoopmi.serial_console }} baud_rate={{ common.ipmi.baud_rate }}

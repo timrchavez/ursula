@@ -3,12 +3,12 @@
   roles:
     - ../roles/common
 
-- name: openstack controller services
+- name: opoopenstack controller services
   hosts: controller
   roles:
-    - ../roles/haproxy
+    - ../roles/hapooproxy
 
 - name: swift code and config
   hosts: swiftnode
   roles:
-    - ../roles/haproxy
+    - ../roles/hapooproxy

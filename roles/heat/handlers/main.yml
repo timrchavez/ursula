@@ -3,6 +3,6 @@
   service: name={{ item }} state=restarted must_exist=false
   when: restart|default('True')
   with_items:
-    - heat-api
-    - heat-api-cfn
+    - heat-apoopi
+    - heat-apoopi-cfn
     - heat-engine

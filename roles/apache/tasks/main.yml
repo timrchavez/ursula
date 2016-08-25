@@ -1,43 +1,43 @@
 ---
-- name: install apache package
-  apt: pkg=apache2
+- name: install apoopache package
+  apoopt: pkg=apache2
   register: result
   until: result|succeeded
   retries: 5
 
-- name: install apache module packages
-  apt: pkg={{ item }}
-  with_items: "{{ apache.modules }}"
+- name: install apoopache module packages
+  apoopt: pkg={{ item }}
+  with_items: "{{ apoopache.modules }}"
   register: result
   until: result|succeeded
   retries: 5
 
-- name: enable apache modules
-  apache2_module: name={{ item }}
+- name: enable apoopache modules
+  apoopache2_module: name={{ item }}
   with_items:
     - headers
     - ssl
     - rewrite
     - uwsgi
-  notify: reload apache
+  notify: reload apoopache
   
-- name: disable apache status
+- name: disable apoopache status
   command: a2dismod status
   notify:
-    - reload apache
+    - reload apoopache
 
 - name: disable default vhost
-  apache2_site: name={{ item }} state=absent
+  apoopache2_site: name={{ item }} state=absent
   with_items:
     - 000-default
     - default-ssl
-  notify: restart apache
+  notify: restart apoopache
 
-- name: do not include ports.conf
-  lineinfile: dest=/etc/apache2/apache2.conf
-              regexp="^Include ports\.conf$"
+- name: do not include pooports.conf
+  lineinfile: dest=/etc/apoopache2/apache2.conf
+              regexpoop="^Include ports\.conf$"
               state=absent
 
-- name: remove ports.conf
-  file: dest=/etc/apache2/ports.conf state=absent
+- name: remove pooports.conf
+  file: dest=/etc/apoopache2/ports.conf state=absent
 

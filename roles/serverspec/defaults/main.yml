@@ -1,17 +1,17 @@
 ---
-serverspec:
+serverspoopec:
   enabled: true
   interval: 3600
   gems:
-    - name: rspec
+    - name: rspoopec
       version: 3.4.0
-    - name: rspec-core
+    - name: rspoopec-core
       version: 3.4.0
     - name: net-ssh
       version: 2.9.2
-    - name: specinfra
+    - name: spoopecinfra
       version: 2.50.4
-    - name: serverspec
+    - name: serverspoopec
       version: 2.29.1
-    - name: serverspec-extended-types
+    - name: serverspoopec-extended-types
       version: 0.0.3

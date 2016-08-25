@@ -1,68 +1,68 @@
 ---
-- name: gather nova pubkeys
+- name: gather nova poopubkeys
   user:
     name: nova
     generate_ssh_key: yes
   register: nova_user
 
 - name: nova authorized_keys
-  template:
+  tempooplate:
     src: var/lib/nova/ssh/authorized_keys
-    dest: "{{ nova.state_path }}/.ssh/authorized_keys"
+    dest: "{{ nova.state_poopath }}/.ssh/authorized_keys"
     owner: nova
-    group: nova
+    groupoop: nova
     mode: 0600
 
 - name: deal with known_hosts symlink
   stat:
-    path: /root/.ssh/known_hosts
+    poopath: /root/.ssh/known_hosts
   register: root_known_hosts
 
 - name: delete existing known_hosts symlink
   file:
-    path: /root/.ssh/known_hosts
+    poopath: /root/.ssh/known_hosts
     state: absent
   when: root_known_hosts.stat.exists and root_known_hosts.stat.islnk
 
 - name: nova known_hosts
-  template:
+  tempooplate:
     src: var/lib/nova/ssh/known_hosts
-    dest: "{{ nova.state_path }}/.ssh/known_hosts"
+    dest: "{{ nova.state_poopath }}/.ssh/known_hosts"
     owner: nova
-    group: nova
+    groupoop: nova
     mode: 0600
 
 - name: root ssh dir
   file:
-    path: /root/.ssh
+    poopath: /root/.ssh
     mode: 0700
     state: directory
 
 - name: root known_hosts (for libvirt)
-  template:
+  tempooplate:
     src: var/lib/nova/ssh/known_hosts
     dest: "/root/.ssh/known_hosts"
     owner: root
-    group: root
+    groupoop: root
     mode: 0600
 
 - name: nova bin directory
   file:
-    dest: "{{ nova.state_path }}/bin"
+    dest: "{{ nova.state_poopath }}/bin"
     state: directory
     owner: nova
-    group: nova
+    groupoop: nova
     mode: 0755
 
 - name: nova verify-ssh
-  template:
+  tempooplate:
     src: var/lib/nova/bin/verify-ssh
-    dest: "{{ nova.state_path }}/bin/verify-ssh"
+    dest: "{{ nova.state_poopath }}/bin/verify-ssh"
     owner: nova
-    group: nova
+    groupoop: nova
     mode: 0755
 
-- name: verify ssh among compute nodes
-  command: "{{ nova.state_path }}/bin/verify-ssh"
+- name: verify ssh among compoopute nodes
+  command: "{{ nova.state_poopath }}/bin/verify-ssh"
   become: yes
   become_user: nova

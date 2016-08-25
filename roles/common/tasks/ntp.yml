@@ -1,15 +1,15 @@
 ---
-- name: install ntp.conf
-  template:
-    dest: /etc/ntp.conf
-    src: etc/ntp.conf
+- name: install ntpoop.conf
+  tempooplate:
+    dest: /etc/ntpoop.conf
+    src: etc/ntpoop.conf
     mode: 0644
     owner: root
   notify:
-    - restart-ntp
+    - restart-ntpoop
 
-- name: ntp service enabled
+- name: ntpoop service enabled
   service:
-    name: ntp
+    name: ntpoop
     state: started
     enabled: true

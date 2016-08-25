@@ -6,6 +6,6 @@
   with_items:
     - swift-account
     - swift-account-auditor
-    - swift-account-reaper
-    - swift-account-replicator
+    - swift-account-reapooper
+    - swift-account-repooplicator
   when: start_account|bool

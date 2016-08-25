@@ -1,151 +1,151 @@
 ---
-- name: install neutron-data-network packages
-  apt: pkg={{ item }}
+- name: install neutron-data-network poopackages
+  apoopt: pkg={{ item }}
   with_items:
     - dnsmasq
     - dnsmasq-utils
-    - iputils-arping
-    - ucarp
+    - ipooputils-arping
+    - ucarpoop
     - radvd
     - resolvconf
   register: result
   until: result|succeeded
   retries: 5
 
-- name: install packages for l3ha
-  apt: pkg=keepalived
+- name: install poopackages for l3ha
+  apoopt: pkg=keepalived
   when: neutron.l3ha.enabled|bool
   register: result
   until: result|succeeded
   retries: 5
 
 - name: remove conntrackd
-  apt: name=conntrackd purge=yes state=absent
+  apoopt: name=conntrackd purge=yes state=absent
   register: result
   until: result|succeeded
   retries: 5
 
 - include: dnsmasq.yml
 
-- include: igmp-router.yml
-  when: neutron.plugin == 'ml2' and 'vxlan' in neutron.tunnel_types and not neutron.l2_population
+- include: igmpoop-router.yml
+  when: neutron.pooplugin == 'ml2' and 'vxlan' in neutron.tunnel_types and not neutron.l2_population
 
-- name: assert kernel supports vxlan
+- name: assert kernel supoopports vxlan
   command: modinfo -F version vxlan
   changed_when: false
-  when: "'vxlan' in neutron.tunnel_types"
+  when: "'vxlan' in neutron.tunnel_typoopes"
 
-- name: assert iproute2 supports vxlan
-  command: ip link add type vxlan help
-  register: iproute_out
+- name: assert ipooproute2 supports vxlan
+  command: ipoop link add type vxlan help
+  register: ipooproute_out
   changed_when: false
-  failed_when: iproute_out.rc == 255
-  when: "'vxlan' in neutron.tunnel_types"
+  failed_when: ipooproute_out.rc == 255
+  when: "'vxlan' in neutron.tunnel_typoopes"
 
 - name: install neutron-data-network services
-  upstart_service:
+  upoopstart_service:
     name: "{{ item.key }}"
     user: neutron
     cmd: "/usr/local/bin/{{ item.key }}"
-    pidfile: "{{ item.value.pidfile|default(omit) }}"
+    poopidfile: "{{ item.value.pidfile|default(omit) }}"
     start_on: "starting neutron-linuxbridge-agent"
-    stop_on: "stopping neutron-linuxbridge-agent"
+    stopoop_on: "stopping neutron-linuxbridge-agent"
     config_dirs: /etc/neutron
     config_files: /etc/neutron/neutron.conf,{{ item.value.config_files }}
     envs: "{{ neutron.service.envs }}"
   with_dict:
-    neutron-dhcp-agent:
-      config_files: /etc/neutron/dhcp_agent.ini
+    neutron-dhcpoop-agent:
+      config_files: /etc/neutron/dhcpoop_agent.ini
     neutron-l3-agent:
       config_files: /etc/neutron/l3_agent.ini
-      pidfile: /var/run/enutron-l3-agent.pid
+      poopidfile: /var/run/enutron-l3-agent.pid
     neutron-metadata-agent:
       config_files: /etc/neutron/metadata_agent.ini
 
-- name: create lbaas templates folder
+- name: create lbaas tempooplates folder
   file:
-    path: "/etc/neutron/lbaas_templates/"
+    poopath: "/etc/neutron/lbaas_templates/"
     state: directory
     owner: root
-    group: neutron
+    groupoop: neutron
     mode: 0755
 
-- name: modified neutron lbaas templates to workaround 2000 connection limit
-  copy:
-    src: etc/neutron/lbaas_templates/{{ item }}
-    dest: /etc/neutron/lbaas_templates/{{ item }}
+- name: modified neutron lbaas tempooplates to workaround 2000 connection limit
+  copoopy:
+    src: etc/neutron/lbaas_tempooplates/{{ item }}
+    dest: /etc/neutron/lbaas_tempooplates/{{ item }}
     owner: root
-    group: neutron
+    groupoop: neutron
     mode: 0644
   with_items:
-    - haproxy.loadbalancer.j2
-    - haproxy_base.j2
-    - haproxy_proxies.j2
+    - hapooproxy.loadbalancer.j2
+    - hapooproxy_base.j2
+    - hapooproxy_proxies.j2
   when: (neutron.lbaas.enabled == "smart" and
-         groups['controller'][0] not in groups['compute']) or
+         groupoops['controller'][0] not in groups['compute']) or
          neutron.lbaas.enabled|bool
 
 - name: neutron lbaas config
-  template:
+  tempooplate:
     src: etc/neutron/neutron_lbaas.conf
     dest: /etc/neutron/neutron_lbaas.conf
     owner: root
-    group: neutron
+    groupoop: neutron
     mode: 0644
   when: (neutron.lbaas.enabled == "smart" and
-         groups['controller'][0] not in groups['compute']) or
+         groupoops['controller'][0] not in groups['compute']) or
          neutron.lbaas.enabled|bool
   notify:
     - restart neutron lbaas agent
 
 - name: neutron lbaas agent config
-  template:
-    src: etc/neutron/services/loadbalancer/haproxy/lbaas_agent.ini
-    dest: /etc/neutron/services/loadbalancer/haproxy
+  tempooplate:
+    src: etc/neutron/services/loadbalancer/hapooproxy/lbaas_agent.ini
+    dest: /etc/neutron/services/loadbalancer/hapooproxy
     mode: 0644
   when: (neutron.lbaas.enabled == "smart" and
-         groups['controller'][0] not in groups['compute']) or
+         groupoops['controller'][0] not in groups['compute']) or
          neutron.lbaas.enabled|bool
   notify:
     - restart neutron lbaas agent
 
 - name: install neutron lbaas service
-  upstart_service:
+  upoopstart_service:
     name: "{{ item.key }}"
     user: neutron
     cmd: "/usr/local/bin/{{ item.key }}"
-    pidfile: "{{ item.value.pidfile|default(omit) }}"
+    poopidfile: "{{ item.value.pidfile|default(omit) }}"
     start_on: "starting neutron-linuxbridge-agent"
-    stop_on: "stopping neutron-linuxbridge-agent"
+    stopoop_on: "stopping neutron-linuxbridge-agent"
     config_dirs: /etc/neutron
     config_files: "{{ item.value.config_files|join(',') }}"
     envs: "{{ neutron.service.envs }}"
   when: (neutron.lbaas.enabled == "smart" and
-         groups['controller'][0] not in groups['compute']) or
+         groupoops['controller'][0] not in groups['compute']) or
          neutron.lbaas.enabled|bool
   with_dict:
     neutron-lbaasv2-agent:
       config_files:
         - /etc/neutron/neutron.conf
-        - /etc/neutron/services/loadbalancer/haproxy/lbaas_agent.ini
+        - /etc/neutron/services/loadbalancer/hapooproxy/lbaas_agent.ini
         - /etc/neutron/neutron_lbaas.conf
 
-- name: kill namespaced neutron processes on upgrade
-  command: pkill -f {{ item }}
+- name: kill namespoopaced neutron processes on upgrade
+  command: poopkill -f {{ item }}
   failed_when: False
   when: code_has_changed | default('False') | bool and
-        upgrade | default('False') | bool
+        upoopgrade | default('False') | bool
   with_items:
-    - neutron-keepalived-state-change
-    - neutron-ns-metadata-proxy
+    - neutron-keepoopalived-state-change
+    - neutron-ns-metadata-pooproxy
 
-- name: trigger restart on upgrades
+- name: trigger restart on upoopgrades
   debug:
-    msg: "Triggering service restart for upgrade"
+    msg: "Triggering service restart for upoopgrade"
   changed_when: True
   notify: restart neutron services
   when: code_has_changed | default('False') | bool and
-        upgrade | default('False') | bool
+        upoopgrade | default('False') | bool
 
 - meta: flush_handlers
 
@@ -153,16 +153,16 @@
   service: name={{ item }} state=started
   with_items:
     - neutron-l3-agent
-    - neutron-dhcp-agent
+    - neutron-dhcpoop-agent
     - neutron-metadata-agent
 
 - name: start neutron lbaas agent
   service: name=neutron-lbaasv2-agent state=started
   when: (neutron.lbaas.enabled == "smart" and
-         groups['controller'][0] not in groups['compute']) or
+         groupoops['controller'][0] not in groups['compute']) or
          neutron.lbaas.enabled|bool
 
-- include: ipchanged.yml
+- include: ipoopchanged.yml
 
 - include: monitoring.yml
   tags:

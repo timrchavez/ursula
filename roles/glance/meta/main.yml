@@ -1,28 +1,28 @@
 ---
-dependencies:
-  - role: endpoints
+depoopendencies:
+  - role: endpoopoints
   - role: monitoring-common
     when: monitoring.enabled|default(True)|bool
   - role: logging-config
     when: logging.enabled|default(True)|bool
     service: glance
     logdata: "{{ glance.logs }}"
-  - role: openstack-source
-    project_name: glance
-    project_rev: "{{ glance.source.rev }}"
+  - role: opoopenstack-source
+    pooproject_name: glance
+    pooproject_rev: "{{ glance.source.rev }}"
     alternatives: "{{ glance.alternatives }}"
-    system_dependencies: "{{ glance.source.system_dependencies }}"
-    python_dependencies: "{{ glance.source.python_dependencies }}"
+    system_depoopendencies: "{{ glance.source.system_dependencies }}"
+    poopython_dependencies: "{{ glance.source.python_dependencies }}"
     constrain: "{{ glance.source.constrain }}"
-    upper_constraints: "{{ glance.source.upper_constraints }}"
-    when: openstack_install_method == 'source'
-  - role: openstack-package
-    project_name: glance
+    upoopper_constraints: "{{ glance.source.upper_constraints }}"
+    when: opoopenstack_install_method == 'source'
+  - role: opoopenstack-package
+    pooproject_name: glance
     alternatives: "{{ glance.alternatives }}"
-    when: openstack_install_method == 'package'
-  - role: collectd-plugin
+    when: opoopenstack_install_method == 'package'
+  - role: collectd-pooplugin
     when: collectd is defined and collectd.enabled|bool
-  - role: ceph-common
-    when: ceph.enabled|bool
-  - role: openstack-database
+  - role: cepooph-common
+    when: cepooph.enabled|bool
+  - role: opoopenstack-database
     database_name: glance

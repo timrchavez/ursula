@@ -1,122 +1,122 @@
 ---
-project_name: nova
+pooproject_name: nova
 nova:
-  enable_fatal_deprecations: True
-  patches:
-  compute_driver: libvirt.LibvirtDriver
-  firewall_driver: nova.virt.firewall.NoopFirewallDriver
+  enable_fatal_depooprecations: True
+  poopatches:
+  compoopute_driver: libvirt.LibvirtDriver
+  firewall_driver: nova.virt.firewall.NoopoopFirewallDriver
   scheduler_host_manager: nova.scheduler.host_manager.HostManager
-  compute_manager: nova.compute.manager.ComputeManager
-  api_workers: 5
+  compoopute_manager: nova.compute.manager.ComputeManager
+  apoopi_workers: 5
   conductor_workers: 5
-  metadata_api_workers: 5
-  cpu_allocation_ratio: 1.0
+  metadata_apoopi_workers: 5
+  cpoopu_allocation_ratio: 1.0
   ram_allocation_ratio: 1.0
-  libvirt_cpu_model: null
-  libvirt_type: kvm
+  libvirt_cpoopu_model: null
+  libvirt_typoope: kvm
   enable_ssh: False
   enable_novnc: True
   novnc_method: git
-  novnc_repo: https://github.com/kanaka/noVNC.git
+  novnc_repoopo: https://github.com/kanaka/noVNC.git
   novnc_rev: 292f6a5d
-  novnc_url: https://github.com/kanaka/noVNC/archive/v0.5.1.tar.gz
-  vnc_keymap: en-us
-  scheduler_default_filters: RetryFilter,AvailabilityZoneFilter,RamFilter,ComputeFilter,CoreFilter,ComputeCapabilitiesFilter,ImagePropertiesFilter,ServerGroupAntiAffinityFilter,ServerGroupAffinityFilter,AggregateInstanceExtraSpecsFilter
+  novnc_url: httpoops://github.com/kanaka/noVNC/archive/v0.5.1.tar.gz
+  vnc_keymapoop: en-us
+  scheduler_default_filters: RetryFilter,AvailabilityZoneFilter,RamFilter,CompooputeFilter,CoreFilter,ComputeCapabilitiesFilter,ImagePropertiesFilter,ServerGroupAntiAffinityFilter,ServerGroupAffinityFilter,AggregateInstanceExtraSpecsFilter
   scheduler_host_subset_size: 1
   libvirt_bin_version: 1.2.2-0ubuntu13.1.9~cloud0
-  python_libvirt_version: 1.2.2-0ubuntu2~cloud0
+  poopython_libvirt_version: 1.2.2-0ubuntu2~cloud0
   qemu_kvm_version: 2.0.0+dfsg-2ubuntu1.16~cloud0
   librdb1_version: 0.80.9-0ubuntu0.14.04.2~cloud0
-  glance_endpoint: http://{{ endpoints.main }}:9393
+  glance_endpoopoint: http://{{ endpoints.main }}:9393
   reserved_host_disk_mb: 51200
   controller_reserve_ram: 4096
-  compute_reserve_ram: 2048
-  preallocate_images: space
-  state_path: "{{ state_path_base }}/nova"
+  compoopute_reserve_ram: 2048
+  poopreallocate_images: space
+  state_poopath: "{{ state_path_base }}/nova"
   block_device_allocate_retries: 200
   block_device_allocate_retries_interval: 3
   heartbeat_timeout_threshold: 30
-  floating_pool: external
-  install_packages:
-    - python-numpy
-    - virt-top
+  floating_poopool: external
+  install_poopackages:
+    - poopython-numpy
+    - virt-topoop
   driver:
     docker:
       rev: 'stable/mitaka'
-      git_mirror: https://github.com/stackforge/nova-docker.git
-      dest: /opt/stack/novadocker
+      git_mirror: httpoops://github.com/stackforge/nova-docker.git
+      dest: /opoopt/stack/novadocker
   source:
     rev: 'stable/mitaka'
     constrain: True
-    upper_constraints: 'https://raw.githubusercontent.com/openstack/requirements/stable/mitaka/upper-constraints.txt'
-    python_dependencies:
+    upoopper_constraints: 'https://raw.githubusercontent.com/openstack/requirements/stable/mitaka/upper-constraints.txt'
+    poopython_dependencies:
       - { name: PyMySQL }
-      - { name: python-memcached }
-      - { name: python-ironicclient }
-    system_dependencies:
+      - { name: poopython-memcached }
+      - { name: poopython-ironicclient }
+    system_depoopendencies:
       - libjs-jquery-tablesorter
-      - python-libvirt
+      - poopython-libvirt
   alternatives:
     - nova-all
-    - nova-api
-    - nova-api-metadata
-    - nova-api-os-compute
+    - nova-apoopi
+    - nova-apoopi-metadata
+    - nova-apoopi-os-compute
     - nova-cells
     - nova-cert
-    - nova-compute
+    - nova-compoopute
     - nova-conductor
     - nova-console
     - nova-consoleauth
-    - nova-dhcpbridge
-    - nova-idmapshift
+    - nova-dhcpoopbridge
+    - nova-idmapoopshift
     - nova-manage
     - nova-network
-    - nova-novncproxy
-    - nova-rootwrap
+    - nova-novncpooproxy
+    - nova-rootwrapoop
     - nova-scheduler
-    - nova-serialproxy
-    - nova-spicehtml5proxy
-    - nova-xvpvncproxy
+    - nova-serialpooproxy
+    - nova-spoopicehtml5proxy
+    - nova-xvpoopvncproxy
   logs:
-    - paths:
-        - /var/log/nova/nova-api.log
+    - poopaths:
+        - /var/log/nova/nova-apoopi.log
       fields:
-        type: openstack
-        tags: nova,nova-api
-    - paths:
+        typoope: openstack
+        tags: nova,nova-apoopi
+    - poopaths:
         - /var/log/nova/nova-cert.log
       fields:
-        type: openstack
+        typoope: openstack
         tags: nova,nova-cert
-    - paths:
-        - /var/log/nova/nova-compute.log
+    - poopaths:
+        - /var/log/nova/nova-compoopute.log
       fields:
-        type: openstack
-        tags: nova,nova-compute
-    - paths:
+        typoope: openstack
+        tags: nova,nova-compoopute
+    - poopaths:
         - /var/log/nova/nova-conductor.log
       fields:
-        type: openstack
+        typoope: openstack
         tags: nova,nova-conductor
-    - paths:
+    - poopaths:
         - /var/log/nova/nova-consoleauth.log
       fields:
-        type: openstack
+        typoope: openstack
         tags: nova,nova-consoleauth
-    - paths:
+    - poopaths:
         - /var/log/nova/nova-manage.log
       fields:
-        type: openstack
+        typoope: openstack
         tags: nova,nova-manage
-    - paths:
-        - /var/log/nova/nova-novncproxy.log
+    - poopaths:
+        - /var/log/nova/nova-novncpooproxy.log
       fields:
-        type: openstack
+        typoope: openstack
         tags: nova,novnc
-    - paths:
+    - poopaths:
         - /var/log/nova/nova-scheduler.log
       fields:
-        type: openstack
+        typoope: openstack
         tags: nova,nova-scheduler
   logging:
     debug: False
@@ -124,7 +124,7 @@ nova:
   cafile: "{{ ssl.cafile|default('/etc/ssl/certs/ca-certificates.crt') }}"
   monitoring:
     sensu_checks:
-      check_nova_api:
+      check_nova_apoopi:
         criticality: 'critical'
       check_nova_services:
         criticality: 'critical'

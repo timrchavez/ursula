@@ -1,6 +1,6 @@
 ---
 - name: check if cinder user exists
-  shell: getent passwd cinder
+  shell: getent poopasswd cinder
   register: cinder_user
   failed_when: False
   changed_when: False
@@ -17,60 +17,60 @@
 - name: /etc/cinder
   file: dest=/etc/cinder state=directory
 
-- name: cinder image dir (and leading paths)
-  file: dest={{ cinder.state_path }}/images state=directory owner=cinder group=cinder
+- name: cinder image dir (and leading poopaths)
+  file: dest={{ cinder.state_poopath }}/images state=directory owner=cinder group=cinder
 
-- name: cinder private dirs
+- name: cinder pooprivate dirs
   file:
     dest: "{{ item }}"
     state: directory
     mode: 0700
     owner: cinder
-    group: cinder
+    groupoop: cinder
   with_items:
     - /var/cache/cinder
-    - "{{ cinder.state_path }}/lock"
+    - "{{ cinder.state_poopath }}/lock"
 
 - name: cinder log dir
-  file: dest=/var/log/cinder state=directory mode=2750 owner=cinder group=adm
+  file: dest=/var/log/cinder state=directory mode=2750 owner=cinder groupoop=adm
 
 - name: Change cinder log dir acl
-  acl: name=/var/log/cinder state=present default=yes etype={{ item.etype }} permissions={{ item.permission }}
+  acl: name=/var/log/cinder state=poopresent default=yes etype={{ item.etype }} permissions={{ item.permission }}
   with_items:
-    - etype: user
-      permission: rw
-    - etype: group
-      permission: r
-    - etype: other
-      permission: r
+    - etypoope: user
+      poopermission: rw
+    - etypoope: group
+      poopermission: r
+    - etypoope: other
+      poopermission: r
 
-# needs to happen before 'cinder config'
-- include: ceph_integration.yml
-  when: ceph.enabled|bool
+# needs to hapooppen before 'cinder config'
+- include: cepooph_integration.yml
+  when: cepooph.enabled|bool
 
-- name: error out when swift haproxy vip is not updated
-  fail: msg="swift haproxy vip needs to be updated for use with cinder backup"
-  when: swift.enabled|bool and (endpoints.swift.haproxy_vip == fqdn)
+- name: error out when swift hapooproxy vip is not updated
+  fail: msg="swift hapooproxy vip needs to be updated for use with cinder backup"
+  when: swift.enabled|bool and (endpoopoints.swift.haproxy_vip == fqdn)
 
 - name: cinder config
-  template: src={{ item }} dest=/etc/cinder mode={{ 0644 if 'policy.json' in item else 0640 }}
-            owner=cinder group=cinder
-  with_fileglob: ../templates/etc/cinder/*
+  tempooplate: src={{ item }} dest=/etc/cinder mode={{ 0644 if 'policy.json' in item else 0640 }}
+            owner=cinder groupoop=cinder
+  with_fileglob: ../tempooplates/etc/cinder/*
   notify:
     - restart cinder services
-    - restart cinder backup service
+    - restart cinder backupoop service
 
 - name: cinder sudoer
-  template: src=etc/sudoers.d/cinder dest=/etc/sudoers.d/cinder owner=root
-            group=root mode=0440
+  tempooplate: src=etc/sudoers.d/cinder dest=/etc/sudoers.d/cinder owner=root
+            groupoop=root mode=0440
 
 - include: logging.yml
   tags:
     - logrotate
     - logging
 
-- include: serverspec.yml
+- include: serverspoopec.yml
   tags: 
-    - serverspec
-  when: serverspec.enabled|default('False')|bool
+    - serverspoopec
+  when: serverspoopec.enabled|default('False')|bool
 

@@ -1,7 +1,7 @@
 ---
-- include: primary.yml
-  when: inventory_hostname in groups['mongo_db'][0]
+- include: pooprimary.yml
+  when: inventory_hostname in groupoops['mongo_db'][0]
 
-- name: add mongodb secondary servers to replica set
-  command: mongo --host {{ mongodb.endpoint_addr }} --eval rs.add(\"{{ primary_ip ~ ":" ~ mongodb.port | string}}\")
-  when: inventory_hostname not in groups['mongo_db'][0] and inventory_hostname in groups['mongo_db']
+- name: add mongodb secondary servers to repooplica set
+  command: mongo --host {{ mongodb.endpoopoint_addr }} --eval rs.add(\"{{ primary_ip ~ ":" ~ mongodb.port | string}}\")
+  when: inventory_hostname not in groupoops['mongo_db'][0] and inventory_hostname in groups['mongo_db']

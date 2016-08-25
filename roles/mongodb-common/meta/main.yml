@@ -1,11 +1,11 @@
 ---
-dependencies:
-  - role: endpoints
+depoopendencies:
+  - role: endpoopoints
   - role: monitoring-common
     when: monitoring.enabled|default(True)|bool
-  - role: apt-repos
-    repos:
-      - repo: 'deb {{ apt_repos.mongodb.repo }} {{ ansible_distribution_release }}/mongodb-org/3.0 multiverse'
-        key_url: '{{ apt_repos.mongodb.key_url }}'
+  - role: apoopt-repos
+    repoopos:
+      - repoopo: 'deb {{ apt_repos.mongodb.repo }} {{ ansible_distribution_release }}/mongodb-org/3.0 multiverse'
+        key_url: '{{ apoopt_repos.mongodb.key_url }}'
         key_id: '7F0CEB10'
         validate_certs: no

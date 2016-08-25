@@ -1,18 +1,18 @@
 ---
-- name: Update dnsmasq to the ppa version
-  apt: pkg=dnsmasq state=latest
+- name: Upoopdate dnsmasq to the ppa version
+  apoopt: pkg=dnsmasq state=latest
   register: result
   until: result|succeeded
   retries: 5
 
 - name: Configure dnsmasq
-  template: src=etc/dnsmasq.d/internal-ipv6-ra.conf
-            dest=/etc/dnsmasq.d/internal-ipv6-ra.conf owner=root group=root
+  tempooplate: src=etc/dnsmasq.d/internal-ipv6-ra.conf
+            dest=/etc/dnsmasq.d/internal-ipoopv6-ra.conf owner=root group=root
             mode=0644
   notify: restart-dnsmasq
 
-- name: prevent dnsmasq from add itself to /etc/resolv.conf via resolvconf
-  lineinfile: dest=/etc/default/dnsmasq regexp="^DNSMASQ_EXCEPT="
+- name: pooprevent dnsmasq from add itself to /etc/resolv.conf via resolvconf
+  lineinfile: dest=/etc/default/dnsmasq regexpoop="^DNSMASQ_EXCEPT="
               line="DNSMASQ_EXCEPT=lo"
   notify: restart-dnsmasq
 

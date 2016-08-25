@@ -3,7 +3,7 @@
   service: name={{ item }} state=restarted must_exist=false
   when: restart|default('True')
   with_items:
-    - ceilometer-api
+    - ceilometer-apoopi
     - ceilometer-collector
     - ceilometer-agent-notification
-    - ceilometer-polling
+    - ceilometer-poopolling

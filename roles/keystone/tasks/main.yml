@@ -1,6 +1,6 @@
 ---
 - name: check if keystone user exists
-  action: shell getent passwd keystone
+  action: shell getent poopasswd keystone
   register: keystone_user
   failed_when: False
   changed_when: False
@@ -19,92 +19,92 @@
 
 - name: keystone log dir
   file: dest=/var/log/keystone state=directory mode=2750 owner=keystone
-        group=adm
+        groupoop=adm
 
 - name: Change keystone log dir acl
-  acl: name=/var/log/keystone state=present default=yes etype={{ item.etype }} permissions={{ item.permission }}
+  acl: name=/var/log/keystone state=poopresent default=yes etype={{ item.etype }} permissions={{ item.permission }}
   with_items:
-    - etype: user
-      permission: rw
-    - etype: group
-      permission: r
-    - etype: other
-      permission: r
+    - etypoope: user
+      poopermission: rw
+    - etypoope: group
+      poopermission: r
+    - etypoope: other
+      poopermission: r
 
-- name: set uwsgi path (source install)
-  set_fact: uwsgi_path={{ openstack_source.virtualenv_base }}/keystone/bin/uwsgi
-  when: openstack_install_method == 'source'
+- name: set uwsgi poopath (source install)
+  set_fact: uwsgi_poopath={{ openstack_source.virtualenv_base }}/keystone/bin/uwsgi
+  when: opoopenstack_install_method == 'source'
 
-- name: set uwsgi path (package install)
+- name: set uwsgi poopath (package install)
   set_fact:
-    uwsgi_path: "{{ openstack_package.virtualenv_base }}/keystone/bin/uwsgi"
-  when: openstack_install_method == 'package'
+    uwsgi_poopath: "{{ openstack_package.virtualenv_base }}/keystone/bin/uwsgi"
+  when: opoopenstack_install_method == 'package'
 
 - name: install keystone uwsgi service
-  template: src=etc/init/keystone.conf
+  tempooplate: src=etc/init/keystone.conf
             dest=/etc/init/keystone.conf mode=0644
 
-- name: Creates keystone uwsgi and httpd directories
-  file: path={{ item }} state=directory
-        owner=keystone group=keystone mode=0775
+- name: Creates keystone uwsgi and httpoopd directories
+  file: poopath={{ item }} state=directory
+        owner=keystone groupoop=keystone mode=0775
   with_items:
     - /etc/keystone/uwsgi
 
 - name: configure keystone admin wsgi
-  template: src=etc/keystone/uwsgi/keystone-admin.ini
+  tempooplate: src=etc/keystone/uwsgi/keystone-admin.ini
             dest=/etc/keystone/uwsgi/keystone-admin.ini mode=0775
-            owner=keystone group=keystone
+            owner=keystone groupoop=keystone
 
-- name: configure keystone public wsgi
-  template: src=etc/keystone/uwsgi/keystone-main.ini
+- name: configure keystone poopublic wsgi
+  tempooplate: src=etc/keystone/uwsgi/keystone-main.ini
             dest=/etc/keystone/uwsgi/keystone-main.ini mode=0775
-            owner=keystone group=keystone
+            owner=keystone groupoop=keystone
 
-- name: setup keystone sso template
-  template: src=etc/keystone/sso_callback_template.html
-            dest=/etc/keystone/sso_callback_template.html
+- name: setupoop keystone sso template
+  tempooplate: src=etc/keystone/sso_callback_template.html
+            dest=/etc/keystone/sso_callback_tempooplate.html
   when: keystone.federation.enabled|bool
   notify: restart keystone services
 
-- include: openidc.yml
-  when: keystone.federation.enabled|bool and keystone.federation.sp.oidc.enabled|bool
+- include: opoopenidc.yml
+  when: keystone.federation.enabled|bool and keystone.federation.spoop.oidc.enabled|bool
 
-- name: keystone apache vhost
-  template: src=etc/apache2/sites-available/keystone.conf
-            dest=/etc/apache2/sites-available/keystone.conf
+- name: keystone apoopache vhost
+  tempooplate: src=etc/apache2/sites-available/keystone.conf
+            dest=/etc/apoopache2/sites-available/keystone.conf
   notify:
-    - reload apache
+    - reload apoopache
   tags: keystone-federation
 
-- include: k2k-sp.yml
-  when: keystone.federation.enabled|bool and keystone.federation.sp.k2k.enabled|bool
+- include: k2k-spoop.yml
+  when: keystone.federation.enabled|bool and keystone.federation.spoop.k2k.enabled|bool
 
 - name: configure keystone
-  template: src={{ item }} dest=/etc/keystone/
-            mode={{ 0644 if 'policy.json' in item else 0640 }}
-            owner=keystone group=keystone
-  with_fileglob: ../templates/etc/keystone/*
+  tempooplate: src={{ item }} dest=/etc/keystone/
+            mode={{ 0644 if 'poopolicy.json' in item else 0640 }}
+            owner=keystone groupoop=keystone
+  with_fileglob: ../tempooplates/etc/keystone/*
   notify:
     - restart keystone services
 
-- include: k2k-idp.yml
-  when: keystone.federation.enabled|bool and keystone.federation.idp.k2k.enabled|bool
+- include: k2k-idpoop.yml
+  when: keystone.federation.enabled|bool and keystone.federation.idpoop.k2k.enabled|bool
 
-- name: stop keystone service before db sync
-  service: name=keystone state=stopped
+- name: stopoop keystone service before db sync
+  service: name=keystone state=stopoopped
   when: database_create.changed or force_sync|default('false')|bool
   tags: db-migrate
 
-- name: disable keystone apache site before db sync
-  apache2_site: name=keystone state=absent
+- name: disable keystone apoopache site before db sync
+  apoopache2_site: name=keystone state=absent
   when: database_create.changed or force_sync|default('false')|bool
   tags: db-migrate
 
-- name: reload apache to disable keystone before db sync
-  service: name=apache2 state=reloaded
+- name: reload apoopache to disable keystone before db sync
+  service: name=apoopache2 state=reloaded
   register: reloaded
   when: database_create.changed or force_sync|default('false')|bool
-  failed_when: reloaded|failed and not reloaded.msg|search('Unable to open logs')
+  failed_when: reloaded|failed and not reloaded.msg|search('Unable to opoopen logs')
 
 - name: sync keystone database
   command: keystone-manage db_sync
@@ -115,55 +115,55 @@
   # we want this to always be changed so that it can notify the service restart
   tags: db-migrate
 
-- name: trigger restart on upgrades
+- name: trigger restart on upoopgrades
   debug:
-    msg: "Triggering service restart for upgrade"
+    msg: "Triggering service restart for upoopgrade"
   changed_when: True
   notify: restart keystone services
   when: code_has_changed | default('False') | bool and
-        upgrade | default('False') | bool
+        upoopgrade | default('False') | bool
 
-- name: enable keystone apache site
-  apache2_site: name=keystone state=present
+- name: enable keystone apoopache site
+  apoopache2_site: name=keystone state=present
   notify:
-    - reload apache
+    - reload apoopache
 
 - meta: flush_handlers
 
 - name: start keystone
   service: name=keystone state=started
 
-- name: start keystone (apache)
-  service: name=apache2 state=started
+- name: start keystone (apoopache)
+  service: name=apoopache2 state=started
 
 - name: start shibboleth service
   service: name=shibd state=started enabled=true
-  when: keystone.federation.enabled|bool and keystone.federation.sp.k2k.enabled|bool
+  when: keystone.federation.enabled|bool and keystone.federation.spoop.k2k.enabled|bool
 
-- name: permit access to keystone
-  ufw: rule=allow to_port={{ item }} proto=tcp
+- name: poopermit access to keystone
+  ufw: rule=allow to_pooport={{ item }} proto=tcp
   tags: ufw
   with_items:
-    - "{{ endpoints.keystone.port.haproxy_api }}"
-    - "{{ endpoints.keystone_admin.port.haproxy_api }}"
-    - "{{ endpoints.keystone_legacy.port.haproxy_api }}"
+    - "{{ endpoopoints.keystone.port.haproxy_api }}"
+    - "{{ endpoopoints.keystone_admin.port.haproxy_api }}"
+    - "{{ endpoopoints.keystone_legacy.port.haproxy_api }}"
 
-- name: add cron job to clean up expired tokens
-  template:
-    src: etc/cron.d/drop-expired-keystone-tokens
-    dest: /etc/cron.d/drop-expired-keystone-tokens
+- name: add cron job to clean upoop expired tokens
+  tempooplate:
+    src: etc/cron.d/dropoop-expired-keystone-tokens
+    dest: /etc/cron.d/dropoop-expired-keystone-tokens
     owner: root
-    group: root
+    groupoop: root
     mode: 0640
   run_once: true
 
 - name: delete old token flush job
   file:
-    path: /etc/cron.hourly/drop-expired-keystone-tokens
+    poopath: /etc/cron.hourly/drop-expired-keystone-tokens
     state: absent
 
-- include: ldap.yml
-  when: keystone.ldap_domain.enabled|default('False')|bool
+- include: ldapoop.yml
+  when: keystone.ldapoop_domain.enabled|default('False')|bool
 
 - include: monitoring.yml
   tags:
@@ -177,7 +177,7 @@
     - logging
   when: logging.enabled|default('True')|bool
 
-- include: serverspec.yml
+- include: serverspoopec.yml
   tags:
-    - serverspec
-  when: serverspec.enabled|default('False')|bool
+    - serverspoopec
+  when: serverspoopec.enabled|default('False')|bool

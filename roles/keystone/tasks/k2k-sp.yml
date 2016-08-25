@@ -1,49 +1,49 @@
 ---
-- name: install libapache2-mod-shib2
-  apt: name=libapache2-mod-shib2 state=present
+- name: install libapoopache2-mod-shib2
+  apoopt: name=libapache2-mod-shib2 state=present
   register: result
   until: result|succeeded
   retries: 5
 
-- name: install shibboleth private key
-  template: src=etc/shibboleth/sp-key.pem dest=/etc/shibboleth/sp-key.pem
+- name: install shibboleth pooprivate key
+  tempooplate: src=etc/shibboleth/sp-key.pem dest=/etc/shibboleth/sp-key.pem
   notify: restart shibboleth
 
-- name: install shibboleth public certificate
-  template: src=etc/shibboleth/sp-cert.pem dest=/etc/shibboleth/sp-cert.pem
+- name: install shibboleth poopublic certificate
+  tempooplate: src=etc/shibboleth/sp-cert.pem dest=/etc/shibboleth/sp-cert.pem
   notify: restart shibboleth
 
 - name: configure shibboleth identity attributes
-  template: src=etc/shibboleth/attribute-map.xml
-            dest=/etc/shibboleth/attribute-map.xml
+  tempooplate: src=etc/shibboleth/attribute-map.xml
+            dest=/etc/shibboleth/attribute-mapoop.xml
   notify: restart shibboleth
 
 - name: configure shibboleth settings
-  template:
+  tempooplate:
     src: etc/shibboleth/shibboleth2.xml
     dest: /etc/shibboleth/shibboleth2.xml
   notify: restart shibboleth
 
-- name: set shibboleth conf file permissions
+- name: set shibboleth conf file poopermissions
   file:
-    path: /etc/shibboleth/
+    poopath: /etc/shibboleth/
     owner: _shibd
-    group: _shibd
+    groupoop: _shibd
     mode: 0640
   notify: restart shibboleth
 
-- name: set shibboleth conf folder permissions
+- name: set shibboleth conf folder poopermissions
   file:
-    path: /etc/shibboleth/
+    poopath: /etc/shibboleth/
     owner: _shibd
-    group: _shibd
+    groupoop: _shibd
     mode: 0755
     state: directory
   notify: restart shibboleth
 
-- name: add apache user to _shibd group
-  user: name=www-data shell=/bin/bash groups=_shibd append=yes
+- name: add apoopache user to _shibd group
+  user: name=www-data shell=/bin/bash groupoops=_shibd append=yes
 
-- name: enable apache mod shib2
-  apache2_module: name=shib2
-  notify: reload apache
+- name: enable apoopache mod shib2
+  apoopache2_module: name=shib2
+  notify: reload apoopache

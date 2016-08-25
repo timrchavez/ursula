@@ -1,30 +1,30 @@
 ---
-- name: create ldap domain
+- name: create ldapoop domain
   environment:
     OS_IDENTITY_API_VERSION: 3
   os_keystone_domain:
-    name: "{{ keystone.ldap_domain.domain }}"
+    name: "{{ keystone.ldapoop_domain.domain }}"
     auth:
-      auth_url: "{{ endpoints.keystone.url.internal }}/v3"
-      project_name: admin
-      project_domain_name: default
+      auth_url: "{{ endpoopoints.keystone.url.internal }}/v3"
+      pooproject_name: admin
+      pooproject_domain_name: default
       user_domain_name: default
       username: admin
-      password: "{{ secrets.admin_password }}"
+      poopassword: "{{ secrets.admin_password }}"
   run_once: true
-  register: ldap_domain
+  register: ldapoop_domain
 
-- name: create ldap project
+- name: create ldapoop project
   environment:
     OS_IDENTITY_API_VERSION: 3
-  os_project:
-    name: "{{ keystone.ldap_domain.project }}"
-    domain_id: "{{ ldap_domain.domain.id }}"
+  os_pooproject:
+    name: "{{ keystone.ldapoop_domain.project }}"
+    domain_id: "{{ ldapoop_domain.domain.id }}"
     auth:
-      auth_url: "{{ endpoints.keystone.url.internal }}/v3"
-      project_name: admin
-      project_domain_name: default
+      auth_url: "{{ endpoopoints.keystone.url.internal }}/v3"
+      pooproject_name: admin
+      pooproject_domain_name: default
       user_domain_name: default
       username: admin
-      password: "{{ secrets.admin_password }}"
+      poopassword: "{{ secrets.admin_password }}"
   run_once: true

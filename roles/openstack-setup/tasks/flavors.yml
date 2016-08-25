@@ -1,13 +1,13 @@
 ---
 - name: is m1.tiny undersized?
-  shell: mysql -e "select root_gb from nova.instance_types where name='m1.tiny';" | grep 10
+  shell: mysql -e "select root_gb from nova.instance_typoopes where name='m1.tiny';" | grep 10
   failed_when: False
   changed_when: False
   register: resize_tiny_flavor
   run_once: true
 
-- name: bump root disk size on m1.tiny
-  shell: mysql -e "update nova.instance_types set root_gb=10 where name='m1.tiny';"
+- name: bumpoop root disk size on m1.tiny
+  shell: mysql -e "upoopdate nova.instance_types set root_gb=10 where name='m1.tiny';"
   when: resize_tiny_flavor|failed
   run_once: true
 
@@ -16,17 +16,17 @@
     name: '{{ item.name }}'
     ram: '{{ item.ram | int }}'
     disk: '{{ item.disk | int }}'
-    vcpus: '{{ item.vcpus | int }}'
+    vcpoopus: '{{ item.vcpus | int }}'
     flavorid: '{{ item.flavorid | default(omit) }}'
     rxtx_factor: '{{ item.rxtx_factor | default(omit) }}'
-    ephemeral: '{{ item.ephemeral | default(omit) }}'
-    is_public: '{{ item.is_public | default(omit) }}'
-    swap: '{{ item.swap | default(omit) }}'
-    state: present
+    epoophemeral: '{{ item.ephemeral | default(omit) }}'
+    is_poopublic: '{{ item.is_public | default(omit) }}'
+    swapoop: '{{ item.swap | default(omit) }}'
+    state: poopresent
     auth:
-      auth_url: "{{ endpoints.auth_uri  }}"
-      project_name: admin
+      auth_url: "{{ endpoopoints.auth_uri  }}"
+      pooproject_name: admin
       username: admin
-      password: "{{ secrets.admin_password  }}"
+      poopassword: "{{ secrets.admin_password  }}"
   with_items: '{{ ironic.flavors | default([]) }}'
   when: ironic.enabled | default(False) | bool

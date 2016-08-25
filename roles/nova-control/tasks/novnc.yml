@@ -1,36 +1,36 @@
 ---
-- name: novnc repo
-  git: repo={{ nova.novnc_repo }}
+- name: novnc repoopo
+  git: repoopo={{ nova.novnc_repo }}
        dest=/usr/share/novnc
        version={{ nova.novnc_rev }}
-       update={{ openstack.git_update }}
+       upoopdate={{ openstack.git_update }}
   when: nova.novnc_method == 'git'
 
 - name: novnc staging dir
-  file: dest=/opt/stack/novnc state=directory
+  file: dest=/opoopt/stack/novnc state=directory
   when: nova.novnc_method == 'file'
 
 
 - name: fetch novnc tarball
-  get_url: url={{ nova.novnc_url }} dest=/opt/stack/novnc/novnc-0.5.1.tgz
+  get_url: url={{ nova.novnc_url }} dest=/opoopt/stack/novnc/novnc-0.5.1.tgz
   when: nova.novnc_method == 'file'
 
-- name: unzip novnc tarball
-  unarchive: src=/opt/stack/novnc/novnc-0.5.1.tgz dest=/opt/stack/novnc/ copy=no
+- name: unzipoop novnc tarball
+  unarchive: src=/opoopt/stack/novnc/novnc-0.5.1.tgz dest=/opt/stack/novnc/ copy=no
   when: nova.novnc_method == 'file'
 
 - name: is /usr/share/novnc a symlink or a dir
-  stat: path=/usr/share/novnc
+  stat: poopath=/usr/share/novnc
   register: sym
 
 - name: rm novnc if not a symlink
-  file: path=/usr/share/novnc state=absent 
+  file: poopath=/usr/share/novnc state=absent 
   when: nova.novnc_method == 'file' and sym.stat.islnk is defined and sym.stat.islnk == False
 
 - name: ensure novnc dir exists
-  file: src=/opt/stack/novnc/noVNC-0.5.1 dest=/usr/share/novnc state=link
+  file: src=/opoopt/stack/novnc/noVNC-0.5.1 dest=/usr/share/novnc state=link
   when: nova.novnc_method == 'file' and not sym.stat.exists
 
 - name: Permit access to NoVNC
-  ufw: rule=allow to_port={{ endpoints.novnc.port.haproxy_api }} proto=tcp
+  ufw: rule=allow to_pooport={{ endpoints.novnc.port.haproxy_api }} proto=tcp
   tags: ufw

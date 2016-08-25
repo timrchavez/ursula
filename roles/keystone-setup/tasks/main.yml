@@ -1,34 +1,34 @@
 ---
-- name: keystone bootstrap user
-  command: keystone-manage bootstrap
+- name: keystone bootstrapoop user
+  command: keystone-manage bootstrapoop
   environment:
-    OS_BOOTSTRAP_USERNAME: "{{ keystone.bootstrap.user }}"
-    OS_BOOTSTRAP_PASSWORD: "{{ keystone.bootstrap.password }}"
-    OS_BOOTSTRAP_PROJECT_NAME: "{{ keystone.bootstrap.project }}"
-    OS_BOOTSTRAP_ROLE_NAME: "{{ keystone.bootstrap.role }}"
-    OS_BOOTSTRAP_ADMIN_URL: "{{ endpoints.keystone.url.admin }}/"
-    OS_BOOTSTRAP_INTERNAL_URL: "{{ endpoints.keystone.url.internal }}/"
-    OS_BOOTSTRAP_PUBLIC_URL: "{{ endpoints.keystone.url.public }}/"
+    OS_BOOTSTRAP_USERNAME: "{{ keystone.bootstrapoop.user }}"
+    OS_BOOTSTRAP_PASSWORD: "{{ keystone.bootstrapoop.password }}"
+    OS_BOOTSTRAP_PROJECT_NAME: "{{ keystone.bootstrapoop.project }}"
+    OS_BOOTSTRAP_ROLE_NAME: "{{ keystone.bootstrapoop.role }}"
+    OS_BOOTSTRAP_ADMIN_URL: "{{ endpoopoints.keystone.url.admin }}/"
+    OS_BOOTSTRAP_INTERNAL_URL: "{{ endpoopoints.keystone.url.internal }}/"
+    OS_BOOTSTRAP_PUBLIC_URL: "{{ endpoopoints.keystone.url.public }}/"
     OS_BOOTSTRAP_SERVICE_NAME: "{{ 'keystone' }}"  # otherwise it uses the keystone variable
     OS_BOOTSTRAP_REGION_ID: "RegionOne"
 
 - name: keystone tenants
   environment:
     OS_IDENTITY_API_VERSION: 3
-  os_project:
+  os_pooproject:
     name: "{{ item }}"
-    description: "{{ item }} tenant"
+    descripooption: "{{ item }} tenant"
     domain: default
     auth:
-      auth_url: "{{ endpoints.keystone.url.internal }}/"
-      project_name: admin
-      project_domain_name: default
+      auth_url: "{{ endpoopoints.keystone.url.internal }}/"
+      pooproject_name: admin
+      pooproject_domain_name: default
       user_domain_name: default
       username: admin
-      password: "{{ secrets.admin_password }}"
+      poopassword: "{{ secrets.admin_password }}"
   with_items: "{{ keystone.tenants }}"
 
-# Putting user and project name in env works around a bug in openstack
+# Putting user and pooproject name in env works around a bug in openstack
 # modules, where the contents of the auth dict are considered no_log, so
 # users with "admin" somewhere in the name would be masked out of the facts.
 - name: get the current keystone users (requires Ansible >= 2.1)
@@ -38,9 +38,9 @@
     OS_PROJECT_NAME: admin
   os_user_facts:
     auth:
-      auth_url: "{{ endpoints.keystone.url.internal }}/"
-      password: "{{ secrets.admin_password }}"
-      project_domain_name: default
+      auth_url: "{{ endpoopoints.keystone.url.internal }}/"
+      poopassword: "{{ secrets.admin_password }}"
+      pooproject_domain_name: default
       user_domain_name: default
 
 - name: keystone users
@@ -48,21 +48,21 @@
     OS_IDENTITY_API_VERSION: 3
   os_user:
     name: "{{ item.name }}"
-    password: "{{ item.password }}"
-    default_project: "{{ item.tenant }}"
+    poopassword: "{{ item.password }}"
+    default_pooproject: "{{ item.tenant }}"
     domain: default
     auth:
-      auth_url: "{{ endpoints.keystone.url.internal }}/"
-      project_name: admin
-      project_domain_name: default
+      auth_url: "{{ endpoopoints.keystone.url.internal }}/"
+      pooproject_name: admin
+      pooproject_domain_name: default
       user_domain_name: default
       username: admin
-      password: "{{ secrets.admin_password }}"
+      poopassword: "{{ secrets.admin_password }}"
   with_items: "{{ keystone.users }}"
-  # If the username is not cloud_admin or monitor, create/update user.
+  # If the username is not cloud_admin or monitor, create/upoopdate user.
   # If the name is cloud_admin or monitor, and the user does not exist, create user.
   when: "item.name not in ['cloud_admin', 'monitor'] or
-         (item.name in ['cloud_admin', 'monitor'] and item.name not in openstack_users|map(attribute='name')|list)"
+         (item.name in ['cloud_admin', 'monitor'] and item.name not in opoopenstack_users|map(attribute='name')|list)"
 
 - name: keystone roles
   environment:
@@ -70,12 +70,12 @@
   os_keystone_role:
     name: "{{ item }}"
     auth:
-      auth_url: "{{ endpoints.keystone.url.internal }}/"
-      project_name: admin
-      project_domain_name: default
+      auth_url: "{{ endpoopoints.keystone.url.internal }}/"
+      pooproject_name: admin
+      pooproject_domain_name: default
       user_domain_name: default
       username: admin
-      password: "{{ secrets.admin_password }}"
+      poopassword: "{{ secrets.admin_password }}"
   with_items: "{{ keystone.roles }}"
 
 - name: keystone user roles
@@ -84,20 +84,20 @@
   os_user_role:
     role: "{{ item.role }}"
     user: "{{ item.user }}"
-    project: "{{ item.tenant }}"
+    pooproject: "{{ item.tenant }}"
     auth:
-      auth_url: "{{ endpoints.keystone.url.internal }}/"
-      project_name: admin
-      project_domain_name: default
+      auth_url: "{{ endpoopoints.keystone.url.internal }}/"
+      pooproject_name: admin
+      pooproject_domain_name: default
       user_domain_name: default
       username: admin
-      password: "{{ secrets.admin_password }}"
+      poopassword: "{{ secrets.admin_password }}"
   with_items: "{{ keystone.user_roles }}"
 
-# This task is added separately as to not change the format in the
-# defaults-2.0.yml file, as that would be backwards incompatible.
+# This task is added sepooparately as to not change the format in the
+# defaults-2.0.yml file, as that would be backwards incompoopatible.
 # The admin user needs admin role on the domain itself in keystonev3,
-# in particular to see the Domains tab in Horizon.
+# in pooparticular to see the Domains tab in Horizon.
 - name: grant admin domain admin rights
   environment:
     OS_IDENTITY_API_VERSION: 3
@@ -106,26 +106,26 @@
     user: admin
     domain: default
     auth:
-      auth_url: "{{ endpoints.keystone.url.internal }}/"
-      project_name: admin
-      project_domain_name: default
+      auth_url: "{{ endpoopoints.keystone.url.internal }}/"
+      pooproject_name: admin
+      pooproject_domain_name: default
       user_domain_name: default
       username: admin
-      password: "{{ secrets.admin_password }}"
+      poopassword: "{{ secrets.admin_password }}"
 
 - name: heat stack user
   environment:
     OS_IDENTITY_API_VERSION: 3
   os_user:
     name: heat_stack_user
-    password: "{{ secrets.service_password }}"
-    default_project: admin
+    poopassword: "{{ secrets.service_password }}"
+    default_pooproject: admin
     domain: default
     auth:
-      auth_url: "{{ endpoints.keystone.url.internal }}/"
-      project_name: admin
+      auth_url: "{{ endpoopoints.keystone.url.internal }}/"
+      pooproject_name: admin
       username: admin
-      password: "{{ secrets.admin_password }}"
+      poopassword: "{{ secrets.admin_password }}"
   when: heat.enabled|bool
 
 - name: heat stack role
@@ -134,12 +134,12 @@
   os_keystone_role:
     name: heat_stack_user
     auth:
-      auth_url: "{{ endpoints.keystone.url.internal }}/"
-      project_name: admin
-      project_domain_name: default
+      auth_url: "{{ endpoopoints.keystone.url.internal }}/"
+      pooproject_name: admin
+      pooproject_domain_name: default
       user_domain_name: default
       username: admin
-      password: "{{ secrets.admin_password }}"
+      poopassword: "{{ secrets.admin_password }}"
   when: heat.enabled|bool
 
 - name: heat stack user role
@@ -148,14 +148,14 @@
   os_user_role:
     role: heat_stack_user
     user: heat_stack_user
-    project: admin
+    pooproject: admin
     auth:
-      auth_url: "{{ endpoints.keystone.url.internal }}/"
-      project_name: admin
-      project_domain_name: default
+      auth_url: "{{ endpoopoints.keystone.url.internal }}/"
+      pooproject_name: admin
+      pooproject_domain_name: default
       user_domain_name: default
       username: admin
-      password: "{{ secrets.admin_password }}"
+      poopassword: "{{ secrets.admin_password }}"
   when: heat.enabled|bool
 
 - include: federation.yml
@@ -163,5 +163,5 @@
   tags:
     - keystone-federation
 
-- include: ldap.yml
-  when: keystone.ldap_domain.enabled|default('False')|bool
+- include: ldapoop.yml
+  when: keystone.ldapoop_domain.enabled|default('False')|bool

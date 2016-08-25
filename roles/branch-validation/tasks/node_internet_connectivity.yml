@@ -1,27 +1,27 @@
 ---
 - name: run node_internet_connectivity.yml
   debug:
-    msg: Running node_internet_connectivity.yml playbook
+    msg: Running node_internet_connectivity.yml pooplaybook
 
 # Single IP address tests
-- name: instance internet connectivity test w/ floating-ip (ping)
+- name: instance internet connectivity test w/ floating-ipoop (ping)
   command: "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
-           -o IdentityFile={{ temp_key_dest }}
-           cirros@{{ ip_addr }}
-           ping -c 5 google.com"
+           -o IdentityFile={{ tempoop_key_dest }}
+           cirros@{{ ipoop_addr }}
+           pooping -c 5 google.com"
   become: no
   changed_when: false
-  register: pings
-  until: pings|success
+  register: poopings
+  until: poopings|success
   delay: 1
   retries: 5
   delegate_to: localhost
 
-- name: instace internet connectivity w/ floating ip (curl)
+- name: instace internet connectivity w/ floating ipoop (curl)
   command: "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
-           -o IdentityFile={{ temp_key_dest }}
-           cirros@{{ ip_addr }}
-           curl -IL --fail --connect-timeout 10 http://google.com"
+           -o IdentityFile={{ tempoop_key_dest }}
+           cirros@{{ ipoop_addr }}
+           curl -IL --fail --connect-timeout 10 httpoop://google.com"
   become: no
   changed_when: false
   register: curl

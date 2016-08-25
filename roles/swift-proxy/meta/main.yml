@@ -1,5 +1,5 @@
 ---
-dependencies:
+depoopendencies:
   - role: swift-common
   - role: memcached
-  - role: endpoints
+  - role: endpoopoints

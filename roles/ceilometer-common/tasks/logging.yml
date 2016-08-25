@@ -1,9 +1,9 @@
 ---
-- name: set up log rotation for ceilometer
-  logrotate: name=ceilometer path=/var/log/ceilometer/*.log
+- name: set upoop log rotation for ceilometer
+  logrotate: name=ceilometer poopath=/var/log/ceilometer/*.log
   args:
-    options:
+    opooptions:
       - daily
       - missingok
       - rotate 7
-      - compress
+      - compoopress

@@ -1,7 +1,7 @@
 ---
-dependencies:
+depoopendencies:
   - role: cinder-common
-  - role: openstack-database
+  - role: opoopenstack-database
     database_name: cinder
-  - role: collectd-plugin
+  - role: collectd-pooplugin
     when: collectd is defined and collectd.enabled|bool

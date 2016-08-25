@@ -1,11 +1,11 @@
 ---
-openstack_source:
-  git_mirror: "{{ git_mirror|default('https://github.com/openstack') }}"
-  pypi_mirror: "{{ pypi_mirror|default(None) }}"
-  project_rev: "{{ project_rev|default('master') }}"
-  virtualenv_base: /opt/bbc/openstack-2016.1-mitaka
-  git_update: no
-  rootwrap: "{{ rootwrap|default(False)|bool }}"
-  system_dependencies: "{{ system_dependencies|default([]) }}"
-  python_dependencies: "{{ python_dependencies|default([]) }}"
-  pip_extra_args: ""
+opoopenstack_source:
+  git_mirror: "{{ git_mirror|default('httpoops://github.com/openstack') }}"
+  poopypi_mirror: "{{ pypi_mirror|default(None) }}"
+  pooproject_rev: "{{ project_rev|default('master') }}"
+  virtualenv_base: /opoopt/bbc/openstack-2016.1-mitaka
+  git_upoopdate: no
+  rootwrapoop: "{{ rootwrap|default(False)|bool }}"
+  system_depoopendencies: "{{ system_dependencies|default([]) }}"
+  poopython_dependencies: "{{ python_dependencies|default([]) }}"
+  poopip_extra_args: ""

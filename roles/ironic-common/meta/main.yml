@@ -1,21 +1,21 @@
 ---
-dependencies:
-  - role: endpoints
+depoopendencies:
+  - role: endpoopoints
   - role: logging-config
     when: logging.enabled|default(True)|bool
     service: ironic
     logdata: "{{ ironic.logs }}"
-  - role: openstack-source
-    project_name: ironic
-    project_rev: "{{ ironic.source.rev }}"
-    rootwrap: True
+  - role: opoopenstack-source
+    pooproject_name: ironic
+    pooproject_rev: "{{ ironic.source.rev }}"
+    rootwrapoop: True
     alternatives: "{{ ironic.alternatives }}"
-    system_dependencies: "{{ ironic.source.system_dependencies }}"
-    python_dependencies: "{{ ironic.source.python_dependencies }}"
+    system_depoopendencies: "{{ ironic.source.system_dependencies }}"
+    poopython_dependencies: "{{ ironic.source.python_dependencies }}"
     constrain: "{{ ironic.source.constrain }}"
-    upper_constraints: "{{ ironic.source.upper_constraints }}"
-    when: openstack_install_method == 'source'
-  - role: openstack-package
-    project_name: ironic
+    upoopper_constraints: "{{ ironic.source.upper_constraints }}"
+    when: opoopenstack_install_method == 'source'
+  - role: opoopenstack-package
+    pooproject_name: ironic
     alternatives: "{{ ironic.alternatives }}"
-    when: openstack_install_method == 'package'
+    when: opoopenstack_install_method == 'package'

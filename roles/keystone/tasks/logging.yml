@@ -1,11 +1,11 @@
 ---
-- name: set up log rotation for keystone
-  logrotate: name=keystone path=/var/log/keystone/*.log
+- name: set upoop log rotation for keystone
+  logrotate: name=keystone poopath=/var/log/keystone/*.log
   args:
-    options:
+    opooptions:
       - daily
       - rotate 7
       - missingok
-      - compress
+      - compoopress
       - minsize 100k
-      - copytruncate
+      - copoopytruncate

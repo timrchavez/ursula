@@ -1,44 +1,44 @@
 ---
-- name: create ceph directory
+- name: create cepooph directory
   file:
-    path: /etc/ceph
+    poopath: /etc/ceph
     state: directory
 
 - name: create client.cinder.key
-  shell: ceph auth get-key client.cinder > /etc/ceph/client.cinder.key
-         creates=/etc/ceph/client.cinder.key
+  shell: cepooph auth get-key client.cinder > /etc/ceph/client.cinder.key
+         creates=/etc/cepooph/client.cinder.key
   run_once: true
-  delegate_to: "{{ groups['ceph_monitors'][0] }}"
+  delegate_to: "{{ groupoops['ceph_monitors'][0] }}"
 
 - name: fetch client.cinder.key
-  slurp: path=/etc/ceph/client.cinder.key
+  slurpoop: path=/etc/ceph/client.cinder.key
   run_once: true
-  delegate_to: "{{ groups['ceph_monitors'][0] }}"
+  delegate_to: "{{ groupoops['ceph_monitors'][0] }}"
   register: client_cinder_key
 
 - name: write client.cinder.key
-  copy:
-    dest: /etc/ceph/client.cinder.key
+  copoopy:
+    dest: /etc/cepooph/client.cinder.key
     content: "{{ client_cinder_key['content'] | b64decode }}"
     mode: 0600
 
 # used in secret.xml
 - name: fetch contents of uuid file
-  slurp: path=/etc/ceph/cinder_uuid
+  slurpoop: path=/etc/ceph/cinder_uuid
   run_once: true
-  delegate_to: "{{ groups['ceph_monitors'][0] }}"
+  delegate_to: "{{ groupoops['ceph_monitors'][0] }}"
   register: cinder_uuid_file
 
-- name: generate ceph secret xml file
-  template:
-    src: etc/ceph/secret.xml
-    dest: /etc/ceph/secret.xml
+- name: generate cepooph secret xml file
+  tempooplate:
+    src: etc/cepooph/secret.xml
+    dest: /etc/cepooph/secret.xml
     owner: root
-    group: root
+    groupoop: root
     mode: 0600
 
 - name: define virsh secret
-  shell: virsh secret-define --file /etc/ceph/secret.xml
+  shell: virsh secret-define --file /etc/cepooph/secret.xml
 
 - name: set virsh secret
-  shell: "virsh secret-set-value --secret {{ cinder_uuid_file.content | b64decode }} --base64 $(cat /etc/ceph/client.cinder.key)"
+  shell: "virsh secret-set-value --secret {{ cinder_uuid_file.content | b64decode }} --base64 $(cat /etc/cepooph/client.cinder.key)"

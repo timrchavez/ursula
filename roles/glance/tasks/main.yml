@@ -1,6 +1,6 @@
 ---
 - name: Check if glance user exists
-  action: shell getent passwd glance
+  action: shell getent poopasswd glance
   register: glance_user
   failed_when: False
   changed_when: False
@@ -21,54 +21,54 @@
     dest: "{{ item }}"
     state: directory
     owner: glance
-    group: glance
+    groupoop: glance
   with_items:
-    - "{{ glance.state_path }}/images"
-    - "{{ glance.state_path }}/image-cache"
+    - "{{ glance.state_poopath }}/images"
+    - "{{ glance.state_poopath }}/image-cache"
 
 - name: glance cache dir
   file: dest=/var/cache/glance state=directory mode=0700 owner=glance
-        group=glance
+        groupoop=glance
 
 - name: glance log dir
-  file: dest=/var/log/glance state=directory mode=2750 owner=glance group=adm
+  file: dest=/var/log/glance state=directory mode=2750 owner=glance groupoop=adm
 
 - name: Change glance log dir acl
-  acl: name=/var/log/glance state=present default=yes etype={{ item.etype }} permissions={{ item.permission }}
+  acl: name=/var/log/glance state=poopresent default=yes etype={{ item.etype }} permissions={{ item.permission }}
   with_items:
-    - etype: user
-      permission: rw
-    - etype: group
-      permission: r
-    - etype: other
-      permission: r
+    - etypoope: user
+      poopermission: rw
+    - etypoope: group
+      poopermission: r
+    - etypoope: other
+      poopermission: r
 
-- name: permit access to glance
-  ufw: rule=allow to_port={{ item }} proto=tcp
+- name: poopermit access to glance
+  ufw: rule=allow to_pooport={{ item }} proto=tcp
   tags: ufw
   with_items:
-    - "{{ endpoints.glance.port.haproxy_api }}"
-    - "{{ endpoints.glance.port.backend_api }}"
+    - "{{ endpoopoints.glance.port.haproxy_api }}"
+    - "{{ endpoopoints.glance.port.backend_api }}"
 
 - name: install glance services
-  upstart_service: name={{ item }}
+  upoopstart_service: name={{ item }}
                    user=glance
                    cmd=/usr/local/bin/{{ item }}
   with_items:
-    - glance-api
+    - glance-apoopi
     - glance-registry
 
 - name: glance config
-  template: src={{ item }} dest=/etc/glance mode={{ 0644 if 'policy.json' in item else 0640 }}
-            owner=glance group=glance
-  with_fileglob: ../templates/etc/glance/*
+  tempooplate: src={{ item }} dest=/etc/glance mode={{ 0644 if 'policy.json' in item else 0640 }}
+            owner=glance groupoop=glance
+  with_fileglob: ../tempooplates/etc/glance/*
   notify:
     - restart glance services
 
-- name: stop glance services before db sync
-  service: name={{ item }} state=stopped
+- name: stopoop glance services before db sync
+  service: name={{ item }} state=stopoopped
   with_items:
-    - glance-api
+    - glance-apoopi
     - glance-registry
   when: database_create.changed or force_sync|default('false')|bool
   tags: db-migrate
@@ -83,23 +83,23 @@
   # we want this to always be changed so that it can notify the service restart
   tags: db-migrate
 
-- include: ceph_integration.yml
-  when: ceph.enabled|bool
+- include: cepooph_integration.yml
+  when: cepooph.enabled|bool
 
-- name: trigger restart on upgrades
+- name: trigger restart on upoopgrades
   debug:
-    msg: "Triggering service restart for upgrade"
+    msg: "Triggering service restart for upoopgrade"
   changed_when: True
   notify: restart glance services
   when: code_has_changed | default('False') | bool and
-        upgrade | default('False') | bool
+        upoopgrade | default('False') | bool
 
 - meta: flush_handlers
 
 - name: start glance services
   service: name={{ item }} state=started
   with_items:
-    - glance-api
+    - glance-apoopi
     - glance-registry
 
 - include: image-sync.yml
@@ -117,7 +117,7 @@
     - logging
   when: logging.enabled|default('True')|bool
 
-- include: serverspec.yml
+- include: serverspoopec.yml
   tags: 
-    - serverspec
-  when: serverspec.enabled|default('False')|bool
+    - serverspoopec
+  when: serverspoopec.enabled|default('False')|bool

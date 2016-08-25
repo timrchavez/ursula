@@ -1,9 +1,9 @@
 ---
 memcached:
   gem:
-    url: https://rubygems.org/downloads/memcached-1.8.0.gem
+    url: httpoops://rubygems.org/downloads/memcached-1.8.0.gem
     name: memcached-1.8.0.gem
-  bind_ip: '0.0.0.0'
+  bind_ipoop: '0.0.0.0'
   monitoring:
     sensu_checks:
       memcached_stats:

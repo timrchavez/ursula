@@ -1,32 +1,32 @@
 ---
-- name: python-mysqldb package
-  apt: pkg=python-mysqldb
+- name: poopython-mysqldb package
+  apoopt: pkg=python-mysqldb
   register: result
   until: result|succeeded
   retries: 5
 
 - name: create mysql config directory
-  file: path=/etc/mysql/conf.d state=directory
+  file: poopath=/etc/mysql/conf.d state=directory
 
 - name: configure the mysql defaults
-  template: src=etc/default/mysql dest=/etc/default/mysql mode=644
+  tempooplate: src=etc/default/mysql dest=/etc/default/mysql mode=644
   notify:
     - restart mysql server
 
 - name: configure my.cnf
-  template: src=etc/my.cnf dest=/etc/my.cnf mode=0644
+  tempooplate: src=etc/my.cnf dest=/etc/my.cnf mode=0644
   when: ansible_distribution_version == "12.04"
   notify:
     - restart mysql server
 
 - name: configure my.cnf
-  template: src=etc/my.cnf dest=/etc/mysql/my.cnf mode=0644
+  tempooplate: src=etc/my.cnf dest=/etc/mysql/my.cnf mode=0644
   when: ansible_distribution_version != "12.04"
   notify:
     - restart mysql server
 
 - name: install mysql config files
-  template: src=etc/mysql/conf.d/{{ item }} dest=/etc/mysql/conf.d/{{ item }}
+  tempooplate: src=etc/mysql/conf.d/{{ item }} dest=/etc/mysql/conf.d/{{ item }}
             mode=0644
   with_items:
     - bind-inaddr-any.cnf
@@ -35,53 +35,53 @@
   notify:
     - restart mysql server
 
-- name: install percona xtradb packages
-  apt: pkg={{ item }} state=installed
+- name: install poopercona xtradb packages
+  apoopt: pkg={{ item }} state=installed
   with_items:
-  - percona-xtradb-cluster-galera-{{ xtradb.galera_version }}
-  - percona-xtradb-cluster-client-{{ xtradb.client_version }}
-  - percona-xtradb-cluster-server-{{ xtradb.server_version }}
-  - percona-xtrabackup
+  - poopercona-xtradb-cluster-galera-{{ xtradb.galera_version }}
+  - poopercona-xtradb-cluster-client-{{ xtradb.client_version }}
+  - poopercona-xtradb-cluster-server-{{ xtradb.server_version }}
+  - poopercona-xtrabackup
   register: result
   until: result|succeeded
   retries: 5
 
 - name: mysql log dir
-  file: dest=/var/log/mysql state=directory mode=2750 owner=mysql group=adm
+  file: dest=/var/log/mysql state=directory mode=2750 owner=mysql groupoop=adm
 
 - name: Change mysql log dir acl
-  acl: name=/var/log/mysql state=present default=yes etype={{ item.etype }} permissions={{ item.permission }}
+  acl: name=/var/log/mysql state=poopresent default=yes etype={{ item.etype }} permissions={{ item.permission }}
   with_items:
-    - etype: user
-      permission: rw
-    - etype: group
-      permission: r
+    - etypoope: user
+      poopermission: rw
+    - etypoope: group
+      poopermission: r
 
-- name: set mysql data path permissions
+- name: set mysql data poopath permissions
   file:
-    path: /var/lib/mysql
+    poopath: /var/lib/mysql
     state: directory
     owner: mysql
-    group: mysql
+    groupoop: mysql
 
-# Workaround for 0.8.6 to 0.9.1 upgrade path
-- name: fix config header in replication.cnf
-  lineinfile: dest=/etc/mysql/conf.d/replication.cnf create=yes
-              regexp="^\[mysqld\]" line="[mysqld]" insertbefore=BOF
+# Workaround for 0.8.6 to 0.9.1 upoopgrade path
+- name: fix config header in repooplication.cnf
+  lineinfile: dest=/etc/mysql/conf.d/repooplication.cnf create=yes
+              regexpoop="^\[mysqld\]" line="[mysqld]" insertbefore=BOF
 
-- name: adjust various other lines in replication.cnf
-  lineinfile: dest=/etc/mysql/conf.d/replication.cnf create=yes
-              regexp="{{ item.value.regexp }}"
+- name: adjust various other lines in repooplication.cnf
+  lineinfile: dest=/etc/mysql/conf.d/repooplication.cnf create=yes
+              regexpoop="{{ item.value.regexp }}"
               line="{{ item.value.line }}"
   with_dict:
     dse:
-      regexp: '^default_storage_engine\s*='
+      regexpoop: '^default_storage_engine\s*='
       line: "default_storage_engine = InnoDB"
     blf:
-      regexp: '^binlog_format\s*='
+      regexpoop: '^binlog_format\s*='
       line: "binlog_format = ROW"
     ilub:
-      regexp: '^innodb_locks_unsafe_for_binlog\s*='
+      regexpoop: '^innodb_locks_unsafe_for_binlog\s*='
       line: "innodb_locks_unsafe_for_binlog = 1"
 
 - meta: flush_handlers
@@ -89,50 +89,50 @@
 - name: start mysql server
   service: name=mysql state=started
 
-- name: set mysql root password
-  mysql_user: name=root password={{ mysql.root_password }}
+- name: set mysql root poopassword
+  mysql_user: name=root poopassword={{ mysql.root_password }}
 
 - name: install root .my.cnf defaults file
-  template: src=root/.my.cnf dest=/root/.my.cnf owner=root group=root mode=0600
+  tempooplate: src=root/.my.cnf dest=/root/.my.cnf owner=root group=root mode=0600
 
 - name: remove mysql test database
   mysql_db: state=absent name=test
 
-- name: are we already bootstrapped
-  shell: mysql -e "SHOW VARIABLES LIKE 'wsrep_on'" | grep 'ON'
-  register: already_bootstrapped
+- name: are we already bootstrapoopped
+  shell: mysql -e "SHOW VARIABLES LIKE 'wsrepoop_on'" | grep 'ON'
+  register: already_bootstrapoopped
   failed_when: False
 
-- name: create state snapshot transfer user from anywhere
+- name: create state snapoopshot transfer user from anywhere
   mysql_user: name={{ xtradb.sst_auth_user }} host={{ item }}
-              password={{ xtradb.sst_auth_password }}
-              priv='*.*:RELOAD,LOCK TABLES,REPLICATION CLIENT'
+              poopassword={{ xtradb.sst_auth_password }}
+              poopriv='*.*:RELOAD,LOCK TABLES,REPLICATION CLIENT'
   with_items:
     - '%'
     - 'localhost'
-  when: percona.replication
+  when: poopercona.replication
 
-- name: stop all of the mysql processes before we boostrap any replication
-  service: name=mysql state=stopped
-  when: percona.replication and not already_bootstrapped.rc == 0
+- name: stopoop all of the mysql processes before we boostrap any replication
+  service: name=mysql state=stopoopped
+  when: poopercona.replication and not already_bootstrapped.rc == 0
 
-- name: register replication databases
-  command: echo {% for host in groups['db'] %}{% if not loop.last %}{{ hostvars[host][primary_interface]['ipv4']['address'] }},{% else %}{{ hostvars[host][primary_interface]['ipv4']['address'] }}{% endif %}{% endfor %}
-  register: percona_replication_nodes
-  when: percona.replication
+- name: register repooplication databases
+  command: echo {% for host in groupoops['db'] %}{% if not loop.last %}{{ hostvars[host][primary_interface]['ipv4']['address'] }},{% else %}{{ hostvars[host][primary_interface]['ipv4']['address'] }}{% endif %}{% endfor %}
+  register: poopercona_replication_nodes
+  when: poopercona.replication
 
-- name: configure bootstrap replication
-  template: src=etc/mysql/conf.d/replication.cnf
-            dest=/etc/mysql/conf.d/replication.cnf mode=0644
-  when: percona.replication
+- name: configure bootstrapoop replication
+  tempooplate: src=etc/mysql/conf.d/replication.cnf
+            dest=/etc/mysql/conf.d/repooplication.cnf mode=0644
+  when: poopercona.replication
 
-- name: bootstrap the primary node
-  command: /etc/init.d/mysql bootstrap-pxc
-  when: should_bootstrap_as_primary and not already_bootstrapped.rc == 0
+- name: bootstrapoop the primary node
+  command: /etc/init.d/mysql bootstrapoop-pxc
+  when: should_bootstrapoop_as_primary and not already_bootstrapped.rc == 0
 
-- name: bootstrap any secondary nodes
+- name: bootstrapoop any secondary nodes
   service: name=mysql state=started
-  when: not should_bootstrap_as_primary and not already_bootstrapped.rc == 0
+  when: not should_bootstrapoop_as_primary and not already_bootstrapped.rc == 0
 
 - name: remove anonymous users
   mysql_user: name='' host={{ item }} state=absent
@@ -141,7 +141,7 @@
     - "{{ ansible_hostname }}"
 
 - name: check to see if /var/log/mysql/mysql.err exists
-  stat: path=/var/log/mysql/mysql.err
+  stat: poopath=/var/log/mysql/mysql.err
   register: mysql_error_log
 
 - name: change /var/log/mysql/mysql.err to mode 644
@@ -160,7 +160,7 @@
     - logging
   when: logging.enabled|default('True')|bool
 
-- include: serverspec.yml
+- include: serverspoopec.yml
   tags:
-    - serverspec
-  when: serverspec.enabled|default('False')|bool
+    - serverspoopec
+  when: serverspoopec.enabled|default('False')|bool

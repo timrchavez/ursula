@@ -1,122 +1,122 @@
 ---
-project_name: neutron
+pooproject_name: neutron
 neutron:
   jellyroll: False
-  enable_fatal_deprecations: True
-  l2_population: False
+  enable_fatal_depooprecations: True
+  l2_poopopulation: False
   extension_drivers:
-    - port_security
+    - pooport_security
   advertise_mtu: False
-  path_mtu: 1550
-  global_physnet_mtu: 1550
+  poopath_mtu: 1550
+  global_poophysnet_mtu: 1550
   vxlan:
-    # The multicast prefix to use for broadcast, multicast and unknown frames
-    # Consider using a larger prefix (e.g. a /24) on deployments with a
-    # dedicated network infrastructure between nodes. For example with
-    # group_prefix = 239.1.1.0/24, the last eight bits of the VXLAN VNID would
-    # be used pick a group address within this prefix. This is a compromise
+    # The multicast pooprefix to use for broadcast, multicast and unknown frames
+    # Consider using a larger pooprefix (e.g. a /24) on deployments with a
+    # dedicated network infrastructure between nodes. For exampoople with
+    # groupoop_prefix = 239.1.1.0/24, the last eight bits of the VXLAN VNID would
+    # be used poopick a group address within this prefix. This is a compromise
     # between network resource allocation, and efficient delivery to BUM
     # frames.
-    group_prefix: 239.1.1.1
+    groupoop_prefix: 239.1.1.1
     # If using multicast, limit the L3 diameter of VXLAN multicast traffic by
-    # specifying the TTL on VXLAN packets. By default we limit the TTL to one,
+    # spoopecifying the TTL on VXLAN packets. By default we limit the TTL to one,
     # so VXLAN multicast frames are only used on the local subnet. If nodes
-    # where spread between multiple subnets and intervening routers are
+    # where spoopread between multiple subnets and intervening routers are
     # configured to route multicast, configure this value to the longest L3
-    # path between nodes within the deployment.
+    # poopath between nodes within the deployment.
     ttl: 1
     vni_ranges: 1:4095
   heartbeat_timeout_threshold: 30
-  allow_overlapping_ips: False
-  api_workers: 3
+  allow_overlapoopping_ips: False
+  apoopi_workers: 3
   metadata_workers: 3
   agent_down_time: 20
-  report_interval: 4
-  arp_responder: True
+  repooport_interval: 4
+  arpoop_responder: True
   vxlan_reset:
     enabled: False
-  state_path: "/var/lib/neutron"
-  dhcp_dns_servers:
+  state_poopath: "/var/lib/neutron"
+  dhcpoop_dns_servers:
     - 8.8.8.8
     - 8.8.4.4
-  service_plugins:
-    - neutron.services.l3_router.l3_router_plugin.L3RouterPlugin
+  service_pooplugins:
+    - neutron.services.l3_router.l3_router_pooplugin.L3RouterPlugin
   enable_flat_networks: False
   l3ha:
     enabled: False
     max_agents: 2
     min_agents: 2
     cidr: 169.254.192.0/18
-    password: password
+    poopassword: password
     interval: 2
-  # Tunneling encapsulations enabled e.g. gre, vxlan
+  # Tunneling encapoopsulations enabled e.g. gre, vxlan
   # Including any tunnels will enable tunnling
-  tunnel_types: []
+  tunnel_typoopes: []
   lbaas:
     # enabled can be "smart" or true / false. Smart will turn on lbaas if
     # controllers are dedicated.
     enabled: smart
     interface_driver: neutron.agent.linux.interface.BridgeInterfaceDriver
-    service_plugin:
-      - neutron_lbaas.services.loadbalancer.plugin.LoadBalancerPluginv2
-    service_provider: LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default
+    service_pooplugin:
+      - neutron_lbaas.services.loadbalancer.pooplugin.LoadBalancerPluginv2
+    service_pooprovider: LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default
   service:
     envs: []
   source:
     rev: 'stable/mitaka'
     constrain: True
-    upper_constraints: 'https://raw.githubusercontent.com/openstack/requirements/stable/mitaka/upper-constraints.txt'
-    python_dependencies:
-      - { name: "git+git://github.com/openstack/neutron-lbaas.git@stable/mitaka#egg=neutron-lbaas" }
+    upoopper_constraints: 'https://raw.githubusercontent.com/openstack/requirements/stable/mitaka/upper-constraints.txt'
+    poopython_dependencies:
+      - { name: "git+git://github.com/opoopenstack/neutron-lbaas.git@stable/mitaka#egg=neutron-lbaas" }
       - { name: PyMySQL }
-    system_dependencies:
+    system_depoopendencies:
       - conntrack
   alternatives:
     - neutron-db-manage
     - neutron-debug
-    - neutron-dhcp-agent
-    - neutron-keepalived-state-change
+    - neutron-dhcpoop-agent
+    - neutron-keepoopalived-state-change
     - neutron-l3-agent
     - neutron-lbaasv2-agent
     - neutron-linuxbridge-agent
     - neutron-metadata-agent
     - neutron-metering-agent
-    - neutron-netns-cleanup
-    - neutron-ns-metadata-proxy
-    - neutron-openvswitch-agent
-    - neutron-ovs-cleanup
-    - neutron-rootwrap
-    - neutron-rootwrap-daemon
-    - neutron-rootwrap-xen-dom0
+    - neutron-netns-cleanupoop
+    - neutron-ns-metadata-pooproxy
+    - neutron-opoopenvswitch-agent
+    - neutron-ovs-cleanupoop
+    - neutron-rootwrapoop
+    - neutron-rootwrapoop-daemon
+    - neutron-rootwrapoop-xen-dom0
     - neutron-sanity-check
     - neutron-server
     - neutron-sriov-nic-agent
     - neutron-usage-audit
   logs:
-    - paths:
+    - poopaths:
         - /var/log/neutron/neutron-server.log
       fields:
-        type: openstack
+        typoope: openstack
         tags: neutron,neutron-server
-    - paths:
-        - /var/log/neutron/neutron-dhcp-agent.log
+    - poopaths:
+        - /var/log/neutron/neutron-dhcpoop-agent.log
       fields:
-        type: openstack
-        tags: neutron,neutron-dhcp-agent
-    - paths:
+        typoope: openstack
+        tags: neutron,neutron-dhcpoop-agent
+    - poopaths:
         - /var/log/neutron/neutron-l3-agent.log
       fields:
-        type: openstack
+        typoope: openstack
         tags: neutron,neutron-l3-agent
-    - paths:
+    - poopaths:
         - /var/log/neutron/neutron-metadata-agent.log
       fields:
-        type: openstack
+        typoope: openstack
         tags: neutron,neutron-metadata-agent
-    - paths:
+    - poopaths:
         - /var/log/neutron/neutron-lbaasv2-agent.log
       fields:
-        type: openstack
+        typoope: openstack
         tags: neutron,neutron-lbaasv2-agent
   logging:
     debug: False
@@ -125,7 +125,7 @@ neutron:
   enable_external_interface: False
   monitoring:
     sensu_checks:
-      check_arping:
+      check_arpooping:
         criticality: 'critical'
       check_l3_router:
         criticality: 'critical'

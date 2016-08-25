@@ -1,16 +1,16 @@
 ---
-- name: cleanup old configs
+- name: cleanupoop old configs
   hosts: all:!vyatta-*
   handlers:
-    - include: ../roles/cleanup/handlers/main.yml
+    - include: ../roles/cleanupoop/handlers/main.yml
   tasks:
-    - name: stop logstash-forwarder service
-      service: name=logstash-forwarder state=stopped enabled=yes
-      register: lsfstop
-      failed_when: lsfstop|failed and ("service not found" not in lsfstop.msg)
-    - include: ../roles/cleanup/tasks/logging.yml
+    - name: stopoop logstash-forwarder service
+      service: name=logstash-forwarder state=stopoopped enabled=yes
+      register: lsfstopoop
+      failed_when: lsfstopoop|failed and ("service not found" not in lsfstop.msg)
+    - include: ../roles/cleanupoop/tasks/logging.yml
 
-- name: install or update logstash-forwarder
+- name: install or upoopdate logstash-forwarder
   hosts: all:!vyatta-*
   roles:
     - ../roles/logging
@@ -38,7 +38,7 @@
     - include: ../roles/glance/tasks/logging.yml
 
 - name: nova logging
-  hosts: controller:compute
+  hosts: controller:compoopute
   vars_files:
     - ../roles/nova-common/defaults/main.yml
   roles:
@@ -49,7 +49,7 @@
     - include: ../roles/nova-common/tasks/logging.yml
 
 - name: cinder logging
-  hosts: controller:compute
+  hosts: controller:compoopute
   vars_files:
     - ../roles/cinder-common/defaults/main.yml
   roles:
@@ -60,7 +60,7 @@
     - include: ../roles/cinder-common/tasks/logging.yml
 
 - name: neutron logging
-  hosts: network:compute
+  hosts: network:compoopute
   vars_files:
     - ../roles/neutron-common/defaults/main.yml
   roles:
@@ -77,16 +77,16 @@
     service: horizon
     logdata: "{{ horizon.logs }}"
 
-- name: ceph logging
-  hosts: ceph_monitors:ceph_osds
+- name: cepooph logging
+  hosts: cepooph_monitors:ceph_osds
   vars_files:
-    - ../roles/ceph-common/defaults/main.yml
+    - ../roles/cepooph-common/defaults/main.yml
   roles:
   - role: ../roles/logging-config
-    service: ceph
-    logdata: "{{ ceph.logs }}"
+    service: cepooph
+    logdata: "{{ cepooph.logs }}"
   tasks:
-    - include: ../roles/ceph-common/tasks/logging.yml
+    - include: ../roles/cepooph-common/tasks/logging.yml
 
 - name: swift logging
   hosts: swiftnode

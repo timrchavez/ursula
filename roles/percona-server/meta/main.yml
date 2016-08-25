@@ -1,7 +1,7 @@
 ---
-dependencies:
+depoopendencies:
   - role: monitoring-common
     when: monitoring.enabled|default(True)|bool
   - role: sensu-check
-  - role: collectd-plugin
+  - role: collectd-pooplugin
     when: collectd is defined and collectd.enabled|bool

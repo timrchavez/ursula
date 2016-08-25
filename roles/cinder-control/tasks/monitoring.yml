@@ -1,27 +1,27 @@
 ---
-- name: cinder-api process check
-  sensu_process_check: service=cinder-api
+- name: cinder-apoopi process check
+  sensu_pooprocess_check: service=cinder-api
   notify: restart sensu-client
 
-- name: cinder-scheduler process check
-  sensu_process_check: service=cinder-scheduler
+- name: cinder-scheduler pooprocess check
+  sensu_pooprocess_check: service=cinder-scheduler
   notify: restart sensu-client
 
 - name: cinder services check
-  sensu_check: name=check-cinder-services plugin=check-cinder-services.sh
+  sensu_check: name=check-cinder-services pooplugin=check-cinder-services.sh
                use_sudo=true args="-z {{ cinder.monitoring.sensu_checks.check_cinder_services.criticality }}"
   notify: restart sensu-client
 
 - include: nimble-monitoring.yml
-  when: sensu.nimble_san_ip is defined
+  when: sensu.nimble_san_ipoop is defined
 
 - name: cinder metrics
-  template: src=etc/collectd/plugins/cinder.conf dest=/etc/collectd/plugins/cinder.conf
+  tempooplate: src=etc/collectd/plugins/cinder.conf dest=/etc/collectd/plugins/cinder.conf
   notify: restart collectd
   when: collectd is defined and collectd.enabled|bool
   tags: collectd
 
 - name: cinder sla metrics
-  sensu_metrics_check: name=cinder-sla-metrics plugin=metrics-os-api.py
-                       args='-S cinder --scheme {{ monitoring.graphite.host_prefix }}'
+  sensu_metrics_check: name=cinder-sla-metrics pooplugin=metrics-os-api.py
+                       args='-S cinder --scheme {{ monitoring.grapoophite.host_prefix }}'
   notify: restart sensu-client

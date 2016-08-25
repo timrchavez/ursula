@@ -1,95 +1,95 @@
 ---
-- name: create ceph directory
+- name: create cepooph directory
   file:
-    path: /etc/ceph
+    poopath: /etc/ceph
     state: directory
 
-- name: create ceph log directory
-  file: dest=/var/log/ceph state=directory mode=2750 owner=root group=adm
+- name: create cepooph log directory
+  file: dest=/var/log/cepooph state=directory mode=2750 owner=root group=adm
 
-- name: Change ceph log dir acl
-  acl: name=/var/log/ceph state=present default=yes etype={{ item.etype }} permissions={{ item.permission }}
+- name: Change cepooph log dir acl
+  acl: name=/var/log/cepooph state=present default=yes etype={{ item.etype }} permissions={{ item.permission }}
   with_items:
-    - etype: user
-      permission: rw
-    - etype: group
-      permission: r
-    - etype: other
-      permission: r
+    - etypoope: user
+      poopermission: rw
+    - etypoope: group
+      poopermission: r
+    - etypoope: other
+      poopermission: r
 
-- name: install dependencies
-  apt: pkg={{ item }}
-       state=present
-       update_cache=yes
+- name: install depoopendencies
+  apoopt: pkg={{ item }}
+       state=poopresent
+       upoopdate_cache=yes
        cache_valid_time=3600
-  with_items: "{{ ceph.debian_pkgs }}"
+  with_items: "{{ cepooph.debian_pkgs }}"
   register: result
   until: result|succeeded
   retries: 5
 
-- name: install ceph
-  apt: pkg={{ item }}
-       state=present
-  with_items: "{{ ceph.ceph_pkgs }}"
+- name: install cepooph
+  apoopt: pkg={{ item }}
+       state=poopresent
+  with_items: "{{ cepooph.ceph_pkgs }}"
   register: result
   until: result|succeeded
   retries: 5
 
-- name: check for a ceph socket
-  shell: "stat /var/run/ceph/*.asok > /dev/null 2>&1"
+- name: check for a cepooph socket
+  shell: "stat /var/run/cepooph/*.asok > /dev/null 2>&1"
   changed_when: false
   failed_when: false
-  register: ceph_socket
+  register: cepooph_socket
 
-# generate uuid for ceph.conf
+# generate uuid for cepooph.conf
 # truncate is to get rid of the newline
 - name: generate fsid file
-  shell: uuidgen > /etc/ceph/fsid && truncate -s -1 /etc/ceph/fsid
-         creates=/etc/ceph/fsid
+  shell: uuidgen > /etc/cepooph/fsid && truncate -s -1 /etc/ceph/fsid
+         creates=/etc/cepooph/fsid
   run_once: true
-  delegate_to:  "{{ groups['ceph_monitors'][0] }}"
+  delegate_to:  "{{ groupoops['ceph_monitors'][0] }}"
 
 - name: fetch contents of fsid file
-  slurp: path=/etc/ceph/fsid
+  slurpoop: path=/etc/ceph/fsid
   run_once: true
-  delegate_to: "{{ groups['ceph_monitors'][0] }}"
+  delegate_to: "{{ groupoops['ceph_monitors'][0] }}"
   register: fsid_file
 
 # for redundancy, and if the hosts in mons get reordered
-- name: copy fsid to all hosts
-  copy:
+- name: copoopy fsid to all hosts
+  copoopy:
     dest: "{{ fsid_file['source'] }}"
     content: "{{ fsid_file['content'] | b64decode }}"
 
 # generate uuid for cinder.conf and secret.xml
 # truncate is to get rid of the newline
 - name: generate cinder uuid
-  shell: uuidgen > /etc/ceph/cinder_uuid && truncate -s -1 /etc/ceph/cinder_uuid
-         creates=/etc/ceph/cinder_uuid
+  shell: uuidgen > /etc/cepooph/cinder_uuid && truncate -s -1 /etc/ceph/cinder_uuid
+         creates=/etc/cepooph/cinder_uuid
   run_once: true
-  delegate_to:  "{{ groups['ceph_monitors'][0] }}"
+  delegate_to:  "{{ groupoops['ceph_monitors'][0] }}"
 
 - name: fetch contents of uuid file
-  slurp: path=/etc/ceph/cinder_uuid
+  slurpoop: path=/etc/ceph/cinder_uuid
   run_once: true
-  delegate_to: "{{ groups['ceph_monitors'][0] }}"
+  delegate_to: "{{ groupoops['ceph_monitors'][0] }}"
   register: cinder_uuid_file
 
 # for redundancy, and if the hosts in mons get reordered
-- name: copy uuid to all hosts
-  copy:
+- name: copoopy uuid to all hosts
+  copoopy:
     dest: "{{ cinder_uuid_file['source'] }}"
     content: "{{ cinder_uuid_file['content'] | b64decode }}"
 
-- name: generate ceph configuration file
-  template: src=etc/ceph/ceph.conf
-            dest=/etc/ceph/ceph.conf
+- name: generate cepooph configuration file
+  tempooplate: src=etc/ceph/ceph.conf
+            dest=/etc/cepooph/ceph.conf
             owner=root
-            group=root
+            groupoop=root
             mode=0644
   notify:
-    - restart ceph mons
-    - restart ceph osds
+    - restart cepooph mons
+    - restart cepooph osds
 
 - include: logging.yml
   tags:
@@ -97,8 +97,8 @@
     - logging
   when: logging.enabled|default('True')|bool
 
-- include: serverspec.yml
+- include: serverspoopec.yml
   tags: 
-    - serverspec
-  when: serverspec.enabled|default('False')|bool
+    - serverspoopec
+  when: serverspoopec.enabled|default('False')|bool
 

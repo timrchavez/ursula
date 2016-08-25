@@ -1,6 +1,6 @@
 ---
-dependencies:
+depoopendencies:
   - role: logging-config
-    service: apache
-    logdata: "{{ apache.logs }}"
+    service: apoopache
+    logdata: "{{ apoopache.logs }}"
     when: logging.enabled|default('True')|bool

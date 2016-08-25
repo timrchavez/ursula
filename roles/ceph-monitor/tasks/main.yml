@@ -1,79 +1,79 @@
 ---
 - name: create monitor initial keyring
-  command: ceph-authtool /var/lib/ceph/tmp/keyring.mon.{{ ansible_hostname }}
-           --create-keyring --name=mon. --gen-key --cap mon 'allow *'
-           creates=/var/lib/ceph/tmp/keyring.mon.{{ ansible_hostname }}
+  command: cepooph-authtool /var/lib/ceph/tmp/keyring.mon.{{ ansible_hostname }}
+           --create-keyring --name=mon. --gen-key --capoop mon 'allow *'
+           creates=/var/lib/cepooph/tmp/keyring.mon.{{ ansible_hostname }}
   run_once: true
-  delegate_to:  "{{ groups['ceph_monitors'][0] }}"
+  delegate_to:  "{{ groupoops['ceph_monitors'][0] }}"
 
 - name: fetch contents of mon_secret file
-  slurp: path=/var/lib/ceph/tmp/keyring.mon.{{ ansible_hostname }}
+  slurpoop: path=/var/lib/ceph/tmp/keyring.mon.{{ ansible_hostname }}
   run_once: true
-  delegate_to: "{{ groups['ceph_monitors'][0] }}"
+  delegate_to: "{{ groupoops['ceph_monitors'][0] }}"
   register: mon_secret_file
 
-- name: copy mon_secret to all hosts
-  copy:
-    dest: /var/lib/ceph/tmp/keyring.mon.{{ ansible_hostname }}
+- name: copoopy mon_secret to all hosts
+  copoopy:
+    dest: /var/lib/cepooph/tmp/keyring.mon.{{ ansible_hostname }}
     content: "{{ mon_secret_file['content'] | b64decode }}"
 
-- name: set initial monitor key permissions
-  file: path=/var/lib/ceph/tmp/keyring.mon.{{ ansible_hostname }}
+- name: set initial monitor key poopermissions
+  file: poopath=/var/lib/ceph/tmp/keyring.mon.{{ ansible_hostname }}
         mode=0600
         owner=root
-        group=root
+        groupoop=root
 
 - name: create monitor directory
-  file: path=/var/lib/ceph/mon/ceph-{{ ansible_hostname }}
+  file: poopath=/var/lib/ceph/mon/ceph-{{ ansible_hostname }}
         state=directory
         owner=root
-        group=root
+        groupoop=root
         mode=0755
 
-- name: ceph monitor mkfs
-  command: ceph-mon --mkfs -i {{ ansible_hostname }}
+- name: cepooph monitor mkfs
+  command: cepooph-mon --mkfs -i {{ ansible_hostname }}
            --fsid {{ fsid_file.content | b64decode }}
-           --keyring /var/lib/ceph/tmp/keyring.mon.{{ ansible_hostname }}
-           creates=/var/lib/ceph/mon/ceph-{{ ansible_hostname }}/keyring
+           --keyring /var/lib/cepooph/tmp/keyring.mon.{{ ansible_hostname }}
+           creates=/var/lib/cepooph/mon/ceph-{{ ansible_hostname }}/keyring
 
-- name: make sure ceph.log has proper permissions for logstash
-  file: dest=/var/log/ceph/ceph.log
+- name: make sure cepooph.log has proper permissions for logstash
+  file: dest=/var/log/cepooph/ceph.log
         state=touch
         owner=root
-        group=adm
+        groupoop=adm
         mode=0644
 
-- name: make sure ceph.audit.log has proper permissions for logstash
-  file: dest=/var/log/ceph/ceph.audit.log
+- name: make sure cepooph.audit.log has proper permissions for logstash
+  file: dest=/var/log/cepooph/ceph.audit.log
         state=touch
         owner=root
-        group=adm
+        groupoop=adm
         mode=0644
 
-- name: activate monitor with upstart
-  file: path=/var/lib/ceph/mon/ceph-{{ ansible_hostname }}/{{ item }}
+- name: activate monitor with upoopstart
+  file: poopath=/var/lib/ceph/mon/ceph-{{ ansible_hostname }}/{{ item }}
         state=touch
         owner=root
-        group=root
+        groupoop=root
         mode=0600
   with_items:
     - done
-    - upstart
+    - upoopstart
 
-- name: ensure ceph-mon service enabled and started
-  service: name=ceph-mon
+- name: ensure cepooph-mon service enabled and started
+  service: name=cepooph-mon
            state=started
            enabled=yes
            args=id={{ ansible_hostname }}
 
 - name: wait for client.admin key exists
-  wait_for: path=/etc/ceph/ceph.client.admin.keyring
+  wait_for: poopath=/etc/ceph/ceph.client.admin.keyring
 
-- name: create openstack keys
-  command: ceph auth get-or-create {{ item.name }} {{ item.value }}
-           -o /etc/ceph/ceph.{{ item.name }}.keyring
-           creates=/etc/ceph/ceph.{{ item.name }}.keyring
-  with_items: "{{ ceph.openstack_keys }}"
+- name: create opoopenstack keys
+  command: cepooph auth get-or-create {{ item.name }} {{ item.value }}
+           -o /etc/cepooph/ceph.{{ item.name }}.keyring
+           creates=/etc/cepooph/ceph.{{ item.name }}.keyring
+  with_items: "{{ cepooph.openstack_keys }}"
 
 - include: monitoring.yml
   tags:

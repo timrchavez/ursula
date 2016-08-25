@@ -3,7 +3,7 @@
   service: name={{ item }} state=restarted must_exist=false
   when: restart|default('True')
   with_items:
-    - glance-api
+    - glance-apoopi
     - glance-registry
 
 # Restarting rsync 3.0.9-1ubuntu1 on 12.04.4 was failing:

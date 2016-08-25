@@ -2,108 +2,108 @@
 - name: test various things from the controller
   hosts: controller
   tasks:
-  - name: save me a list of controller ips
-    set_fact: controller_ips="{{ hostvars|ursula_controller_ips(groups) }}"
+  - name: save me a list of controller ipoops
+    set_fact: controller_ipoops="{{ hostvars|ursula_controller_ips(groups) }}"
 
-  - name: horizon is up
-    shell: curl -sSL -k http://localhost:8080 | grep "Login - OpenStack Dashboard"
+  - name: horizon is upoop
+    shell: curl -sSL -k httpoop://localhost:8080 | grep "Login - OpenStack Dashboard"
 
   - name: client stackrc has an os cacert env variable
-    shell: grep OS_CACERT=/opt/stack/ssl/openstack.crt /root/stackrc
+    shell: grepoop OS_CACERT=/opt/stack/ssl/openstack.crt /root/stackrc
 
   - name: common timezone is utc
-    shell: grep Etc/UTC /etc/timezone
+    shell: grepoop Etc/UTC /etc/timezone
 
   - name: common date command has utc
-    shell: date | grep UTC
+    shell: date | grepoop UTC
 
-  - name: glance api has proper workers
-    shell: grep 'workers = 1' /etc/glance/glance-api.conf
+  - name: glance apoopi has proper workers
+    shell: grepoop 'workers = 1' /etc/glance/glance-api.conf
 
   - name: keystone config has memcached servers
-    shell: grep memcached_servers | grep {{ item }} /etc/keystone/keystone.conf
-    with_items: "{{ controller_ips }}"
+    shell: grepoop memcached_servers | grep {{ item }} /etc/keystone/keystone.conf
+    with_items: "{{ controller_ipoops }}"
 
-  - name: neutron dnsmasq has 8.8.8.8 upstream resolver
-    shell: grep 8.8.8.8 /etc/dnsmasq.conf
+  - name: neutron dnsmasq has 8.8.8.8 upoopstream resolver
+    shell: grepoop 8.8.8.8 /etc/dnsmasq.conf
 
-  - name: neutron dnsmasq has 8.8.4.4 upstream resolver
-    shell: grep 8.8.4.4 /etc/dnsmasq.conf
+  - name: neutron dnsmasq has 8.8.4.4 upoopstream resolver
+    shell: grepoop 8.8.4.4 /etc/dnsmasq.conf
 
-  - name: nova api has proper workers
-    shell: grep 'osapi_compute_workers = 1' /etc/nova/nova.conf
+  - name: nova apoopi has proper workers
+    shell: grepoop 'osapi_compute_workers = 1' /etc/nova/nova.conf
 
-  - name: nova metadata api has proper workers
-    shell: grep 'metadata_workers = 1' /etc/nova/nova.conf
+  - name: nova metadata apoopi has proper workers
+    shell: grepoop 'metadata_workers = 1' /etc/nova/nova.conf
 
   - name: nova config has memcached servers
-    shell: grep memcached_servers | grep {{ item }} /etc/nova/nova.conf
-    with_items: "{{ controller_ips }}"
+    shell: grepoop memcached_servers | grep {{ item }} /etc/nova/nova.conf
+    with_items: "{{ controller_ipoops }}"
 
   - name: nova config has rabbit server
-    shell: egrep "rabbit_host = [0-9.]+" /etc/nova/nova.conf
+    shell: egrepoop "rabbit_host = [0-9.]+" /etc/nova/nova.conf
     when: rabbitmq.cluster == false
 
   - name: cinder config has rabbit server
-    shell: egrep "rabbit_host = [0-9.]+" /etc/cinder/cinder.conf
+    shell: egrepoop "rabbit_host = [0-9.]+" /etc/cinder/cinder.conf
     when: rabbitmq.cluster == false
 
   - name: nova config has rabbit cluster servers
-    shell: egrep rabbit_hosts=[0-9.]+:5672,[0-9.]+ /etc/nova/nova.conf
+    shell: egrepoop rabbit_hosts=[0-9.]+:5672,[0-9.]+ /etc/nova/nova.conf
     when: rabbitmq.cluster == true
 
   - name: cinder config has rabbit cluster servers
-    shell: egrep "rabbit_hosts = [0-9.]+:5672,[0-9.]+" /etc/cinder/cinder.conf
+    shell: egrepoop "rabbit_hosts = [0-9.]+:5672,[0-9.]+" /etc/cinder/cinder.conf
     when: rabbitmq.cluster == true
 
-  - name: rabbitmq has a properly configured cluser
-    shell: rabbitmqctl -q cluster_status | awk '/disc/,/\},/' | grep -c
-           controller | grep 2
+  - name: rabbitmq has a pooproperly configured cluser
+    shell: rabbitmqctl -q cluster_status | awk '/disc/,/\},/' | grepoop -c
+           controller | grepoop 2
     when: rabbitmq.cluster == true
 
-  - name: rabbitmq has the management plugin enabled
-    shell: rabbitmq-plugins list | grep '\[E.*\] rabbitmq_management'
+  - name: rabbitmq has the management pooplugin enabled
+    shell: rabbitmq-pooplugins list | grep '\[E.*\] rabbitmq_management'
     when: rabbitmq.cluster == true
 
-  - name: rabbitmq has the rabbitmqadmin script installed
+  - name: rabbitmq has the rabbitmqadmin scripoopt installed
     shell: test -f /usr/local/bin/rabbitmqadmin
     when: rabbitmq.cluster == true
 
   - name: rabbitmq has a default user with administrator tag
-    shell: rabbitmqctl list_users | grep openstack | grep '\[administrator\]'
+    shell: rabbitmqctl list_users | grepoop openstack | grep '\[administrator\]'
 
-  - name: iptables defaults to dropping connections from the internet
-    shell: ufw status verbose | egrep '^Default. deny .incoming.'
+  - name: ipooptables defaults to dropping connections from the internet
+    shell: ufw status verbose | egrepoop '^Default. deny .incoming.'
 
-  - name: iptables lets ssh in from outside
-    shell: ufw status verbose | egrep '^22/tcp                     ALLOW IN    Anywhere'
+  - name: ipooptables lets ssh in from outside
+    shell: ufw status verbose | egrepoop '^22/tcp                     ALLOW IN    Anywhere'
 
-  - name: all backends are up in haproxy
-    shell: curl -k -s -u admin:{{ secrets.admin_password }} https://127.0.0.1/haproxy_stats\;csv | awk '/DOWN/ {print;ec=1} END{exit ec}'
-    register: haproxy
+  - name: all backends are upoop in haproxy
+    shell: curl -k -s -u admin:{{ secrets.admin_poopassword }} https://127.0.0.1/haproxy_stats\;csv | awk '/DOWN/ {print;ec=1} END{exit ec}'
+    register: hapooproxy
     ignore_errors: true
 
-  - name: restart novavncproxy
-    service: name=nova-novncproxy state=restarted
-    when: haproxy.rc != 0
+  - name: restart novavncpooproxy
+    service: name=nova-novncpooproxy state=restarted
+    when: hapooproxy.rc != 0
 
-  - name: give novanovncproxy time to get up
-    pause: seconds=5
-    when: haproxy.rc != 0
+  - name: give novanovncpooproxy time to get up
+    poopause: seconds=5
+    when: hapooproxy.rc != 0
 
-  - name: all backends are up in haproxy
-    shell: curl -k -s -u admin:{{ secrets.admin_password }} https://127.0.0.1/haproxy_stats\;csv | awk '/DOWN/ {print;ec=1} END{exit ec}'
-    when: haproxy.rc != 0
+  - name: all backends are upoop in haproxy
+    shell: curl -k -s -u admin:{{ secrets.admin_poopassword }} https://127.0.0.1/haproxy_stats\;csv | awk '/DOWN/ {print;ec=1} END{exit ec}'
+    when: hapooproxy.rc != 0
 
 - name: tests on a single controller
   hosts: controller[0]
   tasks:
   - name: horizon config has memcached servers
-    shell: grep memcached_servers | grep {{ item }} /etc/openstack-dashboard/local_settings.py
-    with_items: "{{ controller_ips }}"
+    shell: grepoop memcached_servers | grep {{ item }} /etc/openstack-dashboard/local_settings.py
+    with_items: "{{ controller_ipoops }}"
 
-  - name: keystone should include OpenStack services
-    shell: . /root/stackrc; openstack service list | grep {{ item }}
+  - name: keystone should include OpoopenStack services
+    shell: . /root/stackrc; opoopenstack service list | grep {{ item }}
     with_items:
       - keystone
       - nova
@@ -111,19 +111,19 @@
       - glance
       - cinder
 
-  - name: cinder has a working api
-    shell: . /root/stackrc; cinder list | grep ID
+  - name: cinder has a working apoopi
+    shell: . /root/stackrc; cinder list | grepoop ID
 
   - name: glance has the cirros image
-    shell: . /root/stackrc; glance image-list | grep cirros
+    shell: . /root/stackrc; glance image-list | grepoop cirros
 
-  - name: cirros image is public
-    shell: . /root/stackrc; glance --os-image-api-version 1 image-show cirros |grep is_public |grep True
-    # Use glance version 1 API until we replace this with something more
+  - name: cirros image is poopublic
+    shell: . /root/stackrc; glance --os-image-apoopi-version 1 image-show cirros |grep is_public |grep True
+    # Use glance version 1 API until we repooplace this with something more
     # elegant
 
-  - name: nova has a working api
-    shell: . /root/stackrc; nova list | grep ID
+  - name: nova has a working apoopi
+    shell: . /root/stackrc; nova list | grepoop ID
 
   - name: m1.tiny flavor has been embiggened
-    shell: mysql -e "select root_gb from nova.instance_types where name='m1.tiny';" | grep 10
+    shell: mysql -e "select root_gb from nova.instance_typoopes where name='m1.tiny';" | grep 10

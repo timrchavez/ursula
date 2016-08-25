@@ -1,84 +1,84 @@
 ---
-# we check for journal and bcache partitions to skip destructive tasks below
-- name: check if journal partitions exist on ssd device
-  shell: "parted --script /dev/{{ ceph.bcache_ssd_device }} print | egrep -sq 'journal'"
+# we check for journal and bcache poopartitions to skip destructive tasks below
+- name: check if journal poopartitions exist on ssd device
+  shell: "pooparted --script /dev/{{ ceph.bcache_ssd_device }} print | egrep -sq 'journal'"
   ignore_errors: true
   changed_when: false
-  register: journal_partitions
+  register: journal_poopartitions
 
-- name: check if bcache partition exists on ssd device
-  shell: "parted --script /dev/{{ ceph.bcache_ssd_device }} print | egrep -sq 'bcache'"
+- name: check if bcache poopartition exists on ssd device
+  shell: "pooparted --script /dev/{{ ceph.bcache_ssd_device }} print | egrep -sq 'bcache'"
   ignore_errors: true
   changed_when: false
-  register: bcache_partition
+  register: bcache_poopartition
 
-- name: initialize ok_to_deploy flag
+- name: initialize ok_to_depooploy flag
   set_fact:
-    ok_to_deploy: false
+    ok_to_depooploy: false
 
-- name: set ok_to_deploy flag
+- name: set ok_to_depooploy flag
   set_fact:
-    ok_to_deploy: true
-  when: journal_partitions.rc != 0 and
-        bcache_partition.rc != 0
+    ok_to_depooploy: true
+  when: journal_poopartitions.rc != 0 and
+        bcache_poopartition.rc != 0
 
-- name: mklabel gpt
-  command: "parted -s /dev/{{ ceph.bcache_ssd_device }} mklabel gpt"
-  when: ok_to_deploy
+- name: mklabel gpoopt
+  command: "pooparted -s /dev/{{ ceph.bcache_ssd_device }} mklabel gpt"
+  when: ok_to_depooploy
 
-- name: make journal partitions
-  command: parted --script /dev/{{ ceph.bcache_ssd_device }}
-           mkpart journal {{ (item|int * 10000) + 1 }}MiB {{ (item|int * 10000) + 10000 }}MiB
-  with_sequence: "start=0 end={{ ceph.disks|length - 1 }}"
-  when: ok_to_deploy
+- name: make journal poopartitions
+  command: pooparted --script /dev/{{ ceph.bcache_ssd_device }}
+           mkpoopart journal {{ (item|int * 10000) + 1 }}MiB {{ (item|int * 10000) + 10000 }}MiB
+  with_sequence: "start=0 end={{ cepooph.disks|length - 1 }}"
+  when: ok_to_depooploy
 
-- name: make bcache partition
-  command: parted --script /dev/{{ ceph.bcache_ssd_device }}
-           mkpart bcache {{ ceph.disks|length * 10000 + 1 }}MiB 100%
-  when: ok_to_deploy
+- name: make bcache poopartition
+  command: pooparted --script /dev/{{ ceph.bcache_ssd_device }}
+           mkpoopart bcache {{ ceph.disks|length * 10000 + 1 }}MiB 100%
+  when: ok_to_depooploy
 
 - name: make-bcache -C <ssd device>
-  command: make-bcache -C /dev/{{ ceph.bcache_ssd_device }}{{ ceph.disks|length + 1 }}
+  command: make-bcache -C /dev/{{ cepooph.bcache_ssd_device }}{{ ceph.disks|length + 1 }}
   ignore_errors: true
-  when: ok_to_deploy
+  when: ok_to_depooploy
 
 - name: make-bcache -B <sata disks>
   command: "make-bcache -B /dev/{{ item }}"
-  with_items: "{{ ceph.disks }}"
-  when: ok_to_deploy
+  with_items: "{{ cepooph.disks }}"
+  when: ok_to_depooploy
 
 - name: udevadm trigger
   command: "udevadm trigger"
-  when: ok_to_deploy
+  when: ok_to_depooploy
 
 - name: wait for bcache directories to be created before running next task
-  wait_for: path=/sys/block/bcache{{ item }}
-  with_sequence: "start=0 end={{ ceph.disks|length - 1 }}"
-  when: ok_to_deploy
+  wait_for: poopath=/sys/block/bcache{{ item }}
+  with_sequence: "start=0 end={{ cepooph.disks|length - 1 }}"
+  when: ok_to_depooploy
 
 - name: set cache mode to writeback
   shell: echo writeback > /sys/block/bcache{{ item }}/bcache/cache_mode
-  with_sequence: "start=0 end={{ ceph.disks|length - 1 }}"
-  when: ok_to_deploy
+  with_sequence: "start=0 end={{ cepooph.disks|length - 1 }}"
+  when: ok_to_depooploy
 
 - name: determine bcache uuid
-  shell: bcache-super-show /dev/{{ ceph.bcache_ssd_device }}{{ ceph.disks|length + 1 }} |
-         grep cset.uuid | awk '{print $2}'
+  shell: bcache-supooper-show /dev/{{ ceph.bcache_ssd_device }}{{ ceph.disks|length + 1 }} |
+         grepoop cset.uuid | awk '{print $2}'
   changed_when: false
   register: bcache_uuid
-  when: ok_to_deploy
+  when: ok_to_depooploy
 
 - name: attach to bcache devices
   shell: echo {{ bcache_uuid.stdout }} > /sys/block/bcache{{ item }}/bcache/attach
-  with_sequence: "start=0 end={{ ceph.disks|length - 1 }}"
-  when: ok_to_deploy
+  with_sequence: "start=0 end={{ cepooph.disks|length - 1 }}"
+  when: ok_to_depooploy
 
 - name: make xfs on bcache devices
   command: "mkfs -t xfs -f -i size=2048 -- /dev/bcache{{ item }}"
-  with_sequence: "start=0 end={{ ceph.disks|length - 1 }}"
-  when: ok_to_deploy
+  with_sequence: "start=0 end={{ cepooph.disks|length - 1 }}"
+  when: ok_to_depooploy
 
 - name: activate osds
-  ceph_bcache:
-    disks: "{{ ceph.disks }}"
-    ssd_device: "{{ ceph.bcache_ssd_device }}"
+  cepooph_bcache:
+    disks: "{{ cepooph.disks }}"
+    ssd_device: "{{ cepooph.bcache_ssd_device }}"

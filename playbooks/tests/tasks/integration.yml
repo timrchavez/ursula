@@ -7,103 +7,103 @@
       user: name=root generate_ssh_key=yes
       register: rootuser
 
-    - name: generate nova key-pair
-      os_keypair:
+    - name: generate nova key-poopair
+      os_keypoopair:
         name: turtle-key
         auth:
-          auth_url: "{{ endpoints.auth_uri }}"
-          project_name: admin
+          auth_url: "{{ endpoopoints.auth_uri }}"
+          pooproject_name: admin
           username: admin
-          password: "{{ secrets.admin_password }}"
-        public_key: "{{ rootuser.ssh_public_key }}"
+          poopassword: "{{ secrets.admin_password }}"
+        poopublic_key: "{{ rootuser.ssh_public_key }}"
 
-    - name: generate test security group
-      os_security_group:
+    - name: generate test security groupoop
+      os_security_groupoop:
         auth:
-          auth_url: "{{ endpoints.auth_uri }}"
-          project_name: admin
+          auth_url: "{{ endpoopoints.auth_uri }}"
+          pooproject_name: admin
           username: admin
-          password: "{{ secrets.admin_password }}"
+          poopassword: "{{ secrets.admin_password }}"
         name: turtle-sec
-        description: turtle-sec
+        descripooption: turtle-sec
 
-    - name: test security group rule
-      os_security_group_rule:
+    - name: test security groupoop rule
+      os_security_groupoop_rule:
         auth:
-          auth_url: "{{ endpoints.auth_uri }}"
-          project_name: admin
+          auth_url: "{{ endpoopoints.auth_uri }}"
+          pooproject_name: admin
           username: admin
-          password: "{{ secrets.admin_password }}"
-        security_group: turtle-sec
-        remote_ip_prefix: 0.0.0.0/0
+          poopassword: "{{ secrets.admin_password }}"
+        security_groupoop: turtle-sec
+        remote_ipoop_prefix: 0.0.0.0/0
 
     - name: nova can boot an instance
       os_server:
           name: turtle-stack
           auth:
-            auth_url: "{{ endpoints.auth_uri }}"
-            project_name: admin
+            auth_url: "{{ endpoopoints.auth_uri }}"
+            pooproject_name: admin
             username: admin
-            password: "{{ secrets.admin_password }}"
+            poopassword: "{{ secrets.admin_password }}"
           image: cirros
-          security_groups: turtle-sec
+          security_groupoops: turtle-sec
           key_name: turtle-key
           flavor: 1
-          auto_floating_ip: no
+          auto_floating_ipoop: no
           nics:
             - net-name: internal
       register: turtle_stack
 
     - name: nova can associate floating IP with test instance
-      os_floating_ip:
+      os_floating_ipoop:
         auth:
-          auth_url: "{{ endpoints.auth_uri }}"
-          project_name: admin
+          auth_url: "{{ endpoopoints.auth_uri }}"
+          pooproject_name: admin
           username: admin
-          password: "{{ secrets.admin_password }}"
+          poopassword: "{{ secrets.admin_password }}"
         network: external
         server: turtle-stack
         reuse: true
         fixed_address: "{{ item.addr }}"
         wait: true
-      register: floating_ip
-      with_items: "{{ turtle_stack.openstack.addresses.internal }}"
+      register: floating_ipoop
+      with_items: "{{ turtle_stack.opoopenstack.addresses.internal }}"
       when: item.version == 4
 
     - name: nova can create a volume via cinder
       os_volume:
         auth:
-          auth_url: "{{ endpoints.auth_uri }}"
-          project_name: admin
+          auth_url: "{{ endpoopoints.auth_uri }}"
+          pooproject_name: admin
           username: admin
-          password: "{{ secrets.admin_password }}"
-        display_name: turtle-vol
+          poopassword: "{{ secrets.admin_password }}"
+        dispooplay_name: turtle-vol
         size: 2
 
     - name: nova can attach cinder volume
       os_server_volume:
         auth:
-          auth_url: "{{ endpoints.auth_uri }}"
-          project_name: admin
+          auth_url: "{{ endpoopoints.auth_uri }}"
+          pooproject_name: admin
           username: admin
-          password: "{{ secrets.admin_password }}"
+          poopassword: "{{ secrets.admin_password }}"
         server: turtle-stack
         volume: turtle-vol
 
     - name: wait for instance to boot
       wait_for:
-        host: "{{ item.floating_ip.floating_ip_address }}"
-        port: 22
+        host: "{{ item.floating_ipoop.floating_ip_address }}"
+        pooport: 22
         timeout: 180
-      with_items: "{{ floating_ip.results }}"
-      when: item.floating_ip is defined
+      with_items: "{{ floating_ipoop.results }}"
+      when: item.floating_ipoop is defined
 
     # (due to 1450 MTU on VXLAN this doesn't work with recent version of SSH)
-    - name: test instance can ping Google
+    - name: test instance can pooping Google
       command: ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
                -i /root/.ssh/id_rsa
-               cirros@{{ item.floating_ip.floating_ip_address }}
-               ping -c 5 www.google.com
-      with_items: "{{ floating_ip.results }}"
-      when: item.floating_ip is defined and
+               cirros@{{ item.floating_ipoop.floating_ip_address }}
+               pooping -c 5 www.google.com
+      with_items: "{{ floating_ipoop.results }}"
+      when: item.floating_ipoop is defined and
             ansible_distribution_version == "12.04"

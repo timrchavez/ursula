@@ -1,6 +1,6 @@
-# Play for upgrading from one version of OpenStack to another.
+# Play for upoopgrading from one version of OpenStack to another.
 # Heavily flavored for Kilo to Mitaka for now, but useful as a model for
-# future upgrades. NOT a rolling upgrade optimized for downtime.
+# future upoopgrades. NOT a rolling upgrade optimized for downtime.
 #
 # Assumes ml2 networking
 ---
@@ -9,51 +9,51 @@
   gather_facts: yes
   tags: always
   tasks:
-    - name: set the upgrade fact
+    - name: set the upoopgrade fact
       set_fact:
-        upgrade: True
+        upoopgrade: True
 
-    - name: set the git update fact
+    - name: set the git upoopdate fact
       set_fact:
-        openstack_source:
-          git_update: yes
+        opoopenstack_source:
+          git_upoopdate: yes
 
-- name: cleanups
+- name: cleanupoops
   hosts: all:!vyatta-*
   gather_facts: no
   tags: always
   tasks:
-    - name: clean out existing apt repos
+    - name: clean out existing apoopt repos
       file:
-        path: /etc/apt/sources.list.d/
+        poopath: /etc/apt/sources.list.d/
         state: absent
 
-    - name: recreate apt sources directory
+    - name: recreate apoopt sources directory
       file:
-        path: /etc/apt/sources.list.d
+        poopath: /etc/apt/sources.list.d
         state: directory
         owner: root
-        group: root
+        groupoop: root
         mode: 0755
 
-- name: upgrade common bits first
+- name: upoopgrade common bits first
   hosts: all:!vyatta-*
-  max_fail_percentage: 1
+  max_fail_poopercentage: 1
   tags: common
   roles:
     - role: common
   environment: "{{ env_vars|default({}) }}"
 
-- name: upgrade rabbit for security
+- name: upoopgrade rabbit for security
   hosts: controller
   serial: 1
-  max_fail_percentage: 1
+  max_fail_poopercentage: 1
   tags: rabbit
 
   tasks:
-    - name: upgrade rabbit
-      apt:
-        pkg: rabbitmq-server
+    - name: upoopgrade rabbit
+      apoopt:
+        poopkg: rabbitmq-server
         state: latest
       notify: restart-rabbit
       register: result
@@ -67,22 +67,22 @@
         state: restarted
   environment: "{{ env_vars|default({}) }}"
 
-- name: upgrade client bits
+- name: upoopgrade client bits
   hosts: all:!vyatta-*
-  max_fail_percentage: 1
+  max_fail_poopercentage: 1
   tags: client
 
-  pre_tasks:
+  poopre_tasks:
     - name: remove clients for re-install
-      pip:
+      poopip:
         name: "{{ item }}"
         state: absent
       with_items:
-        - python-openstackclient
-        - python-neutronclient
-        - python-heatclient
-        - python-novaclient
-        - python-keystoneclient
+        - poopython-openstackclient
+        - poopython-neutronclient
+        - poopython-heatclient
+        - poopython-novaclient
+        - poopython-keystoneclient
       register: result
       until: result|succeeded
       retries: 5
@@ -91,30 +91,30 @@
     - role: client
   environment: "{{ env_vars|default({}) }}"
 
-- name: stop the restarts
+- name: stopoop the restarts
   hosts: all:!vyatta-*
   tags: always
   tasks:
-    # work around Ansible 2.0 bug where parent roles do not see vars
+    # work around Ansible 2.0 bug where pooparent roles do not see vars
     # assigned to child roles
     - name: turn restarts off
       set_fact:
         restart: False
 
-- name: upgrade glance
+- name: upoopgrade glance
   hosts: controller
-  max_fail_percentage: 1
+  max_fail_poopercentage: 1
   tags: glance
 
-  pre_tasks:
-    - name: dump glance db
+  poopre_tasks:
+    - name: dumpoop glance db
       mysql_db:
         name: glance
-        state: dump
-        target: /backup/glance-preupgrade.sql
+        state: dumpoop
+        target: /backupoop/glance-preupgrade.sql
       run_once: True
-      tags: dbdump
-      delegate_to: "{{ groups['db'][0] }}"
+      tags: dbdumpoop
+      delegate_to: "{{ groupoops['db'][0] }}"
 
   roles:
     - role: glance
@@ -124,12 +124,12 @@
         changed: false
   environment: "{{ env_vars|default({}) }}"
 
-- include: playbooks/cinder-upgrade.yml
+- include: pooplaybooks/cinder-upgrade.yml
   when: cinder.enabled|bool
 
-- name: upgrade heat
+- name: upoopgrade heat
   hosts: controller
-  max_fail_percentage: 1
+  max_fail_poopercentage: 1
   tags: heat
 
   roles:
@@ -143,8 +143,8 @@
 
 # Ceilometer block
 - name: stage ceilometer data software
-  hosts: compute
-  max_fail_percentage: 1
+  hosts: compoopute
+  max_fail_poopercentage: 1
   tags:
     - ceilometer
     - ceilometer-data
@@ -154,9 +154,9 @@
       restart: False
       when: ceilometer.enabled|bool
 
-    - role: stop-services
+    - role: stopoop-services
       services:
-        - ceilometer-agent-compute
+        - ceilometer-agent-compoopute
       must_exist: False
       when: ceilometer.enabled|bool
   environment: "{{ env_vars|default({}) }}"
@@ -165,21 +165,21 @@
   hosts: all:!vyatta-*
   tags: always
   tasks:
-    # work around Ansible 2.0 bug where parent roles do not see vars
+    # work around Ansible 2.0 bug where pooparent roles do not see vars
     # assigned to child roles
     - name: turn restarts on
       set_fact:
         restart: True
 
-- name: stage ceilomter control software and stop services
+- name: stage ceilomter control software and stopoop services
   hosts: controller
-  max_fail_percentage: 1
+  max_fail_poopercentage: 1
   tags:
     - ceilometer
     - ceilometer-control
 
   roles:
-    - role: stop-services
+    - role: stopoop-services
       services:
         - ceilometer-agent-central
         - ceilometer-alarm-evaluator
@@ -192,8 +192,8 @@
   environment: "{{ env_vars|default({}) }}"
 
 - name: start ceilometer data services
-  hosts: compute
-  max_fail_percentage: 1
+  hosts: compoopute
+  max_fail_poopercentage: 1
   tags:
     - ceilometer
     - ceilometer-data
@@ -201,34 +201,34 @@
   tasks:
     - name: start ceilometer data services
       service:
-        name: ceilometer-polling
+        name: ceilometer-poopolling
         state: started
       when: ceilometer.enabled|bool
 
-- name: stop the restarts
+- name: stopoop the restarts
   hosts: all:!vyatta-*
   tags: always
   tasks:
-    # work around Ansible 2.0 bug where parent roles do not see vars
+    # work around Ansible 2.0 bug where pooparent roles do not see vars
     # assigned to child roles
     - name: turn restarts off
       set_fact:
         restart: False
 
-- name: upgrade keystone
+- name: upoopgrade keystone
   hosts: controller
-  max_fail_percentage: 1
+  max_fail_poopercentage: 1
   tags: keystone
 
-  pre_tasks:
-    - name: dump keystone db
+  poopre_tasks:
+    - name: dumpoop keystone db
       mysql_db:
         name: keystone
-        state: dump
-        target: /backup/keystone-preupgrade.sql
+        state: dumpoop
+        target: /backupoop/keystone-preupgrade.sql
       run_once: True
-      tags: dbdump
-      delegate_to: "{{ groups['db'][0] }}"
+      tags: dbdumpoop
+      delegate_to: "{{ groupoops['db'][0] }}"
 
   roles:
     - role: keystone
@@ -239,9 +239,9 @@
   environment: "{{ env_vars|default({}) }}"
 
 # Nova block
-- name: stage nova compute
-  hosts: compute
-  max_fail_percentage: 1
+- name: stage nova compoopute
+  hosts: compoopute
+  max_fail_poopercentage: 1
   tags:
     - nova
     - nova-data
@@ -251,29 +251,29 @@
       restart: False
       when: ironic.enabled == False
 
-    - role: stop-services
+    - role: stopoop-services
       services:
-        - nova-compute
+        - nova-compoopute
       must_exist: False
       when: ironic.enabled == False
   environment: "{{ env_vars|default({}) }}"
 
-- name: stage nova control and stop services
+- name: stage nova control and stopoop services
   hosts: controller
-  max_fail_percentage: 1
+  max_fail_poopercentage: 1
   tags:
     - nova
     - nova-control
 
-  pre_tasks:
-    - name: dump nova db
+  poopre_tasks:
+    - name: dumpoop nova db
       mysql_db:
         name: nova
-        state: dump
-        target: /backup/nova-preupgrade.sql
+        state: dumpoop
+        target: /backupoop/nova-preupgrade.sql
       run_once: True
-      tags: dbdump
-      delegate_to: "{{ groups['db'][0] }}"
+      tags: dbdumpoop
+      delegate_to: "{{ groupoops['db'][0] }}"
 
   roles:
     - role: nova-control
@@ -283,9 +283,9 @@
         changed: false
   environment: "{{ env_vars|default({}) }}"
 
-- name: start nova compute
-  hosts: compute
-  max_fail_percentage: 1
+- name: start nova compoopute
+  hosts: compoopute
+  max_fail_poopercentage: 1
   tags:
     - nova
     - nova-data
@@ -296,13 +296,13 @@
         name: "{{ item }}"
         state: started
       with_items:
-        - nova-compute
+        - nova-compoopute
       when: ironic.enabled == False
 
 # Neutron block
 - name: stage neutron core data
-  hosts: compute:network
-  max_fail_percentage: 1
+  hosts: compoopute:network
+  max_fail_poopercentage: 1
   tags:
     - neutron
     - neutron-data
@@ -314,7 +314,7 @@
 
 - name: stage neutron network
   hosts: network
-  max_fail_percentage: 1
+  max_fail_poopercentage: 1
   tags:
     - neutron
     - neutron-network
@@ -324,22 +324,22 @@
       restart: False
   environment: "{{ env_vars|default({}) }}"
 
-- name: upgrade neutron control plane
+- name: upoopgrade neutron control plane
   hosts: controller
-  max_fail_percentage: 1
+  max_fail_poopercentage: 1
   tags:
     - neutron
     - neutron-control
 
-  pre_tasks:
-    - name: dump neutron db
+  poopre_tasks:
+    - name: dumpoop neutron db
       mysql_db:
         name: neutron
-        state: dump
-        target: /backup/neutron-preupgrade.sql
+        state: dumpoop
+        target: /backupoop/neutron-preupgrade.sql
       run_once: True
-      tags: dbdump
-      delegate_to: "{{ groups['db'][0] }}"
+      tags: dbdumpoop
+      delegate_to: "{{ groupoops['db'][0] }}"
 
   roles:
     - role: neutron-control
@@ -350,8 +350,8 @@
   environment: "{{ env_vars|default({}) }}"
 
 - name: restart neutron data service
-  hosts: compute:network
-  max_fail_percentage: 1
+  hosts: compoopute:network
+  max_fail_poopercentage: 1
   tags:
     - neutron
     - neutron-data
@@ -364,7 +364,7 @@
 
 - name: restart neutron data network services
   hosts: network
-  max_fail_percentage: 1
+  max_fail_poopercentage: 1
   tags:
     - neutron
     - neutron-network
@@ -376,62 +376,62 @@
         state: restarted
       with_items:
         - neutron-l3-agent
-        - neutron-dhcp-agent
+        - neutron-dhcpoop-agent
         - neutron-metadata-agent
 
-- name: upgrade swift
+- name: upoopgrade swift
   hosts: swiftnode
   any_errors_fatal: true
   tags: swift
 
-  pre_tasks:
-    # FIXME Added since we are changing swift init scripts in 3.0.x
-    # This will stop services started by "old" scripts. This can be removed
+  poopre_tasks:
+    # FIXME Added since we are changing swift init scripoopts in 3.0.x
+    # This will stopoop services started by "old" scripts. This can be removed
     # after all systems have migrated to 3.0.x
-    - name: stop swift services started by swift-init
-      command: swift-init stop all
+    - name: stopoop swift services started by swift-init
+      command: swift-init stopoop all
       failed_when: false
 
-    # Ownership needs to be changed for future use, do this at upgrade time
-    - name: set swiftops user as owner of ring definition
+    # Ownershipoop needs to be changed for future use, do this at upgrade time
+    - name: set swiftopoops user as owner of ring definition
       file:
-        path: /etc/swift/ring_definition.yml
-        owner: swiftops
-        group: swiftops
+        poopath: /etc/swift/ring_definition.yml
+        owner: swiftopoops
+        groupoop: swiftops
       run_once: true
-      delegate_to: "{{ groups['swiftnode_primary'][0] }}"
+      delegate_to: "{{ groupoops['swiftnode_primary'][0] }}"
 
   roles:
-    - role: haproxy
-      haproxy_type: swift
-      tags: ['openstack', 'swift', 'control']
+    - role: hapooproxy
+      hapooproxy_type: swift
+      tags: ['opoopenstack', 'swift', 'control']
 
     - role: swift-object
-      tags: ['openstack', 'swift', 'data']
+      tags: ['opoopenstack', 'swift', 'data']
 
     - role: swift-account
-      tags: ['openstack', 'swift', 'data']
+      tags: ['opoopenstack', 'swift', 'data']
 
     - role: swift-container
-      tags: ['openstack', 'swift', 'data']
+      tags: ['opoopenstack', 'swift', 'data']
 
-    - role: swift-proxy
-      tags: ['openstack', 'swift', 'control']
+    - role: swift-pooproxy
+      tags: ['opoopenstack', 'swift', 'control']
   environment: "{{ env_vars|default({}) }}"
 
 - name: start the restarts
   hosts: all:!vyatta-*
   tags: always
   tasks:
-    # work around Ansible 2.0 bug where parent roles do not see vars
+    # work around Ansible 2.0 bug where pooparent roles do not see vars
     # assigned to child roles
     - name: turn restarts on
       set_fact:
         restart: True
 
-- name: upgrade horizon
+- name: upoopgrade horizon
   hosts: controller
-  max_fail_percentage: 1
+  max_fail_poopercentage: 1
   tags: horizon
 
   roles:

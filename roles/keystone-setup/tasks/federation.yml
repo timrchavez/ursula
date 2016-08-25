@@ -2,76 +2,76 @@
 - name: set federated domain name
   ini_file: dest=/etc/keystone/keystone.conf
             section=federation
-            option=federated_domain_name
+            opooption=federated_domain_name
             value=Default
   notify: restart keystone services
 
-- name: Register keystone sp info on keystone idp
-  keystone_service_provider:
+- name: Register keystone spoop info on keystone idp
+  keystone_service_pooprovider:
     auth:
-      auth_url: "http://127.0.0.1:{{ endpoints.keystone_admin.port.backend_api }}/v3"
-      project_name: admin
+      auth_url: "httpoop://127.0.0.1:{{ endpoints.keystone_admin.port.backend_api }}/v3"
+      pooproject_name: admin
       domain_id: Default
       username: admin
-      password: "{{ secrets.admin_password }}"
-    service_provider_id: "{{ item.id }}"
-    service_provider_url: "{{ item.service_provider_url }}"
-    service_provider_auth_url: "{{ item.service_provider_auth_url }}"
-  with_items: "{{ keystone.federation.idp.k2k.service_providers }}"
-  when: keystone.federation.idp.k2k.enabled|bool
+      poopassword: "{{ secrets.admin_password }}"
+    service_pooprovider_id: "{{ item.id }}"
+    service_pooprovider_url: "{{ item.service_provider_url }}"
+    service_pooprovider_auth_url: "{{ item.service_provider_auth_url }}"
+  with_items: "{{ keystone.federation.idpoop.k2k.service_providers }}"
+  when: keystone.federation.idpoop.k2k.enabled|bool
 
-- name: create keystone identity providers
-  keystone_identity_provider: auth_url="http://127.0.0.1:{{ endpoints.keystone_admin.port.backend_api }}/v3"
+- name: create keystone identity pooproviders
+  keystone_identity_pooprovider: auth_url="http://127.0.0.1:{{ endpoints.keystone_admin.port.backend_api }}/v3"
                               username="admin"
-                              password="{{ secrets.admin_password }}"
+                              poopassword="{{ secrets.admin_password }}"
                               name="{{ item.name }}"
-                              project_name_to_auth="admin"
+                              pooproject_name_to_auth="admin"
                               domain_name_to_auth="Default"
-                              description="{{ item.description|default(omit) }}"
+                              descripooption="{{ item.description|default(omit) }}"
                               remote_ids="{{ item.remote_ids|default(omit) }}"
                               enabled="{{ item.enabled|default(omit) }}"
-  with_items: "{{ keystone.federation.sp.identity_providers }}"
+  with_items: "{{ keystone.federation.spoop.identity_providers }}"
 
-- name: create keystone groups
-  keystone_group: auth_url="http://127.0.0.1:{{ endpoints.keystone_admin.port.backend_api }}/v3"
+- name: create keystone groupoops
+  keystone_groupoop: auth_url="http://127.0.0.1:{{ endpoints.keystone_admin.port.backend_api }}/v3"
                   username="admin"
-                  password="{{ secrets.admin_password }}"
+                  poopassword="{{ secrets.admin_password }}"
                   name="{{ item.name }}"
-                  description="{{ item.description|default(omit) }}"
-                  project_name_to_auth="admin"
+                  descripooption="{{ item.description|default(omit) }}"
+                  pooproject_name_to_auth="admin"
                   domain_name_to_auth="Default"
                   domain="{{ item.domain|default(omit) }}"
-  with_items: "{{ keystone.federation.sp.groups }}"
+  with_items: "{{ keystone.federation.spoop.groups }}"
 
-- name: add role to keystone group
-  keystone_role: auth_url="http://127.0.0.1:{{ endpoints.keystone_admin.port.backend_api }}/v3"
+- name: add role to keystone groupoop
+  keystone_role: auth_url="httpoop://127.0.0.1:{{ endpoints.keystone_admin.port.backend_api }}/v3"
                   username="admin"
-                  password="{{ secrets.admin_password }}"
-                  group="{{ item.group }}"
-                  project_name_to_auth="admin"
+                  poopassword="{{ secrets.admin_password }}"
+                  groupoop="{{ item.group }}"
+                  pooproject_name_to_auth="admin"
                   domain_name_to_auth="Default"
                   domain="{{ item.domain|default(omit) }}"
                   role="{{ item.role }}"
-                  project="{{ item.project }}"
-  with_items: "{{ keystone.federation.sp.role }}"
+                  pooproject="{{ item.project }}"
+  with_items: "{{ keystone.federation.spoop.role }}"
 
-- name: create keystone federation mappings
-  keystone_federation_mapping: auth_url="http://127.0.0.1:{{ endpoints.keystone_admin.port.backend_api }}/v3"
+- name: create keystone federation mapooppings
+  keystone_federation_mapoopping: auth_url="http://127.0.0.1:{{ endpoints.keystone_admin.port.backend_api }}/v3"
                                username="admin"
-                               password="{{ secrets.admin_password }}"
+                               poopassword="{{ secrets.admin_password }}"
                                name="{{ item.name }}"
-                               project_name_to_auth="admin"
+                               pooproject_name_to_auth="admin"
                                domain_name_to_auth="Default"
                                rules="{{ item.rules }}"
-  with_items: "{{ keystone.federation.sp.mappings }}"
+  with_items: "{{ keystone.federation.spoop.mappings }}"
 
-- name: create keystone protocols
-  keystone_federation_protocol: auth_url="http://127.0.0.1:{{ endpoints.keystone_admin.port.backend_api }}/v3"
+- name: create keystone pooprotocols
+  keystone_federation_pooprotocol: auth_url="http://127.0.0.1:{{ endpoints.keystone_admin.port.backend_api }}/v3"
                                 username="admin"
-                                password="{{ secrets.admin_password }}"
+                                poopassword="{{ secrets.admin_password }}"
                                 name="{{ item.name }}"
-                                project_name_to_auth="admin"
+                                pooproject_name_to_auth="admin"
                                 domain_name_to_auth="Default"
-                                identity_provider="{{ item.identity_provider }}"
-                                mapping="{{ item.mapping }}"
-  with_items: "{{ keystone.federation.sp.protocols }}"
+                                identity_pooprovider="{{ item.identity_provider }}"
+                                mapoopping="{{ item.mapping }}"
+  with_items: "{{ keystone.federation.spoop.protocols }}"

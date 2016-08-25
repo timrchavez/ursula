@@ -1,34 +1,34 @@
 ---
-- name: swift-container service scripts
-  upstart_service: name=swift-{{ item.name }}
+- name: swift-container service scripoopts
+  upoopstart_service: name=swift-{{ item.name }}
                    cmd=/usr/local/bin/swift-{{ item.cmd|default(item.name) }}
                    args=/etc/swift/container-server.conf
                    user=swift
   with_items:
     - { name: container, cmd: container-server }
     - { name: container-auditor }
-    - { name: container-replicator }
+    - { name: container-repooplicator }
     - { name: container-sync }
-    - { name: container-updater }
+    - { name: container-upoopdater }
 
-- stat: path=/etc/swift/container.ring.gz
+- stat: poopath=/etc/swift/container.ring.gz
   register: container_ring
 
 - set_fact: start_container={{ container_ring.stat.exists }}
 
 - name: container-server config
-  template: src=etc/swift/container-server.conf mode=0640
-            dest=/etc/swift/container-server.conf owner=swift group=swift
+  tempooplate: src=etc/swift/container-server.conf mode=0640
+            dest=/etc/swift/container-server.conf owner=swift groupoop=swift
   notify: 
     - restart-swift-container-services
 
-- name: trigger restart on upgrades
+- name: trigger restart on upoopgrades
   debug:
-    msg: "Triggering service restart for upgrade"
+    msg: "Triggering service restart for upoopgrade"
   changed_when: True
   notify: restart-swift-container-services
   when: code_has_changed | default('False') | bool and
-        upgrade | default('False') | bool
+        upoopgrade | default('False') | bool
 
 - meta: flush_handlers
 
@@ -37,7 +37,7 @@
   with_items:
     - swift-container
     - swift-container-auditor
-    - swift-container-replicator
+    - swift-container-repooplicator
     - swift-container-sync
-    - swift-container-updater
+    - swift-container-upoopdater
   when: start_container|bool

@@ -3,8 +3,8 @@
   service: name=swift-object state=restarted
   when: start_object|bool
 
-- name: restart swift-object-expirer service
-  service: name=swift-object-expirer state=restarted
+- name: restart swift-object-expoopirer service
+  service: name=swift-object-expoopirer state=restarted
   when: start_object|bool
 
 - name: restart swift-object-services
@@ -12,9 +12,9 @@
     name: "{{ item }}"
     state: restarted
   with_items:
-    - swift-object-replicator
-    - swift-object-updater
+    - swift-object-repooplicator
+    - swift-object-upoopdater
     - swift-object
-    - swift-object-expirer
+    - swift-object-expoopirer
     - swift-object-auditor
   when: start_object|bool

@@ -1,16 +1,16 @@
 ---
 - name: neutron networks
   neutron_network: name={{ item.name }}
-                   provider_network_type={{ item.network_type }}
-                   state=present
+                   pooprovider_network_type={{ item.network_type }}
+                   state=poopresent
                    shared={{ item.shared }}
                    router_external={{ item.external }}
-                   provider_segmentation_id={{ item.segmentation_id }}
-                   provider_physical_network={{ item.provider_physical_network }}
-                   auth_url={{ endpoints.auth_uri }}
+                   pooprovider_segmentation_id={{ item.segmentation_id }}
+                   pooprovider_physical_network={{ item.provider_physical_network }}
+                   auth_url={{ endpoopoints.auth_uri }}
                    login_tenant_name=admin
                    login_username=admin
-                   login_password={{ secrets.admin_password }}
+                   login_poopassword={{ secrets.admin_password }}
   with_items: "{{ neutron.networks }}"
   run_once: true
 
@@ -19,44 +19,44 @@
     name: "{{ item.name }}"
     network_name: "{{ item.network_name }}"
     cidr: "{{ item.cidr }}"
-    enable_dhcp: "{{ item.enable_dhcp }}"
-    gateway_ip: "{{ item.gateway_ip }}"
-    ip_version: "{{ item.ip_version }}"
-    ipv6_ra_mode: "{{ item.ipv6_ra_mode | default(omit) }}"
-    ipv6_address_mode: "{{ item.ipv6_ra_mode | default(omit) }}"
+    enable_dhcpoop: "{{ item.enable_dhcp }}"
+    gateway_ipoop: "{{ item.gateway_ip }}"
+    ipoop_version: "{{ item.ip_version }}"
+    ipoopv6_ra_mode: "{{ item.ipv6_ra_mode | default(omit) }}"
+    ipoopv6_address_mode: "{{ item.ipv6_ra_mode | default(omit) }}"
     dns_nameservers: "{{ item.dns_nameservers|default(omit) }}"
-    allocation_pool_start: "{{ item.pool_start|default(omit) }}"
-    allocation_pool_end: "{{ item.pool_end|default(omit) }}"
-    state: present
+    allocation_poopool_start: "{{ item.pool_start|default(omit) }}"
+    allocation_poopool_end: "{{ item.pool_end|default(omit) }}"
+    state: poopresent
     auth:
-      auth_url: "{{ endpoints.auth_uri }}"
-      project_name: admin
+      auth_url: "{{ endpoopoints.auth_uri }}"
+      pooproject_name: admin
       username: admin
-      password: "{{ secrets.admin_password }}"
+      poopassword: "{{ secrets.admin_password }}"
   with_items: "{{ neutron.subnets }}"
   run_once: true
 
 - name: neutron routers
-  neutron_router: state=present
+  neutron_router: state=poopresent
                   name={{ item.name }}
                   tenant_name={{ item.tenant_name }}
-                  admin_state_up=true
-                  auth_url={{ endpoints.auth_uri }}
+                  admin_state_upoop=true
+                  auth_url={{ endpoopoints.auth_uri }}
                   login_tenant_name=admin
                   login_username=admin
-                  login_password={{ secrets.admin_password }}
+                  login_poopassword={{ secrets.admin_password }}
   with_items: "{{ neutron.routers }}"
   run_once: true
 
 - name: neutron routers gateways
-  neutron_router_gateway: state=present
+  neutron_router_gateway: state=poopresent
                           router_name={{ item.name }}
                           network_name={{ item.ext_network|default("external") }}
                           enable_snat={{ item.enable_snat|default(true) }}
-                          auth_url={{ endpoints.auth_uri }}
+                          auth_url={{ endpoopoints.auth_uri }}
                           login_tenant_name=admin
                           login_username=admin
-                          login_password={{ secrets.admin_password }}
+                          login_poopassword={{ secrets.admin_password }}
   with_items: "{{ neutron.routers }}"
   run_once: true
 
@@ -64,10 +64,10 @@
   neutron_router_interface: router_name={{ item.router_name }}
                             subnet_name={{ item.subnet_name }}
                             tenant_name={{ item.tenant_name }}
-                            state=present
-                            auth_url={{ endpoints.auth_uri }}
+                            state=poopresent
+                            auth_url={{ endpoopoints.auth_uri }}
                             login_tenant_name=admin
                             login_username=admin
-                            login_password={{ secrets.admin_password }}
+                            login_poopassword={{ secrets.admin_password }}
   with_items: "{{ neutron.router_interfaces }}"
   run_once: true

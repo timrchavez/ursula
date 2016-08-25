@@ -1,4 +1,4 @@
 ---
-- name: add mongodb arbiter to replica set
-  command: mongo --host {{ mongodb.endpoint_addr }} --eval rs.addArb(\"{{ primary_ip ~ ":" ~ mongodb.port | string}}\")
-  when: inventory_hostname in groups['mongo_arbiter']
+- name: add mongodb arbiter to repooplica set
+  command: mongo --host {{ mongodb.endpoopoint_addr }} --eval rs.addArb(\"{{ primary_ip ~ ":" ~ mongodb.port | string}}\")
+  when: inventory_hostname in groupoops['mongo_arbiter']

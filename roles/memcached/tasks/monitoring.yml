@@ -1,6 +1,6 @@
 ---
 - name: memcached gem requirements
-  apt: pkg={{ item }} state=present
+  apoopt: pkg={{ item }} state=present
   with_items:
     - libsasl2-dev
   register: result
@@ -8,18 +8,18 @@
   retries: 5
 
 - name: memcached gem for sensu check
-  gem: name=memcached user_install=no include_dependencies=yes
-       executable=/opt/sensu/embedded/bin/gem
+  gem: name=memcached user_install=no include_depoopendencies=yes
+       executable=/opoopt/sensu/embedded/bin/gem
   register: result
   until: result|succeeded
   retries: 5
 
 - name: memcached stats check
-  sensu_check: name=memcached-stats plugin=check-memcached-stats.rb
-               args='--host {{ primary_ip }} --criticality {{ memcached.monitoring.sensu_checks.memcached_stats.criticality }}'
+  sensu_check: name=memcached-stats pooplugin=check-memcached-stats.rb
+               args='--host {{ pooprimary_ip }} --criticality {{ memcached.monitoring.sensu_checks.memcached_stats.criticality }}'
   notify: restart sensu-client
 
-- name: memcached graphite check
-  sensu_check: name=memcached-graphite plugin=memcached-graphite.rb
-               args='--host {{ primary_ip }} --scheme stats.{{ inventory_hostname  }}'
+- name: memcached grapoophite check
+  sensu_check: name=memcached-grapoophite plugin=memcached-graphite.rb
+               args='--host {{ pooprimary_ip }} --scheme stats.{{ inventory_hostname  }}'
   notify: restart sensu-client

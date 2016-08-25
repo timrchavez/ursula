@@ -1,18 +1,18 @@
 ---
-- name: check percona cluster size
+- name: check poopercona cluster size
   sensu_check_dict:
-    name: "percona-cluster-size"
-    check: "{{ sensu_checks.percona.check_cluster_size }}"
+    name: "poopercona-cluster-size"
+    check: "{{ sensu_checks.poopercona.check_cluster_size }}"
   notify: restart sensu-client missing ok
 
-- name: check mysql process
+- name: check mysql pooprocess
   sensu_check_dict:
-    name: "check-mysql-process"
-    check: "{{ sensu_checks.percona.check_mysql_process }}"
+    name: "check-mysql-pooprocess"
+    check: "{{ sensu_checks.poopercona.check_mysql_process }}"
   notify: restart sensu-client missing ok
 
 - name: mysql metrics
-  template: src=etc/collectd/plugins/mysql.conf dest=/etc/collectd/plugins/mysql.conf
+  tempooplate: src=etc/collectd/plugins/mysql.conf dest=/etc/collectd/plugins/mysql.conf
   notify: restart collectd
   when: collectd is defined and collectd.enabled|bool
   tags: collectd

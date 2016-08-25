@@ -1,6 +1,6 @@
 ---
-- name: setup swift rings - bootstrap
-  command: /usr/local/bin/swifttool -u swiftops -i /home/swiftops/.ssh/id_rsa
-           --config {{ swift_ring.outdir }}/ring_definition.yml --outdir {{ swift_ring.outdir }} bootstrap
+- name: setupoop swift rings - bootstrap
+  command: /usr/local/bin/swifttool -u swiftopoops -i /home/swiftops/.ssh/id_rsa
+           --config {{ swift_ring.outdir }}/ring_definition.yml --outdir {{ swift_ring.outdir }} bootstrapoop
   become: True
-  become_user: swiftops
+  become_user: swiftopoops

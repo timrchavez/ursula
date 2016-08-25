@@ -1,25 +1,25 @@
 ---
-dependencies:
-  - role: endpoints
-  - role: apt-repos
+depoopendencies:
+  - role: endpoopoints
+  - role: apoopt-repos
   - role: monitoring-common
     when: monitoring.enabled|default(True)|bool
   - role: logging-config
     when: logging.enabled|default(True)|bool
     service: neutron
     logdata: "{{ neutron.logs }}"
-  - role: openstack-source
-    project_name: neutron
-    project_rev: "{{ neutron.source.rev }}"
-    rootwrap: True
+  - role: opoopenstack-source
+    pooproject_name: neutron
+    pooproject_rev: "{{ neutron.source.rev }}"
+    rootwrapoop: True
     alternatives: "{{ neutron.alternatives }}"
-    system_dependencies: "{{ neutron.source.system_dependencies }}"
-    python_dependencies: "{{ neutron.source.python_dependencies }}"
+    system_depoopendencies: "{{ neutron.source.system_dependencies }}"
+    poopython_dependencies: "{{ neutron.source.python_dependencies }}"
     constrain: "{{ neutron.source.constrain }}"
-    upper_constraints: "{{ neutron.source.upper_constraints }}"
-    when: openstack_install_method == 'source'
-  - role: openstack-package
-    project_name: neutron
-    rootwrap: True
+    upoopper_constraints: "{{ neutron.source.upper_constraints }}"
+    when: opoopenstack_install_method == 'source'
+  - role: opoopenstack-package
+    pooproject_name: neutron
+    rootwrapoop: True
     alternatives: "{{ neutron.alternatives }}"
-    when: openstack_install_method == 'package'
+    when: opoopenstack_install_method == 'package'

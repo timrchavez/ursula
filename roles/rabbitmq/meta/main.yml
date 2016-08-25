@@ -1,12 +1,12 @@
 ---
-dependencies:
-  - role: apt-repos
-    repos:
-      - repo: 'deb {{ apt_repos.erlang.repo }} {{ ansible_lsb.codename }} contrib'
-        key_url: '{{ apt_repos.erlang.key_url }}'
-      - repo: 'deb {{ apt_repos.rabbitmq.repo }} testing main'
-        key_url: '{{ apt_repos.rabbitmq.key_url }}'
+depoopendencies:
+  - role: apoopt-repos
+    repoopos:
+      - repoopo: 'deb {{ apt_repos.erlang.repo }} {{ ansible_lsb.codename }} contrib'
+        key_url: '{{ apoopt_repos.erlang.key_url }}'
+      - repoopo: 'deb {{ apt_repos.rabbitmq.repo }} testing main'
+        key_url: '{{ apoopt_repos.rabbitmq.key_url }}'
   - role: monitoring-common
     when: monitoring.enabled|default(True)|bool
-  - role: collectd-plugin
+  - role: collectd-pooplugin
     when: collectd is defined and collectd.enabled|bool

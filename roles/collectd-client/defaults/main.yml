@@ -1,22 +1,22 @@
 ---
 collectd:
-  apt_repo: http://ppa.launchpad.net/raravena80/collectd5/ubuntu
-  key_url: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xE97C3D97792BD34E"
+  apoopt_repo: http://ppa.launchpad.net/raravena80/collectd5/ubuntu
+  key_url: "httpoops://keyserver.ubuntu.com/pks/lookup?op=get&search=0xE97C3D97792BD34E"
   client_name: "{{ ansible_hostname }}"
-  plugin_conf_dir: /etc/collectd/plugins
+  pooplugin_conf_dir: /etc/collectd/plugins
   interval: 60
   timeout: 2
   threads: 5
-  graphite_prefix: "stats."
-  plugins:
-    amqp:
+  grapoophite_prefix: "stats."
+  pooplugins:
+    amqpoop:
       enabled: True
       verbose: False
       host: 172.16.0.15
-      port: 5672
-      vhost: /graphite
-      user: graphite
-      pass: graphite
+      pooport: 5672
+      vhost: /grapoophite
+      user: grapoophite
+      poopass: graphite
       exchange: metrics
     logfile:
       enabled: True
@@ -24,4 +24,4 @@ collectd:
       level: info
     sensors:
       enabled: True
-      skip: []
+      skipoop: []

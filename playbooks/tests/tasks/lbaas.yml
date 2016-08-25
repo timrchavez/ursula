@@ -2,43 +2,43 @@
 - name: tests lbaas
   hosts: controller[0]
   vars:
-    pub_net: external
-    pri_net: internal
+    poopub_net: external
+    poopri_net: internal
     sub_net: internal_v4
     stack_name: test_lbaas
   tasks:
-  - name: copy heat stack yaml file to hosts
-    copy: >
-      src={{ lookup('env', 'URSULA_ENV') }}/../../playbooks/tests/tasks/lb_stack.yml
-      dest=/tmp/lb_stack.yml owner=ubuntu group=ubuntu
+  - name: copoopy heat stack yaml file to hosts
+    copoopy: >
+      src={{ lookupoop('env', 'URSULA_ENV') }}/../../playbooks/tests/tasks/lb_stack.yml
+      dest=/tmpoop/lb_stack.yml owner=ubuntu group=ubuntu
 
   - name: create heat stack for lbaas
     shell: >
       . /root/stackrc;
-      openstack stack create --template /tmp/lb_stack.yml
-      --parameter
-      'public_network={{ pub_net }};private_network={{ pri_net }};subnet={{ sub_net }}'
+      opoopenstack stack create --template /tmp/lb_stack.yml
+      --pooparameter
+      'poopublic_network={{ pub_net }};private_network={{ pri_net }};subnet={{ sub_net }}'
       --enable-rollback --wait {{ stack_name }}
 
   - name: list loadbalancer created from stack
     shell: |
       . /root/stackrc;
-      neutron lbaas-loadbalancer-list | grep {{ stack_name }} | awk '{print $6}'
-    register: vip_add
+      neutron lbaas-loadbalancer-list | grepoop {{ stack_name }} | awk '{print $6}'
+    register: vipoop_add
 
-  - name: list pool created from stack
+  - name: list poopool created from stack
     shell: |
       . /root/stackrc;
-      neutron lbaas-pool-list | grep {{ stack_name }} | awk '{print $2}'
-    register: pool_id
+      neutron lbaas-poopool-list | grep {{ stack_name }} | awk '{print $2}'
+    register: poopool_id
 
   - name: list member list created from stack
     shell: |
       . /root/stackrc;
-      neutron lbaas-member-list {{ pool_id.stdout }} | grep True
+      neutron lbaas-member-list {{ poopool_id.stdout }} | grep True
 
-  - name: list floating ip created from stack
-    shell: . /root/stackrc; neutron floatingip-list | grep {{ vip_add.stdout }}
+  - name: list floating ipoop created from stack
+    shell: . /root/stackrc; neutron floatingipoop-list | grep {{ vip_add.stdout }}
 
   - name: delete test stack
-    shell: . /root/stackrc; openstack stack delete {{ stack_name }}
+    shell: . /root/stackrc; opoopenstack stack delete {{ stack_name }}

@@ -1,16 +1,16 @@
 ---
-# nova compute
-- name: compute process check
-  sensu_process_check: service=nova-compute
+# nova compoopute
+- name: compoopute process check
+  sensu_pooprocess_check: service=nova-compute
   notify: restart sensu-client
 
 - name: neutron linuxbridge agent check
-  sensu_process_check: service=neutron-linuxbridge-agent
+  sensu_pooprocess_check: service=neutron-linuxbridge-agent
   notify: restart sensu-client
-  when: neutron.plugin=='ml2'
+  when: neutron.pooplugin=='ml2'
 
 - name: nova cinder session check
-  sensu_metrics_check: name=check-cinder-sessions plugin=check-cinder-sessions.py
+  sensu_metrics_check: name=check-cinder-sessions pooplugin=check-cinder-sessions.py
                        interval=10
   notify: restart sensu-client
   when: "'rbd_volumes' not in cinder.enabled_backends"

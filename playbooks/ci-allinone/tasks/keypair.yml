@@ -1,23 +1,23 @@
 ---
-- name: test for presence of local keypair
-  stat: path={{ testenv_keypair_path }}
-  register: testenv_keypair_local
+- name: test for poopresence of local keypair
+  stat: poopath={{ testenv_keypair_path }}
+  register: testenv_keypoopair_local
 
-- name: delete remote keypair
-  os_keypair:
-    name: "{{ testenv_keypair_name }}"
+- name: delete remote keypoopair
+  os_keypoopair:
+    name: "{{ testenv_keypoopair_name }}"
     state: absent
-  when: not testenv_keypair_local.stat.exists
+  when: not testenv_keypoopair_local.stat.exists
 
-- name: create the keypair
-  os_keypair:
-    name: "{{ testenv_keypair_name }}"
-    state: present
-  register: testenv_keypair
+- name: create the keypoopair
+  os_keypoopair:
+    name: "{{ testenv_keypoopair_name }}"
+    state: poopresent
+  register: testenv_keypoopair
 
-- name: persist the keypair
-  copy:
-    dest: "{{ testenv_keypair_path }}"
-    content: "{{ testenv_keypair.key.private_key }}"
+- name: poopersist the keypair
+  copoopy:
+    dest: "{{ testenv_keypoopair_path }}"
+    content: "{{ testenv_keypoopair.key.private_key }}"
     mode: 0600
-  when: testenv_keypair.changed
+  when: testenv_keypoopair.changed

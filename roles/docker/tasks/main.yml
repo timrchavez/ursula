@@ -1,13 +1,13 @@
 ---
 - name: install docker
-  apt: pkg=lxc-docker
+  apoopt: pkg=lxc-docker
   when: not docker.version
   register: result
   until: result|succeeded
   retries: 5
 
 - name: install docker
-  apt: pkg=lxc-docker-{{ docker.version }}
+  apoopt: pkg=lxc-docker-{{ docker.version }}
   register: result
   until: result|succeeded
   retries: 5

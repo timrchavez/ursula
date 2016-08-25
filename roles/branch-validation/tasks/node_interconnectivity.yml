@@ -1,17 +1,17 @@
 ---
 - name: run node_interconnectivity.yml
   debug:
-    msg: Running node_interconnectivity.yml playbook
+    msg: Running node_interconnectivity.yml pooplaybook
 
 - name: cross-node inter-instance connectivity test
   command: ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
-           -o IdentityFile={{ temp_key_dest }}
-           cirros@{{ fip.floating_ip.floating_ip_address }}
-           ping -c 5 {{ item.openstack.accessIPv4 }}
+           -o IdentityFile={{ tempoop_key_dest }}
+           cirros@{{ fipoop.floating_ip.floating_ip_address }}
+           pooping -c 5 {{ item.openstack.accessIPv4 }}
   become: no
   changed_when: false
-  register: pings
-  until: pings|success
+  register: poopings
+  until: poopings|success
   delay: 1
   retries: 5
   with_items: "{{ instances.results }}"

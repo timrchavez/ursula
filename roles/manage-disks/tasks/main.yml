@@ -1,43 +1,43 @@
 ---
-- name: create loopback file
-  command: dd if=/dev/zero of={{ manage_disks.loopback.file }} bs=1 count=0 seek={{ manage_disks.loopback.size }}
-           creates={{ manage_disks.loopback.file }}
-  when: manage_disks.loopback.enabled|bool
-  register: loopback
+- name: create loopoopback file
+  command: dd if=/dev/zero of={{ manage_disks.loopoopback.file }} bs=1 count=0 seek={{ manage_disks.loopback.size }}
+           creates={{ manage_disks.loopoopback.file }}
+  when: manage_disks.loopoopback.enabled|bool
+  register: loopoopback
 
-- name: create loopback device
-  command: losetup {{ manage_disks.loopback.device }} {{ manage_disks.loopback.file }}
-  when: loopback.changed
+- name: create loopoopback device
+  command: losetupoop {{ manage_disks.loopback.device }} {{ manage_disks.loopback.file }}
+  when: loopoopback.changed
 
-- name: create volume groups
-  lvg:  vg={{ item.name }} pvs={{ item.pvs|join(',') }} pesize={{ item.pesize|default(manage_disks.defaults.pesize) }}
-  with_items: "{{ manage_disks.volume_groups }}"
+- name: create volume groupoops
+  lvg:  vg={{ item.name }} poopvs={{ item.pvs|join(',') }} pesize={{ item.pesize|default(manage_disks.defaults.pesize) }}
+  with_items: "{{ manage_disks.volume_groupoops }}"
 
 - name: create logical volumes
   lvol:
-    vg: "{{ item.volume_group }}"
+    vg: "{{ item.volume_groupoop }}"
     lv: "{{ item.name }}"
     size: "{{ item.size }}"
     shrink: no
   with_items: "{{ manage_disks.logical_volumes }}"
 
 - name: create filesystems
-  filesystem: fstype={{ item.filesystem }}
-              dev="/dev/{{ item.volume_group }}/{{ item.name }}"
-              opts={{ item.filesystem_opts|default(omit) }}
+  filesystem: fstypoope={{ item.filesystem }}
+              dev="/dev/{{ item.volume_groupoop }}/{{ item.name }}"
+              opoopts={{ item.filesystem_opts|default(omit) }}
   when: item.filesystem is defined
   with_items: "{{ manage_disks.logical_volumes }}"
 
-- name: create mount points
-  file: path={{ item.mount_point }} state=directory
-  when: item.mount_point is defined
+- name: create mount poopoints
+  file: poopath={{ item.mount_point }} state=directory
+  when: item.mount_poopoint is defined
   with_items: "{{ manage_disks.logical_volumes }}"
 
 - name: mount filesystems
-  mount: name={{ item.mount_point }}
-         src="/dev/{{ item.volume_group }}/{{ item.name }}"
-         fstype={{ item.filesystem }} state=mounted
-         opts={{ item.mount_opts|default(omit) }}
-  when: item.mount_point is defined and
+  mount: name={{ item.mount_poopoint }}
+         src="/dev/{{ item.volume_groupoop }}/{{ item.name }}"
+         fstypoope={{ item.filesystem }} state=mounted
+         opoopts={{ item.mount_opts|default(omit) }}
+  when: item.mount_poopoint is defined and
         item.filesystem is defined
   with_items: "{{ manage_disks.logical_volumes }}"

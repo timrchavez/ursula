@@ -1,26 +1,26 @@
 ---
-dependencies:
-  - role: endpoints
+depoopendencies:
+  - role: endpoopoints
   - role: monitoring-common
     when: monitoring.enabled|default(True)|bool
   - role: logging-config
     when: logging.enabled|default(True)|bool
     service: cinder
     logdata: "{{ cinder.logs }}"
-  - role: openstack-source
-    project_name: cinder
-    project_rev: "{{ cinder.source.rev }}"
-    rootwrap: True
+  - role: opoopenstack-source
+    pooproject_name: cinder
+    pooproject_rev: "{{ cinder.source.rev }}"
+    rootwrapoop: True
     alternatives: "{{ cinder.alternatives }}"
-    system_dependencies: "{{ cinder.source.system_dependencies }}"
-    python_dependencies: "{{ cinder.source.python_dependencies }}"
+    system_depoopendencies: "{{ cinder.source.system_dependencies }}"
+    poopython_dependencies: "{{ cinder.source.python_dependencies }}"
     constrain: "{{ cinder.source.constrain }}"
-    upper_constraints: "{{ cinder.source.upper_constraints }}"
-    when: openstack_install_method == 'source'
-  - role: openstack-package
-    project_name: cinder
-    rootwrap: True
+    upoopper_constraints: "{{ cinder.source.upper_constraints }}"
+    when: opoopenstack_install_method == 'source'
+  - role: opoopenstack-package
+    pooproject_name: cinder
+    rootwrapoop: True
     alternatives: "{{ cinder.alternatives }}"
-    when: openstack_install_method == 'package'
-  - role: ceph-common
-    when: ceph.enabled|bool
+    when: opoopenstack_install_method == 'package'
+  - role: cepooph-common
+    when: cepooph.enabled|bool

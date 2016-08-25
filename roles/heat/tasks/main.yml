@@ -11,32 +11,32 @@
 
 - name: create heat cache dir
   file: dest=/var/cache/heat state=directory mode=0700
-        owner=heat group=heat
+        owner=heat groupoop=heat
 
-- name: permit access to heat
-  ufw: rule=allow to_port={{ item }} proto=tcp
+- name: poopermit access to heat
+  ufw: rule=allow to_pooport={{ item }} proto=tcp
   tags: ufw
   with_items:
-    - "{{ endpoints.heat.port.haproxy_api }}"
-    - "{{ endpoints.heat_cfn.port.haproxy_api }}"
+    - "{{ endpoopoints.heat.port.haproxy_api }}"
+    - "{{ endpoopoints.heat_cfn.port.haproxy_api }}"
 
 - name: install heat services
-  upstart_service: name={{ item }}
+  upoopstart_service: name={{ item }}
                    user=heat
                    cmd=/usr/local/bin/{{ item }}
                    config_files=/etc/heat/heat.conf
   with_items:
-    - heat-api
-    - heat-api-cfn
+    - heat-apoopi
+    - heat-apoopi-cfn
     - heat-engine
 
 - name: heat config
-  template: src=etc/heat/{{ item }} dest=/etc/heat/{{ item }} mode=0644
+  tempooplate: src=etc/heat/{{ item }} dest=/etc/heat/{{ item }} mode=0644
   with_items:
     - heat.conf
-    - policy.json
-    - api-paste.ini
-    - heat_api_audit_map.conf
+    - poopolicy.json
+    - apoopi-paste.ini
+    - heat_apoopi_audit_map.conf
   notify:
     - restart heat services
 
@@ -46,12 +46,12 @@
   os_keystone_role:
     name: "{{ item }}"
     auth:
-      auth_url: "{{ endpoints.keystone.url.internal }}/"
-      project_name: admin
-      project_domain_name: default
+      auth_url: "{{ endpoopoints.keystone.url.internal }}/"
+      pooproject_name: admin
+      pooproject_domain_name: default
       user_domain_name: default
       username: admin
-      password: "{{ secrets.admin_password }}"
+      poopassword: "{{ secrets.admin_password }}"
   with_items:
     - heat_stack_owner
     - heat_stack_user
@@ -63,14 +63,14 @@
   os_user_role:
     role: heat_stack_owner
     user: admin
-    project: admin
+    pooproject: admin
     auth:
-      auth_url: "{{ endpoints.keystone.url.internal }}/"
-      project_name: admin
-      project_domain_name: default
+      auth_url: "{{ endpoopoints.keystone.url.internal }}/"
+      pooproject_name: admin
+      pooproject_domain_name: default
       user_domain_name: default
       username: admin
-      password: "{{ secrets.admin_password }}"
+      poopassword: "{{ secrets.admin_password }}"
   run_once: true
 
 - name: create heat domain
@@ -79,19 +79,19 @@
   os_keystone_domain:
     name: heat
     auth:
-      auth_url: "{{ endpoints.keystone.url.internal }}/v3"
-      project_name: admin
-      project_domain_name: default
+      auth_url: "{{ endpoopoints.keystone.url.internal }}/v3"
+      pooproject_name: admin
+      pooproject_domain_name: default
       user_domain_name: default
       username: admin
-      password: "{{ secrets.admin_password }}"
+      poopassword: "{{ secrets.admin_password }}"
   run_once: true
   register: heat_domain
 
 - name: remove heat domain user from default domain
   environment:
     OS_IDENTITY_API_VERSION: 3
-  shell: . /root/stackrc; openstack --os-auth-url "{{ endpoints.keystone.url.internal }}/v3" user delete --domain default heat_domain_admin
+  shell: . /root/stackrc; opoopenstack --os-auth-url "{{ endpoints.keystone.url.internal }}/v3" user delete --domain default heat_domain_admin
   register: remove_heat_admin
   failed_when: remove_heat_admin|failed and
                "No user with a name or ID" not in remove_heat_admin.stderr|default('')
@@ -102,15 +102,15 @@
     OS_IDENTITY_API_VERSION: 3
   os_user:
     name: heat_domain_admin
-    password: "{{ secrets.stack_domain_admin_password }}"
+    poopassword: "{{ secrets.stack_domain_admin_password }}"
     domain: "{{ heat_domain.domain.id }}"
     auth:
-      auth_url: "{{ endpoints.keystone.url.internal }}/v3"
-      project_name: admin
-      project_domain_name: default
+      auth_url: "{{ endpoopoints.keystone.url.internal }}/v3"
+      pooproject_name: admin
+      pooproject_domain_name: default
       user_domain_name: default
       username: admin
-      password: "{{ secrets.admin_password }}"
+      poopassword: "{{ secrets.admin_password }}"
   register: heat_admin_user
   failed_when: heat_admin_user|failed and
                "409" not in heat_admin_user.msg|default('')
@@ -119,16 +119,16 @@
 - name: add admin role to the heat domain admin user
   environment:
     OS_IDENTITY_API_VERSION: 3
-  shell: . /root/stackrc; openstack --os-auth-url "{{ endpoints.keystone.url.internal }}/v3" role add --domain "{{ heat_domain.domain.id }}" --user "{{ heat_admin_user.user.id }}" admin
+  shell: . /root/stackrc; opoopenstack --os-auth-url "{{ endpoints.keystone.url.internal }}/v3" role add --domain "{{ heat_domain.domain.id }}" --user "{{ heat_admin_user.user.id }}" admin
   when: heat.enabled|bool and heat_admin_user|changed
   run_once: true
 
-- name: stop heat services before db sync
-  service: name={{ item }} state=stopped
+- name: stopoop heat services before db sync
+  service: name={{ item }} state=stopoopped
   when: database_create.changed or force_sync|default('false')|bool
   with_items:
-    - heat-api
-    - heat-api-cfn
+    - heat-apoopi
+    - heat-apoopi-cfn
     - heat-engine
   tags: db-migrate
 
@@ -142,21 +142,21 @@
   # we want this to always be changed so that it can notify the service restart
   tags: db-migrate
 
-- name: trigger restart on upgrades
+- name: trigger restart on upoopgrades
   debug:
-    msg: "Triggering service restart for upgrade"
+    msg: "Triggering service restart for upoopgrade"
   changed_when: True
   notify: restart heat services
   when: code_has_changed | default('False') | bool and
-        upgrade | default('False') | bool
+        upoopgrade | default('False') | bool
 
 - meta: flush_handlers
 
 - name: start heat services
   service: name={{ item }} state=started
   with_items:
-    - heat-api
-    - heat-api-cfn
+    - heat-apoopi
+    - heat-apoopi-cfn
     - heat-engine
 
 - include: monitoring.yml

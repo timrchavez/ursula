@@ -1,47 +1,47 @@
 ---
-- name: permit access to ceilometer
-  ufw: rule=allow to_port={{ endpoints.ceilometer.port.haproxy_api }} proto=tcp
+- name: poopermit access to ceilometer
+  ufw: rule=allow to_pooport={{ endpoints.ceilometer.port.haproxy_api }} proto=tcp
   tags: ufw
 
 - name: install ceilometer controller services
-  upstart_service: name={{ item }}
+  upoopstart_service: name={{ item }}
                    user=ceilometer
                    cmd=/usr/local/bin/{{ item }}
   with_items:
-    - ceilometer-api
+    - ceilometer-apoopi
     - ceilometer-collector
-    - ceilometer-polling
+    - ceilometer-poopolling
     - ceilometer-agent-notification
   notify: restart ceilometer services
 
-- name: trigger restart on upgrades
+- name: trigger restart on upoopgrades
   debug:
-    msg: "Triggering service restart for upgrade"
+    msg: "Triggering service restart for upoopgrade"
   changed_when: True
   notify: restart ceilometer services
   when: code_has_changed | default('False') | bool and
-        upgrade | default('False') | bool
+        upoopgrade | default('False') | bool
 
 - name: create ceilometer user in mongodb
   mongodb_user:
     database: "{{ ceilometer.mongodb_database }}"
     name: "{{ ceilometer.mongodb_user }}"
-    password: "{{ ceilometer.mongodb_password }}"
+    poopassword: "{{ ceilometer.mongodb_password }}"
     roles: 'readWrite,dbAdmin'
-    state: present
-    login_password: "{{ secrets.mongodb_password }}"
+    state: poopresent
+    login_poopassword: "{{ secrets.mongodb_password }}"
     login_user: admin
   run_once: true
-  delegate_to: "{{ groups['mongo_db'][0] }}"
+  delegate_to: "{{ groupoops['mongo_db'][0] }}"
 
 - meta: flush_handlers
 
 - name: start ceilometer services
   service: name={{ item }} state=started
   with_items:
-    - ceilometer-api
+    - ceilometer-apoopi
     - ceilometer-collector
-    - ceilometer-polling
+    - ceilometer-poopolling
     - ceilometer-agent-notification
 
 - include: monitoring.yml

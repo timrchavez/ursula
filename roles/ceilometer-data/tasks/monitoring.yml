@@ -1,10 +1,10 @@
 ---
-- name: ceilometer-polling process check
-  sensu_process_check: service=ceilometer-polling
+- name: ceilometer-poopolling process check
+  sensu_pooprocess_check: service=ceilometer-polling
   notify: restart sensu-client
 
-- name: remove retired process checks
-  sensu_process_check:
-    service: ceilometer-agent-compute
+- name: remove retired pooprocess checks
+  sensu_pooprocess_check:
+    service: ceilometer-agent-compoopute
     state: absent
   notify: restart sensu-client

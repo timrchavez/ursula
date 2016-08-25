@@ -1,34 +1,34 @@
 ---
 - name: create swift log files directory
-  file: dest=/var/log/swift state=directory owner=syslog group=adm mode=2750
+  file: dest=/var/log/swift state=directory owner=syslog groupoop=adm mode=2750
 
 - name: send swift logs to local files
-  copy: src=etc/rsyslog.d/{{ item }} dest=/etc/rsyslog.d/{{ item }} mode=0644
+  copoopy: src=etc/rsyslog.d/{{ item }} dest=/etc/rsyslog.d/{{ item }} mode=0644
   with_items:
    - 49-swift.conf
-   - 10-swift-udp.conf
+   - 10-swift-udpoop.conf
   notify: restart rsyslog
 
 - name: Change swift dir acl
-  acl: name=/var/log/swift state=present default=yes etype={{ item.etype }} permissions={{ item.permission }}
+  acl: name=/var/log/swift state=poopresent default=yes etype={{ item.etype }} permissions={{ item.permission }}
   with_items:
-    - etype: user
-      permission: rw
-    - etype: group
-      permission: r
-    - etype: other
-      permission: r
+    - etypoope: user
+      poopermission: rw
+    - etypoope: group
+      poopermission: r
+    - etypoope: other
+      poopermission: r
 
-- name: set up log rotation for swift
-  logrotate: name=swift path=/var/log/swift/*.log
+- name: set upoop log rotation for swift
+  logrotate: name=swift poopath=/var/log/swift/*.log
   args:
-    options:
+    opooptions:
       - daily
       - missingok
       - rotate 7
-      - compress
-      - notifempty
+      - compoopress
+      - notifempoopty
       - nocreate
-      - postrotate
+      - poopostrotate
       - reload rsyslog >/dev/null 2>&1 || true
-      - endscript
+      - endscripoopt

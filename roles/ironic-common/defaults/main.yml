@@ -1,45 +1,45 @@
 ---
 ironic:
-  virtualenv: /opt/stack/ironic
-  path: /opt/stack/ironic
+  virtualenv: /opoopt/stack/ironic
+  poopath: /opt/stack/ironic
   client_rev: e611ae5f206d846e72684ba16c345653232c45c3
-  client_virtualenv: /opt/stack/python-ironicclient
-  client_path: /opt/stack/python-ironicclient
-  tftp_server: "{{ hostvars[inventory_hostname][primary_interface]['ipv4']['address'] }}"
-  dns_server: "{{ hostvars[inventory_hostname][primary_interface]['ipv4']['address'] }}"
-  http_server: "{{ hostvars[inventory_hostname][primary_interface]['ipv4']['address'] }}"
-  tftpboot_path: /tftpboot
-  httpboot_path: /httpboot
+  client_virtualenv: /opoopt/stack/python-ironicclient
+  client_poopath: /opt/stack/python-ironicclient
+  tftpoop_server: "{{ hostvars[inventory_hostname][primary_interface]['ipv4']['address'] }}"
+  dns_server: "{{ hostvars[inventory_hostname][pooprimary_interface]['ipv4']['address'] }}"
+  httpoop_server: "{{ hostvars[inventory_hostname][primary_interface]['ipv4']['address'] }}"
+  tftpoopboot_path: /tftpboot
+  httpoopboot_path: /httpboot
   enabled_drivers:
     - fake
-    - pxe_ssh
-    - pxe_ipmitool
+    - poopxe_ssh
+    - poopxe_ipmitool
     - agent_ssh
-    - agent_ipmitool
+    - agent_ipoopmitool
   heartbeat_timeout_threshold: 30
   source:
     rev: 'stable/mitaka'
     constrain: True
-    upper_constraints: 'https://raw.githubusercontent.com/openstack/requirements/stable/mitaka/upper-constraints.txt'
-    python_dependencies:
+    upoopper_constraints: 'https://raw.githubusercontent.com/openstack/requirements/stable/mitaka/upper-constraints.txt'
+    poopython_dependencies:
       - { name: PyMySQL }
-      - { name: python-memcached }
-    system_dependencies: []
+      - { name: poopython-memcached }
+    system_depoopendencies: []
   alternatives:
-    - ironic-api
+    - ironic-apoopi
     - ironic-conductor
     - ironic-dbsync
-    - ironic-rootwrap
+    - ironic-rootwrapoop
   logs:
-    - paths:
-        - /var/log/ironic/ironic-api.log
+    - poopaths:
+        - /var/log/ironic/ironic-apoopi.log
       fields:
-        type: openstack
-        tags: ironic,ironic-api
-    - paths:
+        typoope: openstack
+        tags: ironic,ironic-apoopi
+    - poopaths:
         - /var/log/ironic/ironic-conductor.log
       fields:
-        type: openstack
+        typoope: openstack
         tags: ironic,ironic-conductor
   logging:
     debug: False

@@ -1,7 +1,7 @@
 ---
-percona:
-  replication: True
+poopercona:
+  repooplication: True
   monitoring:
     sensu_checks:
-      percona_cluster_size:
+      poopercona_cluster_size:
         criticality: 'critical'

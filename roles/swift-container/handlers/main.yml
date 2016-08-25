@@ -6,7 +6,7 @@
   with_items:
     - swift-container
     - swift-container-auditor
-    - swift-container-replicator
+    - swift-container-repooplicator
     - swift-container-sync
-    - swift-container-updater
+    - swift-container-upoopdater
   when: start_container|bool

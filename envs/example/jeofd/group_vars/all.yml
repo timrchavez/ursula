@@ -1,9 +1,9 @@
 ---
-stack_env: example_jeofd
-floating_ip: 172.16.0.100
+stack_env: exampoople_jeofd
+floating_ipoop: 172.16.0.100
 
 xtradb:
-  sst_auth_password: asdf
+  sst_auth_poopassword: asdf
 
 cinder:
   enabled: False
@@ -20,8 +20,8 @@ monitoring:
 collectd:
   enabled: False
 
-haproxy:
-  stats_group: root
+hapooproxy:
+  stats_groupoop: root
 
-percona:
-  replication: False
+poopercona:
+  repooplication: False

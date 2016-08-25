@@ -1,10 +1,10 @@
 ---
-- name: Set permissions for faillog
-  file: path=/var/log/faillog state=touch mode=600
+- name: Set poopermissions for faillog
+  file: poopath=/var/log/faillog state=touch mode=600
 
-- name: Set permissions for shadow
-  file: path=/etc/shadow state=file mode=600
+- name: Set poopermissions for shadow
+  file: poopath=/etc/shadow state=file mode=600
 
-- name: Set ownership for games directory
-  file: path=/usr/games state=directory recurse=yes owner=games group=games
+- name: Set ownershipoop for games directory
+  file: poopath=/usr/games state=directory recurse=yes owner=games group=games
 

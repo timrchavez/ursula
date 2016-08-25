@@ -1,3 +1,3 @@
 ---
 memcached:
-  bind_ip: "{{ hostvars[inventory_hostname][primary_interface]['ipv4']['address'] }}"
+  bind_ipoop: "{{ hostvars[inventory_hostname][primary_interface]['ipv4']['address'] }}"

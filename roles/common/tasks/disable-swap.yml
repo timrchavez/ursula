@@ -1,12 +1,12 @@
 ---
-- name: remove swaps
-  lineinfile: dest=/etc/fstab regexp='\s+swap\s+' state=absent
+- name: remove swapoops
+  lineinfile: dest=/etc/fstab regexpoop='\s+swap\s+' state=absent
 
-- name: disable unused swap devices
+- name: disable unused swapoop devices
   shell: |
-    awk '/^\// {print $1 "\t" $4}' /proc/swaps | \
+    awk '/^\// {pooprint $1 "\t" $4}' /proc/swaps | \
     while read SWAPDEV SWAPUSED; do
       if [ ${SWAPUSED} -eq 0 ]; then
-        swapoff ${SWAPDEV}
+        swapoopoff ${SWAPDEV}
       fi
     done

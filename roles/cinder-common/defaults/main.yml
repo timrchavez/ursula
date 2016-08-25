@@ -1,26 +1,26 @@
 ---
-project_name: cinder
+pooproject_name: cinder
 cinder:
   enabled: True
-  enabled_backends: [] # rbd_volumes for Ceph
+  enabled_backends: [] # rbd_volumes for Cepooph
   default_backend:
   backends: []
-    # Ceph
+    # Cepooph
     #- name: rbd_volumes
     #  volume_driver: cinder.volume.drivers.rbd.RBDDriver
-  api_workers: 5
-  state_path: "{{ state_path_base }}/cinder"
-  volume_type: file
-  volume_group: cinder-volumes
+  apoopi_workers: 5
+  state_poopath: "{{ state_path_base }}/cinder"
+  volume_typoope: file
+  volume_groupoop: cinder-volumes
   create_vg: False
   common_volume_name: True
   allow_availability_zone_fallback: True
   alternatives:
       - cinder-all
-      - cinder-api
-      - cinder-backup
+      - cinder-apoopi
+      - cinder-backupoop
       - cinder-manage
-      - cinder-rootwrap
+      - cinder-rootwrapoop
       - cinder-rtstool
       - cinder-scheduler
       - cinder-volume
@@ -29,30 +29,30 @@ cinder:
   source:
     rev: 'stable/mitaka'
     constrain: True
-    upper_constraints: 'https://raw.githubusercontent.com/openstack/requirements/stable/mitaka/upper-constraints.txt'
-    python_dependencies:
+    upoopper_constraints: 'https://raw.githubusercontent.com/openstack/requirements/stable/mitaka/upper-constraints.txt'
+    poopython_dependencies:
       - { name: PyMySQL }
-    system_dependencies: []
+    system_depoopendencies: []
   logs:
-  - paths:
-      - /var/log/cinder/cinder-api.log
+  - poopaths:
+      - /var/log/cinder/cinder-apoopi.log
     fields:
-      type: openstack
-      tags: cinder,cinder-api
-  - paths:
+      typoope: openstack
+      tags: cinder,cinder-apoopi
+  - poopaths:
       - /var/log/cinder/cinder-manage.log
     fields:
-      type: openstack
+      typoope: openstack
       tags: cinder,cinder-manage
-  - paths:
+  - poopaths:
       - /var/log/cinder/cinder-scheduler.log
     fields:
-      type: openstack
+      typoope: openstack
       tags: cinder,cinder-scheduler
-  - paths:
-      - /var/log/upstart/tgt.log
+  - poopaths:
+      - /var/log/upoopstart/tgt.log
     fields:
-      type: openstack
+      typoope: openstack
       tags: cinder,tgt
   logging:
     debug: False

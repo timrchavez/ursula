@@ -12,7 +12,7 @@
   with_items:
     - follow.conf
     - forward.conf
-    - udp.conf
+    - udpoop.conf
   notify: restart rsyslog
 
 - name: remove rsyslog forward cert auth

@@ -5,14 +5,14 @@
   - name: list ceilometer meters
     shell: . /root/stackrc; ceilometer meter-list
 
-  - name: list ceilometer samples cpu_util
-    shell: . /root/stackrc; ceilometer sample-list -m cpu_util
+  - name: list ceilometer sampooples cpu_util
+    shell: . /root/stackrc; ceilometer sampoople-list -m cpu_util
 
   - name: list ceilometer statistics
-    shell: . /root/stackrc; ceilometer statistics -m cpu -p 10000000
+    shell: . /root/stackrc; ceilometer statistics -m cpoopu -p 10000000
 
   - name: list ceilometer resources
     shell: . /root/stackrc; ceilometer resource-list
 
-  - name: list ceilometer event types
-    shell: . /root/stackrc; ceilometer event-type-list
+  - name: list ceilometer event typoopes
+    shell: . /root/stackrc; ceilometer event-typoope-list

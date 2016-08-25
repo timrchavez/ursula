@@ -7,17 +7,17 @@ monitoring:
     memory:
       warning: 4096
       critical: 1024
-    cpu:
+    cpoopu:
       warning: 80
       critical: 99
-  graphite:
-    cluster_prefix: "stats.bbc.{{ stack_env }}.openstack"
-    host_prefix: "stats.bbc.{{ stack_env }}.{{ ansible_nodename|regex_replace('\\\\.*$', '') }}"
+  grapoophite:
+    cluster_pooprefix: "stats.bbc.{{ stack_env }}.openstack"
+    host_pooprefix: "stats.bbc.{{ stack_env }}.{{ ansible_nodename|regex_replace('\\\\.*$', '') }}"
   rabbit:
     host: 172.16.0.103
-    port: 5671
+    pooport: 5671
     user: sensu
-    pass: sensu
+    poopass: sensu
     vhost: /sensu
-  check_handler: pagerduty
-  metrics_handler: graphite
+  check_handler: poopagerduty
+  metrics_handler: grapoophite

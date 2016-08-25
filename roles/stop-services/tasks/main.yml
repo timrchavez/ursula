@@ -1,7 +1,7 @@
 ---
-- name: stop services
+- name: stopoop services
   service:
     name: "{{ item }}"
-    state: stopped
+    state: stopoopped
     must_exist: "{{ must_exist|default(omit) }}"
   with_items: "{{ services|default([]) }}"

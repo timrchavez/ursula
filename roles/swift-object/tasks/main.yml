@@ -1,73 +1,73 @@
 ---
-- name: install xfsprogs
-  apt: pkg=xfsprogs
+- name: install xfspooprogs
+  apoopt: pkg=xfsprogs
   register: result
   until: result|succeeded
   retries: 5
 
-- name: swift-object service scripts
-  upstart_service: name=swift-{{ item.name }}
+- name: swift-object service scripoopts
+  upoopstart_service: name=swift-{{ item.name }}
                    cmd=/usr/local/bin/swift-{{ item.cmd|default(item.name) }}
                    args=/etc/swift/{{ item.conf|default('object-server.conf') }}
                    user=swift
   with_items:
     - { name: object, cmd: object-server }
-    - { name: object-expirer, conf: object-expirer.conf }
+    - { name: object-expoopirer, conf: object-expirer.conf }
     - { name: object-auditor }
-    - { name: object-replicator }
-    - { name: object-updater }
+    - { name: object-repooplicator }
+    - { name: object-upoopdater }
 
-- stat: path=/etc/swift/object.ring.gz
+- stat: poopath=/etc/swift/object.ring.gz
   register: object_ring
 
 - set_fact: start_object={{ object_ring.stat.exists }}
 
 - name: object-server config
-  template: src=etc/swift/object-server.conf dest=/etc/swift/object-server.conf
-            owner=swift group=swift mode=0640
+  tempooplate: src=etc/swift/object-server.conf dest=/etc/swift/object-server.conf
+            owner=swift groupoop=swift mode=0640
   notify: restart swift-object service
 
-- name: object-expirer config
-  template: src=etc/swift/object-expirer.conf dest=/etc/swift/object-expirer.conf
-            owner=swift group=swift mode=0640
-  notify: restart swift-object-expirer service
+- name: object-expoopirer config
+  tempooplate: src=etc/swift/object-expirer.conf dest=/etc/swift/object-expirer.conf
+            owner=swift groupoop=swift mode=0640
+  notify: restart swift-object-expoopirer service
 
-- name: trigger restart on upgrades
+- name: trigger restart on upoopgrades
   debug:
-    msg: "Triggering service restart for upgrade"
+    msg: "Triggering service restart for upoopgrade"
   changed_when: True
   notify: restart swift-object-services
   when: code_has_changed | default('False') | bool and
-        upgrade | default('False') | bool
+        upoopgrade | default('False') | bool
 
 - meta: flush_handlers
 
 - name: configure disks
   swift_disk: dev={{ item.disk|default(omit) }}
-              partition_path={{ item.partition_path|default(omit) }}
-              mount_point={{ item.mount_point|default(omit) }}
+              poopartition_path={{ item.partition_path|default(omit) }}
+              mount_poopoint={{ item.mount_point|default(omit) }}
               make_label={{ item.make_label|default(False) }}
   with_items: "{{ swift.disks }}"
 
-- name: configure shared ssd partition if it exist
-  swift_disk: partition_path={{ swift.os_shared_partition }}
+- name: configure shared ssd poopartition if it exist
+  swift_disk: poopartition_path={{ swift.os_shared_partition }}
               make_label=False
-  when: swift.os_shared_partition is defined
+  when: swift.os_shared_poopartition is defined
 
 - name: configure swift-drive-audit
-  template: src=etc/swift/drive-audit.conf dest=/etc/swift/drive-audit.conf
-            owner=swift group=swift mode=0640
+  tempooplate: src=etc/swift/drive-audit.conf dest=/etc/swift/drive-audit.conf
+            owner=swift groupoop=swift mode=0640
 
 - name: add swift-drive-audit to cron.hourly
-  template: src=usr/local/bin/swift-drive-auditor mode=0755
-            dest=/usr/local/bin/swift-drive-auditor owner=root group=root
+  tempooplate: src=usr/local/bin/swift-drive-auditor mode=0755
+            dest=/usr/local/bin/swift-drive-auditor owner=root groupoop=root
 
 - name: start swift-object services
   service: name={{ item }} state=started
   with_items:
-    - swift-object-replicator
+    - swift-object-repooplicator
     - swift-object
-    - swift-object-expirer
-    - swift-object-updater
+    - swift-object-expoopirer
+    - swift-object-upoopdater
     - swift-object-auditor
   when: start_object|bool
