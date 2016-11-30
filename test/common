@@ -26,6 +26,7 @@ export testenv_flavor=${testenv_flavor:=m1.large}
 export testenv_network=${testenv_network:=internal}
 export testenv_floating_ip_pool=${testenv_floating_ip_pool:=external}
 
+VMS="${testenv_instance_prefix}-controller-0 ${testenv_instance_prefix}-controller-1 ${testenv_instance_prefix}-compute-0"
 if [[ $TEST_ENV == "ci-allinone" ]]; then
   VMS="${testenv_instance_prefix}-allinone"
 elif [[ $TEST_ENV == "ci-ceph_swift" ]]; then
@@ -42,7 +43,6 @@ elif [[ $TEST_ENV == "ci-ceph_swift" ]]; then
   export testenv_flavor_ceph_swift=${testenv_flavor_ceph_swift:=ci_ceph_swift}
 else
   TEST_ENV="ci-full"
-  VMS="${testenv_instance_prefix}-controller-0 ${testenv_instance_prefix}-controller-1 ${testenv_instance_prefix}-compute-0"
 fi
 
 export KEY_NAME="${testenv_instance_prefix}_key"
